@@ -19,6 +19,18 @@ class Root:
     def closeRoot(self, pygame):
         pygame.display.quit()
 
+    def changeBg(self):
+        # Charge l'image depuis le fichier 'mon_image.png'
+        image_a_afficher = pygame.image.load('images/img.png')
+
+        # Convertit l'image dans un format optimal pour l'affichage
+        image_convertie = image_a_afficher.convert()
+
+        self.screen.blit(image_convertie, (100, 50))
+
+        pygame.display.flip()
+
+
     def changeColor(self, color):
         self.screen.fill(color)
         pygame.display.flip()

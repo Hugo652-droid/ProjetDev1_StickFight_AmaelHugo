@@ -7,12 +7,14 @@ class Main():
     def __init__(self):
         pygame.init()
         windowHome = Root(pygame)
+        windowHome.changeBg()
         runningHome = True
         while runningHome:
             # Gérer les événements
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:  # Si l'utilisateur clique sur la croix pour fermer
+
                         windowHome.closeRoot(pygame)
                         runningHome = False
 
