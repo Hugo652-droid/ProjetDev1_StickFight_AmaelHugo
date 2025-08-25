@@ -3,7 +3,6 @@ from sys import exit
 
 from src.Root import Root
 from src.Game import Game
-from src.Settings import Settings
 
 class Main():
     def __init__(self):
@@ -12,7 +11,8 @@ class Main():
         windowHome.changeBg()
         windowHome.buttonPlay()
         windowHome.buttonQuit()
-        windowHome.buttonSettings()
+
+        windowHome.title()
 
         runningHome = True
         while runningHome:
@@ -33,13 +33,6 @@ class Main():
                     if windowHome.button_rect_quit.collidepoint(event.pos):
                         windowHome.closeRoot(pygame)
                         runningHome = False
-
-                    if windowHome.button_rect_settings.collidepoint(event.pos):
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
-
-                        windowSettings = Root(pygame)
-                        settings = Settings(windowSettings, pygame)
         pygame.quit()
         exit()
 
