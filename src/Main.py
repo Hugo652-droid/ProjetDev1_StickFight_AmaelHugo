@@ -20,6 +20,7 @@ class Main():
 
         windowGame = Root(pygame)
         windowGame.changeColor((255, 255, 255))
+        player = Player("Amael", 100, 1, 100, 100)
         playerActif = Player("Amael", 100, 1, 100, 100)
         runningGame = True
         while runningGame:
@@ -41,7 +42,7 @@ class Main():
 
 
             playerActif.draw(windowGame.screen, "images/test_stick.png")
-            pygame.display.flip()
+            pygame.display.update()
 
 
 
