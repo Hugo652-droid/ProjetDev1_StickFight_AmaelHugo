@@ -6,17 +6,18 @@ from src.Root import Root
 class Main():
     def __init__(self):
         pygame.init()
-        window = Root(pygame)
-        running = True
-        while running:
+        windowHome = Root(pygame)
+        runningHome = True
+        while runningHome:
             # Gérer les événements
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:  # Si l'utilisateur clique sur la croix pour fermer
-                        window.closeRoot(pygame)
-                        running = False
-                    elif event.key == "w":
-                        players.moveUp
+                        windowHome.closeRoot(pygame)
+                        runningHome = False
+
+
+
 
 
 

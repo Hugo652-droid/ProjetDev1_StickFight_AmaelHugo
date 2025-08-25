@@ -4,3 +4,4 @@ class Player:
         self.hp = hp
         self.weapon_id = weapon_id
 
+
