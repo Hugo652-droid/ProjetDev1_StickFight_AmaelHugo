@@ -3,7 +3,6 @@ import pygame
 from src.Root import Root
 from src.Player import Player
 from src.Game import Game
-from src.Settings import Settings
 
 class Main():
     def __init__(self):
@@ -15,7 +14,7 @@ class Main():
 
         windowHome.buttonQuit()
 
-        windowHome.buttonSettings()
+        windowHome.title()
 
         runningHome = True
         while runningHome:
@@ -39,12 +38,6 @@ class Main():
                         windowHome.closeRoot(pygame)
                         runningHome = False
 
-                    if windowHome.button_rect_settings.collidepoint(event.pos):
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
-
-                        windowSettings = Root(pygame)
-                        settings = Settings(windowSettings, pygame)
 
 
 

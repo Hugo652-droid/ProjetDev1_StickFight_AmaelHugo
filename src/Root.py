@@ -37,9 +37,11 @@ class Root:
         self.screen.fill(color)
         pygame.display.flip()
 
+################################################################################################ Accueil
+
     def buttonPlay(self):
         # Définir la position et la taille du bouton
-        self.button_rect = pygame.Rect(760, 310, 400, 160)
+        self.button_rect = pygame.Rect(820, 600, 400, 160)
 
         # Dessiner le bouton
         pygame.draw.rect(self.screen, (255, 255, 255), self.button_rect)
@@ -54,23 +56,9 @@ class Root:
         # Mettre à jour l'affichage
         pygame.display.flip()
 
-    def buttonSettings(self):
-        # Définir la position et la taille du bouton
-        self.button_rect_settings = pygame.Rect(760, 500, 400, 160)
-
-        # Ajouter du texte sur le bouton
-        img_text = pygame.image.load('images/options_text_test.png.png')
-
-        img_text = pygame.transform.scale(img_text, (400, 160))
-
-        self.screen.blit(img_text, (self.button_rect_settings.x, self.button_rect_settings.y))
-
-        # Mettre à jour l'affichage
-        pygame.display.flip()
-
     def buttonQuit(self):
         # Définir la position et la taille du bouton
-        self.button_rect_quit = pygame.Rect(760, 690, 400, 160)
+        self.button_rect_quit = pygame.Rect(820, 780, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/quitter_text_test.png.png.png')
@@ -81,6 +69,20 @@ class Root:
 
         # Mettre à jour l'affichage
         pygame.display.flip()
+
+    def title(self):
+        self.button_rect_title = pygame.Rect(360, 100, 1000, 1000)
+
+        # Ajouter du texte sur le bouton
+        img_text = pygame.image.load('images/Image titre.png')
+
+        img_text = pygame.transform.scale(img_text, (1200, 500))
+
+        self.screen.blit(img_text, (self.button_rect_title.x, self.button_rect_title.y))
+
+        pygame.display.flip()
+
+
 
 
 
