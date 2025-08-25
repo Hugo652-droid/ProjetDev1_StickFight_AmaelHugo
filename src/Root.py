@@ -52,6 +52,23 @@ class Root:
         # Mettre à jour l'affichage
         pygame.display.flip()
 
+    def buttonQuit(self):
+        # Définir la position et la taille du bouton
+        self.button_rect_quit = pygame.Rect(960, 340, 200, 80)
+
+        # Police pour le texte
+        font = pygame.font.Font(None, 36)
+
+        # Dessiner le bouton
+        pygame.draw.rect(self.screen, (255, 255, 255), self.button_rect_quit)
+
+        # Ajouter du texte sur le bouton
+        text = font.render("Quitter", True, (0, 0, 0))
+        self.screen.blit(text, (self.button_rect_quit.x + 50, self.button_rect_quit.y + 25))
+
+        # Mettre à jour l'affichage
+        pygame.display.flip()
+
 
 
 
