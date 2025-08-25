@@ -31,6 +31,10 @@ class Root:
         pygame.display.flip()
 
 
+    def changeColor(self, color):
+        self.screen.fill(color)
+        pygame.display.flip()
+
 
 
 
