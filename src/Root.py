@@ -26,7 +26,7 @@ class Root:
         # Convertit l'image dans un format optimal pour l'affichage
         image_convertie = image_a_afficher.convert()
 
-        self.screen.blit(image_convertie, (100, 50))
+        self.screen.blit(image_convertie, (0,0))
 
         pygame.display.flip()
 
