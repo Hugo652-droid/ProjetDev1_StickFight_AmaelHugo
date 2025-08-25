@@ -35,6 +35,23 @@ class Root:
         self.screen.fill(color)
         pygame.display.flip()
 
+    def buttonPlay(self):
+        # Définir la position et la taille du bouton
+        self.button_rect = pygame.Rect(960, 250, 200, 80)
+
+        # Police pour le texte
+        font = pygame.font.Font(None, 36)
+
+        # Dessiner le bouton
+        pygame.draw.rect(self.screen, (255, 255, 255), self.button_rect)
+
+        # Ajouter du texte sur le bouton
+        text = font.render("Jouer", True, (0, 0, 0))
+        self.screen.blit(text, (self.button_rect.x + 50, self.button_rect.y + 25))
+
+        # Mettre à jour l'affichage
+        pygame.display.flip()
+
 
 
 
