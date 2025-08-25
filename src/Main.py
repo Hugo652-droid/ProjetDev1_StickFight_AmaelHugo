@@ -1,7 +1,7 @@
 import pygame
+from sys import exit
 
 from src.Root import Root
-from src.Player import Player
 from src.Game import Game
 from src.Settings import Settings
 
@@ -10,11 +10,8 @@ class Main():
         pygame.init()
         windowHome = Root(pygame)
         windowHome.changeBg()
-
         windowHome.buttonPlay()
-
         windowHome.buttonQuit()
-
         windowHome.buttonSettings()
 
         runningHome = True
@@ -31,9 +28,7 @@ class Main():
                     if windowHome.button_rect.collidepoint(event.pos):
                         windowHome.closeRoot(pygame)
                         runningHome = False
-
-                        windowGame = Root(pygame)
-                        game = Game(windowGame, pygame)
+                        game = Game()
 
                     if windowHome.button_rect_quit.collidepoint(event.pos):
                         windowHome.closeRoot(pygame)
@@ -45,16 +40,7 @@ class Main():
 
                         windowSettings = Root(pygame)
                         settings = Settings(windowSettings, pygame)
-
-
-
-
-
-
-
-
-
-
-
+        pygame.quit()
+        exit()
 
 main = Main()

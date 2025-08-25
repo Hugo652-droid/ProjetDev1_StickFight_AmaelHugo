@@ -35,7 +35,6 @@ class Root:
 
     def changeColor(self, color):
         self.screen.fill(color)
-        pygame.display.flip()
 
     def buttonPlay(self):
         # Définir la position et la taille du bouton

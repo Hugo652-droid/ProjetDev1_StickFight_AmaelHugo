@@ -2,14 +2,15 @@ import pygame
 
 
 class Player:
-    def __init__(self, name, hp, weapon_id, x, y):
+    def __init__(self, name, hp, weapon_id, x, y, image):
         self.name = name
         self.hp = hp
         self.weapon_id = weapon_id
         self.x = x
         self.y = y
+        self.img = pygame.image.load(image).convert()
 
-    def draw(self, screen, image):
-        image_a_afficher = pygame.image.load(image)
-        image_convertie = image_a_afficher.convert()
-        screen.blit(image_convertie, (self.x, self.y))
+    def draw(self, screen):
+        rect = self.img.get_rect()
+        rect.center = (self.x, self.y)
+        screen.blit(self.img, rect)
