@@ -46,8 +46,6 @@ class Root:
 
     def buttonPlay(self):
 
-
-
         # Définir la position et la taille du bouton
         self.button_rect = pygame.Rect(self.placer_ecran_button, 600, 400, 160)
 
@@ -89,6 +87,25 @@ class Root:
         self.screen.blit(img_text, (self.button_rect_title.x, self.button_rect_title.y))
 
         pygame.display.flip()
+
+################################################################################################ Game
+
+    def stopButton(self):
+        self.button_rect_stop = pygame.Rect(((self.largeur_ecran - 80)), 10, 1000, 1000)
+
+        img_stop = pygame.image.load('images/img_stopButton.png')
+
+        img_stop = pygame.transform.scale(img_stop, (70, 100))
+
+        self.screen.blit(img_stop, (self.button_rect_stop.x, self.button_rect_stop.y))
+
+        pygame.display.flip()
+
+    def stop(self):
+        self.screen.fill((100, 100, 100, 128))
+
+
+
 
 
 
