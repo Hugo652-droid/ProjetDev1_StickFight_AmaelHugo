@@ -6,6 +6,7 @@ class Game:
     def __init__(self):
         pygame.init()
         windowGame = Root(pygame)
+
         clock = pygame.time.Clock()
         player1 = Player("Amael", 100, 1, 100, 100, "images/test_stick.png")
         player2 = Player("Hugo", 100, 1, 300, 300, "images/test_stick - Copie.png")
@@ -38,7 +39,7 @@ class Game:
             if keys[pygame.K_k]:
                 player2.y += 10
 
-            windowGame.changeColor((0, 0, 0))
+            windowGame.changeColor((255, 255, 255))
             player1.draw(windowGame.screen)
             player2.draw(windowGame.screen)
             pygame.display.flip()

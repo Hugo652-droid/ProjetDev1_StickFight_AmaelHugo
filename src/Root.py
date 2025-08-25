@@ -8,8 +8,14 @@ class Root:
 
     def launchRoot(self, pygame):
         # Définir les dimensions de l'écran
-        self.largeur_ecran = 1920
-        self.hauteur_ecran = 1080
+
+        info = pygame.display.Info()
+
+        self.largeur_ecran = info.current_w
+        self.hauteur_ecran = info.current_h
+
+        self.placer_ecran_button = (self.largeur_ecran - 400) / 2
+
         taille_fenetre = (self.largeur_ecran, self.hauteur_ecran)
         self.screen = pygame.display.set_mode(taille_fenetre)
 
@@ -39,8 +45,11 @@ class Root:
 ################################################################################################ Accueil
 
     def buttonPlay(self):
+
+
+
         # Définir la position et la taille du bouton
-        self.button_rect = pygame.Rect(820, 600, 400, 160)
+        self.button_rect = pygame.Rect(self.placer_ecran_button, 600, 400, 160)
 
         # Dessiner le bouton
         pygame.draw.rect(self.screen, (255, 255, 255), self.button_rect)
@@ -57,7 +66,7 @@ class Root:
 
     def buttonQuit(self):
         # Définir la position et la taille du bouton
-        self.button_rect_quit = pygame.Rect(820, 780, 400, 160)
+        self.button_rect_quit = pygame.Rect(self.placer_ecran_button, 780, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/quitter_text_test.png.png.png')
@@ -70,7 +79,7 @@ class Root:
         pygame.display.flip()
 
     def title(self):
-        self.button_rect_title = pygame.Rect(360, 100, 1000, 1000)
+        self.button_rect_title = pygame.Rect(((self.largeur_ecran - 1200) / 2), 100, 1000, 1000)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/Image titre.png')
