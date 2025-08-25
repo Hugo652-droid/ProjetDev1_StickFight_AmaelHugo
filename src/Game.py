@@ -35,6 +35,8 @@ class Game:
             if keys[pygame.K_k]:
                 player2.y += 1
 
+            windowGame.changeBg()
+
             player1.draw(windowGame.screen, "images/test_stick.png")
             player2.draw(windowGame.screen, "images/test_stick - Copie.png")
             pygame.display.update()
