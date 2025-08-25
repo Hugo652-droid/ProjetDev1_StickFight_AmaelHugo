@@ -1,13 +1,19 @@
 import pygame
+from sys import exit
 
 from src.Root import Root
-
+from src.Game import Game
 
 class Main():
     def __init__(self):
         pygame.init()
         windowHome = Root(pygame)
         windowHome.changeBg()
+        windowHome.buttonPlay()
+        windowHome.buttonQuit()
+
+        windowHome.title()
+
         runningHome = True
         while runningHome:
             # Gérer les événements
@@ -18,18 +24,16 @@ class Main():
                         windowHome.closeRoot(pygame)
                         runningHome = False
 
-        windowGame = Root(pygame)
-        windowGame.changeColor((255, 255, 0))
-        runningGame = True
-        while runningGame:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-                        windowGame.closeRoot(pygame)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if windowHome.button_rect.collidepoint(event.pos):
+                        windowHome.closeRoot(pygame)
+                        runningHome = False
+                        game = Game()
 
-
-
-
-
+                    if windowHome.button_rect_quit.collidepoint(event.pos):
+                        windowHome.closeRoot(pygame)
+                        runningHome = False
+        pygame.quit()
+        exit()
 
 main = Main()
