@@ -11,12 +11,12 @@ class Weapons():
             if player_attack.direct_player == "Left":
                 player_attack.x -= 100
                 if player_attack.rect.colliderect(player_damaged.rect):
-                    player_damaged.hp -= 10
+                    player_damaged.hp -= 50
 
             elif player_attack.direct_player == "Right":
                 player_attack.x += 100
                 if player_attack.rect.colliderect(player_damaged.rect):
-                    player_damaged.hp -= 10
+                    player_damaged.hp -= 50
 
 
 
