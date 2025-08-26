@@ -54,8 +54,6 @@ class Game:
                     self.player1.y -= 10
                 if keys[pygame.K_s]:
                     self.player1.y += 10
-                if self.player1.rect.colliderect(self.player2.rect):
-                    print("collision")
 
                 if keys[pygame.K_j]:
                     self.player2.x -= 10
@@ -67,6 +65,18 @@ class Game:
                     self.player2.y -= 10
                 if keys[pygame.K_k]:
                     self.player2.y += 10
+
+                if self.player1.rect.colliderect(self.player2.rect):
+                    print("collision")
+                    self.player1.x -= 10
+                    self.player2.x += 10
+
+                elif self.player1.rect.colliderect(self.floor.rect):
+                    self.player1.y -= 10
+
+                elif self.player2.rect.colliderect(self.floor.rect):
+                    self.player2.y -= 10
+
 
             else :
                 keys = pygame.key.get_pressed()
