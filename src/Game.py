@@ -71,17 +71,24 @@ class Game:
                     if self.player2.y != self.info_screen.current_h:
                         self.player2.y += 10
 
-                if self.player1.rect.colliderect(self.player2.rect):
-                    print("collision")
+                if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
+                    self.player2.x -= 10
+
+                elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x > self.player1.x:
                     self.player1.x -= 10
+
+                if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x < self.player2.x:
                     self.player2.x += 10
 
-                elif self.player1.rect.colliderect(self.floor.rect):
+                elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
+                    self.player1.x += 10
+
+
+                if self.player1.rect.colliderect(self.floor.rect):
                     self.player1.y -= 10
 
-                elif self.player2.rect.colliderect(self.floor.rect):
+                if self.player2.rect.colliderect(self.floor.rect):
                     self.player2.y -= 10
-
 
             else :
                 keys = pygame.key.get_pressed()
