@@ -95,6 +95,8 @@ class Root:
     def stop(self):
         self.changeBg('images/img_bg_game_paused.png')
 
+        self.buttonQuit()
+
 
 
 

@@ -14,7 +14,7 @@ class Game:
         self.image_player_stand = "images/stickman_test.png"
 
         self.launchGame()
-        
+
     def launchGame(self):
         runningGame = True
         self.paused = False
@@ -29,31 +29,37 @@ class Game:
                     if self.windowGame.button_rect_stop.collidepoint(event.pos):
                         self.paused = not self.paused
 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_ESCAPE]:
-                self.paused = not self.paused
-                pygame.time.wait(175)
-            if keys[pygame.K_a]:
-                self.player1.x -= 10
-                self.player1.modifImage(self.image_player_left)
-            if keys[pygame.K_d]:
-                self.player1.x += 10
-                self.player1.modifImage(self.image_player_right)
-            if keys[pygame.K_w]:
-                self.player1.y -= 10
-            if keys[pygame.K_s]:
-                self.player1.y += 10
+                        if windowGame.button_rect_quit.collidepoint(event.pos):
+                            windowGame.closeRoot(pygame)
+                            runningGame = False
 
-            if keys[pygame.K_j]:
-                self.player2.x -= 10
-                self.player2.modifImage(self.image_player_left)
-            if keys[pygame.K_l]:
-                self.player2.x += 10
-                self.player2.modifImage(self.image_player_right)
-            if keys[pygame.K_i]:
-                self.player2.y -= 10
-            if keys[pygame.K_k]:
-                self.player2.y += 10
+
+            if not self.paused:
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_ESCAPE]:
+                    self.paused = not self.paused
+                    pygame.time.wait(175)
+                if keys[pygame.K_a]:
+                    self.player1.x -= 10
+                    self.player1.modifImage(self.image_player_left)
+                if keys[pygame.K_d]:
+                    self.player1.x += 10
+                    self.player1.modifImage(self.image_player_right)
+                if keys[pygame.K_w]:
+                    self.player1.y -= 10
+                if keys[pygame.K_s]:
+                    self.player1.y += 10
+
+                if keys[pygame.K_j]:
+                    self.player2.x -= 10
+                    self.player2.modifImage(self.image_player_left)
+                if keys[pygame.K_l]:
+                    self.player2.x += 10
+                    self.player2.modifImage(self.image_player_right)
+                if keys[pygame.K_i]:
+                    self.player2.y -= 10
+                if keys[pygame.K_k]:
+                    self.player2.y += 10
 
             if not self.paused:
                 self.windowGame.changeBg('images/img_bg_game.png')
