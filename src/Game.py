@@ -65,6 +65,11 @@ class Game:
                     self.player2.y -= 10
                 if keys[pygame.K_k]:
                     self.player2.y += 10
+            else :
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_ESCAPE]:
+                    self.paused = not self.paused
+                    pygame.time.wait(175)
 
             if not self.paused:
                 self.windowGame.changeBg('images/img_bg_game.png')
