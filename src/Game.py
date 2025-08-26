@@ -88,7 +88,7 @@ class Game:
                 if self.player1.rect.colliderect(self.floor.rect):
                     self.player1.y -= 10
 
-                elif self.player2.rect.colliderect(self.floor.rect):
+                if self.player2.rect.colliderect(self.floor.rect):
                     self.player2.y -= 10
 
             else :
