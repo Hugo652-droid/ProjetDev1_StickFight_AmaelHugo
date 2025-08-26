@@ -29,8 +29,8 @@ class Game:
                     if self.windowGame.button_rect_stop.collidepoint(event.pos):
                         self.paused = not self.paused
 
-                    elif windowGame.button_rect_quit.collidepoint(event.pos):
-                        windowGame.closeRoot(pygame)
+                    elif self.windowGame.button_rect_quit.collidepoint(event.pos):
+                        self.windowGame.closeRoot(pygame)
                         runningGame = False
 
 
