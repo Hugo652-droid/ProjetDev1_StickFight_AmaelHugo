@@ -20,29 +20,33 @@ class Game:
                     if windowGame.button_rect_stop.collidepoint(event.pos):
                         self.paused = not self.paused
 
+                        if windowGame.button_rect_quit.collidepoint(event.pos):
+                            windowGame.closeRoot(pygame)
+                            runningGame = False
 
 
-            keys = pygame.key.get_pressed()
-            if keys[pygame.K_ESCAPE]:
-                self.paused = not self.paused
-                pygame.time.wait(175)
-            if keys[pygame.K_a]:
-                player1.x -= 10
-            if keys[pygame.K_d]:
-                player1.x += 10
-            if keys[pygame.K_w]:
-                player1.y -= 10
-            if keys[pygame.K_s]:
-                player1.y += 10
+            if not self.paused:
+                keys = pygame.key.get_pressed()
+                if keys[pygame.K_ESCAPE]:
+                    self.paused = not self.paused
+                    pygame.time.wait(175)
+                if keys[pygame.K_a]:
+                    player1.x -= 10
+                if keys[pygame.K_d]:
+                    player1.x += 10
+                if keys[pygame.K_w]:
+                    player1.y -= 10
+                if keys[pygame.K_s]:
+                    player1.y += 10
 
-            if keys[pygame.K_j]:
-                player2.x -= 10
-            if keys[pygame.K_l]:
-                player2.x += 10
-            if keys[pygame.K_i]:
-                player2.y -= 10
-            if keys[pygame.K_k]:
-                player2.y += 10
+                if keys[pygame.K_j]:
+                    player2.x -= 10
+                if keys[pygame.K_l]:
+                    player2.x += 10
+                if keys[pygame.K_i]:
+                    player2.y -= 10
+                if keys[pygame.K_k]:
+                    player2.y += 10
 
             if not self.paused:
                 windowGame.changeBg('images/img_bg_game.png')
