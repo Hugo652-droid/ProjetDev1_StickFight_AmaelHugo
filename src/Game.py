@@ -6,9 +6,10 @@ class Game:
     def __init__(self):
         pygame.init()
         self.windowGame = Root(pygame)
+        info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
-        self.player1 = Player("Amael", 100, 1, 100, 100, "images/test_stick.png")
-        self.player2 = Player("Hugo", 100, 1, 300, 300, "images/test_stick - Copie.png")
+        self.player1 = Player("Amael", 100, 1, 300, (info_screen.current_h/2), "images/test_stick.png")
+        self.player2 = Player("Hugo", 100, 1, (info_screen.current_w-300), (info_screen.current_h/2), "images/test_stick - Copie.png")
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"

@@ -11,9 +11,9 @@ class Player:
         self.img = pygame.image.load(image).convert_alpha()
 
     def draw(self, screen):
-        rect = self.img.get_rect()
-        rect.center = (self.x, self.y)
-        screen.blit(self.img, rect)
+        self.rect = self.img.get_rect()
+        self.rect.center = (self.x, self.y)
+        screen.blit(self.img, self.rect)
 
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
