@@ -7,11 +7,11 @@ class Game:
     def __init__(self):
         pygame.init()
         self.windowGame = Root(pygame)
-        info_screen = pygame.display.Info()
+        self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
-        self.player1 = Player("Amael", 100, 1, 300, (info_screen.current_h/2), "images/test_stick.png")
-        self.player2 = Player("Hugo", 100, 1, (info_screen.current_w-300), (info_screen.current_h/2), "images/test_stick - Copie.png")
-        self.floor = Map(self.windowGame, pygame, (info_screen.current_w/2), (info_screen.current_h-100))
+        self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h/2), "images/test_stick.png")
+        self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
+        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
@@ -51,9 +51,10 @@ class Game:
                     self.player1.x += 10
                     self.player1.modifImage(self.image_player_right)
                 if keys[pygame.K_w]:
-                    self.player1.y -= 10
-                if keys[pygame.K_s]:
-                    self.player1.y += 10
+                    self.player1.y -= 50
+                else:
+                    if self.player1.y != self.info_screen.current_h:
+                        self.player1.y += 10
                 if self.player1.rect.colliderect(self.player2.rect):
                     print("collision")
 
@@ -64,9 +65,11 @@ class Game:
                     self.player2.x += 10
                     self.player2.modifImage(self.image_player_right)
                 if keys[pygame.K_i]:
-                    self.player2.y -= 10
-                if keys[pygame.K_k]:
-                    self.player2.y += 10
+                    self.player2.y -= 50
+
+                else :
+                    if self.player2.y != self.info_screen.current_h:
+                        self.player2.y += 10
 
             else :
                 keys = pygame.key.get_pressed()
