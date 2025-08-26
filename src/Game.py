@@ -53,6 +53,8 @@ class Game:
                     self.player1.y -= 10
                 if keys[pygame.K_s]:
                     self.player1.y += 10
+                if self.player1.rect.colliderect(self.player2.rect):
+                    print("collision")
 
                 if keys[pygame.K_j]:
                     self.player2.x -= 10
@@ -64,6 +66,7 @@ class Game:
                     self.player2.y -= 10
                 if keys[pygame.K_k]:
                     self.player2.y += 10
+
             else :
                 keys = pygame.key.get_pressed()
                 if keys[pygame.K_ESCAPE]:
@@ -72,6 +75,7 @@ class Game:
 
             if not self.paused:
                 self.windowGame.changeBg('images/img_bg_game.png')
+
                 self.player1.draw(self.windowGame.screen)
                 self.player2.draw(self.windowGame.screen)
             else:

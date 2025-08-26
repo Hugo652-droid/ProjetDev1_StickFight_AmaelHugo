@@ -11,7 +11,7 @@ class Main():
         windowHome.changeBg('images/img_bg_main.png')
         windowHome.buttonPlay()
         windowHome.buttonQuit()
-        windowHome.title()
+        windowHome.title('images/Image titre.png')
         pygame.display.flip()
 
         runningHome = True
