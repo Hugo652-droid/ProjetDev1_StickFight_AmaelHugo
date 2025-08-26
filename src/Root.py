@@ -30,7 +30,6 @@ class Root:
 
         self.screen.blit(background, (0,0))
 
-        pygame.display.flip()
 
 
     def changeColor(self, color):
@@ -52,22 +51,13 @@ class Root:
 
         self.screen.blit(img_text, (self.button_rect.x, self.button_rect.y))
 
-        # Mettre à jour l'affichage
-        pygame.display.flip()
-
     def buttonQuit(self):
         # Définir la position et la taille du bouton
         self.button_rect_quit = pygame.Rect(820, 780, 400, 160)
-
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/quitter_text_test.png.png.png')
-
         img_text = pygame.transform.scale(img_text, (400, 160))
-
         self.screen.blit(img_text, (self.button_rect_quit.x, self.button_rect_quit.y))
-
-        # Mettre à jour l'affichage
-        pygame.display.flip()
 
     def title(self):
         self.button_rect_title = pygame.Rect(360, 100, 1000, 1000)
@@ -78,8 +68,6 @@ class Root:
         img_text = pygame.transform.scale(img_text, (1200, 500))
 
         self.screen.blit(img_text, (self.button_rect_title.x, self.button_rect_title.y))
-
-        pygame.display.flip()
 
 
 

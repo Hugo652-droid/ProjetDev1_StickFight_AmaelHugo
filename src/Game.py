@@ -38,7 +38,7 @@ class Game:
             if keys[pygame.K_k]:
                 player2.y += 10
 
-            windowGame.changeColor((0, 0, 0))
+            windowGame.changeBg()
             player1.draw(windowGame.screen)
             player2.draw(windowGame.screen)
             pygame.display.flip()
