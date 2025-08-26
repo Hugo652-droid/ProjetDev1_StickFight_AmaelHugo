@@ -66,12 +66,6 @@ class Game:
                 if self.player1.y != self.info_screen.current_h:
                     self.player1.y += 10
 
-            if keys[pygame.K_e]:
-                self.weapons.simple_attack(self.player1, self.player2)
-
-            if keys[pygame.K_o]:
-                self.weapons.simple_attack(self.player2, self.player1)
-
             if keys[pygame.K_j]:
                 self.player2.goLeft()
                 self.player2.modifImage(self.image_player_left)
@@ -103,6 +97,12 @@ class Game:
 
             if self.player2.rect.colliderect(self.floor.rect):
                 self.player2.y -= 10
+
+            if keys[pygame.K_e]:
+                self.weapons.simple_attack(self.player1, self.player2, time.time())
+
+            if keys[pygame.K_o]:
+                self.weapons.simple_attack(self.player2, self.player1, time.time())
 
         else :
             keys = pygame.key.get_pressed()
