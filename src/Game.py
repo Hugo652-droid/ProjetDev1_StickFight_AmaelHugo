@@ -1,6 +1,7 @@
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
+from src.Weapons import Weapons
 import time
 import pygame
 
@@ -16,8 +17,8 @@ class Game:
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
+        self.weapons = Weapons()
         self.launchGame()
-
     def launchGame(self):
         runningGame = True
         self.paused = False
@@ -59,6 +60,12 @@ class Game:
                         self.player1.y += 10
                 if self.player1.rect.colliderect(self.player2.rect):
                     print("collision")
+
+                if keys[pygame.K_e]:
+                    self.weapons.simple_attack(self.player1, self.player2)
+
+                if keys[pygame.K_o]:
+                    self.weapons.simple_attack(self.player2, self.player1)
 
                 if keys[pygame.K_j]:
                     self.player2.goLeft()
@@ -113,3 +120,4 @@ class Game:
             self.clock.tick(60)
 
         pygame.quit()
+
