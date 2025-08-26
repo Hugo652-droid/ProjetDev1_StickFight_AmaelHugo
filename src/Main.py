@@ -8,7 +8,7 @@ class Main():
     def __init__(self):
         pygame.init()
         windowHome = Root(pygame)
-        windowHome.changeBg()
+        windowHome.changeBg('images/img_bg_main.png')
         windowHome.buttonPlay()
         windowHome.buttonQuit()
         windowHome.title()

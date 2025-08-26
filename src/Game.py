@@ -43,7 +43,7 @@ class Game:
             if keys[pygame.K_k]:
                 player2.y += 10
 
-            windowGame.changeBg()
+            windowGame.changeBg('images/img_bg_game.png')
             player1.draw(windowGame.screen)
             player2.draw(windowGame.screen)
 
