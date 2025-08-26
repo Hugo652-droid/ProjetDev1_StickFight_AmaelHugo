@@ -22,6 +22,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     runningGame = False
+
                 if event.type != pygame.KEYDOWN:
                     self.player2.modifImage(self.image_player_stand)
                     self.player1.modifImage(self.image_player_stand)
@@ -29,10 +30,12 @@ class Game:
                     if self.windowGame.button_rect_stop.collidepoint(event.pos):
                         self.paused = not self.paused
 
-                    elif windowGame.button_rect_quit.collidepoint(event.pos):
-                        windowGame.closeRoot(pygame)
+                    elif self.windowGame.button_rect_quit.collidepoint(event.pos):
+                        self.windowGame.closeRoot(pygame)
                         runningGame = False
 
+            if not runningGame:
+                break
 
             if not self.paused:
                 keys = pygame.key.get_pressed()
