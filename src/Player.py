@@ -1,6 +1,5 @@
 import pygame
 
-
 class Player:
     def __init__(self, name, hp, weapon_id, x, y, image):
         self.name = name
@@ -13,10 +12,12 @@ class Player:
         self.last_time_used_jump = 0
         self.cooldown = 1
 
-    def draw(self, screen):
+    def draw(self, screen, font):
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
+
         screen.blit(self.img, self.rect)
+        screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
 
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
@@ -31,3 +32,9 @@ class Player:
 
     def goRight(self):
         self.x += 10
+
+    def tackDammage(self, damage):
+        self.hp -= damage
+
+    def playerIsDead(self):
+        return self.hp <= 0
