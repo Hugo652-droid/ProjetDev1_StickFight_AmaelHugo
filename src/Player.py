@@ -36,6 +36,14 @@ class Player:
         self.x += 10
         self.direct_player = "Right"
 
+    def dashLeft(self):
+        self.x -= 100
+        self.direct_player = "Left"
+
+    def dashRight(self):
+        self.x += 100
+        self.direct_player = "Right"
+
     def tackDammage(self, damage):
         self.hp -= damage
 

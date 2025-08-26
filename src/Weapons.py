@@ -9,21 +9,11 @@ class Weapons():
          if current_time - self.lastused > self.cooldown:
             self.lastused = current_time
             if player_attack.direct_player == "Left":
-                player_attack.x -= 100
+                player_attack.dashLeft()
                 if player_attack.rect.colliderect(player_damaged.rect):
-                    player_damaged.hp -= 10
+                    player_damaged.tackDammage(10)
 
             elif player_attack.direct_player == "Right":
-                player_attack.x += 100
+                player_attack.dashRight()
                 if player_attack.rect.colliderect(player_damaged.rect):
-                    player_damaged.hp -= 10
-
-
-
-
-
-
-
-
-
-
+                    player_damaged.tackDammage(10)

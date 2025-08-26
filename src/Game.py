@@ -53,6 +53,10 @@ class Game:
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
                 pygame.time.wait(175)
+            if keys[pygame.K_e]:
+                self.weapons.simple_attack(self.player1, self.player2, time.time())
+            if keys[pygame.K_o]:
+                self.weapons.simple_attack(self.player2, self.player1, time.time())
             if keys[pygame.K_a]:
                 self.player1.goLeft()
                 self.player1.modifImage(self.image_player_left)
@@ -65,7 +69,6 @@ class Game:
             else:
                 if self.player1.y != self.info_screen.current_h:
                     self.player1.y += 10
-
             if keys[pygame.K_j]:
                 self.player2.goLeft()
                 self.player2.modifImage(self.image_player_left)
@@ -91,18 +94,13 @@ class Game:
             elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
                 self.player1.x += 10
 
-
             if self.player1.rect.colliderect(self.floor.rect):
                 self.player1.y -= 10
 
             if self.player2.rect.colliderect(self.floor.rect):
                 self.player2.y -= 10
 
-            if keys[pygame.K_e]:
-                self.weapons.simple_attack(self.player1, self.player2, time.time())
 
-            if keys[pygame.K_o]:
-                self.weapons.simple_attack(self.player2, self.player1, time.time())
 
         else :
             keys = pygame.key.get_pressed()
@@ -113,7 +111,7 @@ class Game:
 
         self.reloadPage()
 
-        self.clock.tick(60)
+        self.clock.tick(120)
 
 
 
