@@ -11,6 +11,7 @@ class Player:
         self.rect = self.img.get_rect()
         self.last_time_used_jump = 0
         self.cooldown = 1
+        self.direct_player = None
 
     def draw(self, screen, font):
         self.rect = self.img.get_rect()
@@ -29,9 +30,11 @@ class Player:
 
     def goLeft(self):
         self.x -= 10
+        self.direct_player = "Left"
 
     def goRight(self):
         self.x += 10
+        self.direct_player = "Right"
 
     def tackDammage(self, damage):
         self.hp -= damage

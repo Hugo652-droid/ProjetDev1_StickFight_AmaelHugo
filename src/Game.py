@@ -1,6 +1,7 @@
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
+from src.Weapons import Weapons
 import time
 import pygame
 
@@ -17,16 +18,21 @@ class Game:
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
         self.font = pygame.font.SysFont('Arial', 25)
-        runningGame = True
+        self.weapons = Weapons()
+        self.runningGame = True
         self.paused = False
-        while runningGame:
-            self.launchGame()
+        self.launchGame()
 
     def launchGame(self):
+        while self.runningGame:
+            self.playGame()
 
+        pygame.quit()
+
+    def playGame(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                runningGame = False
+                self.runningGame = False
 
             if event.type != pygame.KEYDOWN:
                 self.player2.modifImage(self.image_player_stand)
@@ -37,9 +43,9 @@ class Game:
 
                 elif self.windowGame.button_rect_quit.collidepoint(event.pos):
                     self.windowGame.closeRoot(pygame)
-                    runningGame = False
+                    self.runningGame = False
 
-        if not runningGame:
+        if not self.runningGame:
                 return
 
         if not self.paused:
@@ -56,58 +62,60 @@ class Game:
             if keys[pygame.K_w]:
                 self.player1.goUp(time.time())
                 self.player1.y += 10
-                else:
-                    if self.player1.y != self.info_screen.current_h:
-                        self.player1.y += 10
-                if self.player1.rect.colliderect(self.player2.rect):
-                    print("collision")
+            else:
+                if self.player1.y != self.info_screen.current_h:
+                    self.player1.y += 10
 
-                if keys[pygame.K_j]:
-                    self.player2.goLeft()
-                    self.player2.modifImage(self.image_player_left)
-                if keys[pygame.K_l]:
-                    self.player2.goRight()
-                    self.player2.modifImage(self.image_player_right)
-                if keys[pygame.K_i]:
-                    self.player2.goUp(time.time())
-                    self.player2.y += 10
-                else :
-                    if self.player2.y != self.info_screen.current_h:
-                        self.player2.y += 10
+            if keys[pygame.K_e]:
+                self.weapons.simple_attack(self.player1, self.player2)
 
-                if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
-                    self.player2.x -= 10
+            if keys[pygame.K_o]:
+                self.weapons.simple_attack(self.player2, self.player1)
 
-                elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x > self.player1.x:
-                    self.player1.x -= 10
-
-                if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x < self.player2.x:
-                    self.player2.x += 10
-
-                elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
-                    self.player1.x += 10
-
-
-                if self.player1.rect.colliderect(self.floor.rect):
-                    self.player1.y -= 10
-
-                if self.player2.rect.colliderect(self.floor.rect):
-                    self.player2.y -= 10
-
+            if keys[pygame.K_j]:
+                self.player2.goLeft()
+                self.player2.modifImage(self.image_player_left)
+            if keys[pygame.K_l]:
+                self.player2.goRight()
+                self.player2.modifImage(self.image_player_right)
+            if keys[pygame.K_i]:
+                self.player2.goUp(time.time())
+                self.player2.y += 10
             else :
-                keys = pygame.key.get_pressed()
-                if keys[pygame.K_ESCAPE]:
-                    self.paused = not self.paused
-                    pygame.time.wait(175)
+                if self.player2.y != self.info_screen.current_h:
+                    self.player2.y += 10
 
-            if self.player1.playerIsDead():
+            if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
+                self.player2.x -= 10
+
+            elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x > self.player1.x:
+                self.player1.x -= 10
+
+            if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x < self.player2.x:
+                self.player2.x += 10
+
+            elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
+                self.player1.x += 10
 
 
-            self.reloadPage()
+            if self.player1.rect.colliderect(self.floor.rect):
+                self.player1.y -= 10
 
-            self.clock.tick(60)
+            if self.player2.rect.colliderect(self.floor.rect):
+                self.player2.y -= 10
 
-        pygame.quit()
+        else :
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_ESCAPE]:
+                self.paused = not self.paused
+                pygame.time.wait(175)
+
+
+        self.reloadPage()
+
+        self.clock.tick(60)
+
+
 
     def reloadPage(self):
         if not self.paused:
@@ -118,6 +126,7 @@ class Game:
         else:
             self.windowGame.stop()
 
-        Root.stopButton(self.windowGame, self.paused)
+        self.windowGame.stopButton(self.paused)
 
         pygame.display.flip()
+
