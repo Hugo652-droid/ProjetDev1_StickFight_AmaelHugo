@@ -1,6 +1,7 @@
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
+import time
 import pygame
 
 class Game:
@@ -45,13 +46,13 @@ class Game:
                     self.paused = not self.paused
                     pygame.time.wait(175)
                 if keys[pygame.K_a]:
-                    self.player1.x -= 10
+                    self.player1.goLeft()
                     self.player1.modifImage(self.image_player_left)
                 if keys[pygame.K_d]:
-                    self.player1.x += 10
+                    self.player1.goRight()
                     self.player1.modifImage(self.image_player_right)
                 if keys[pygame.K_w]:
-                    self.player1.y -= 50
+                    self.player1.goUp(time.time())
                 else:
                     if self.player1.y != self.info_screen.current_h:
                         self.player1.y += 10
@@ -59,13 +60,13 @@ class Game:
                     print("collision")
 
                 if keys[pygame.K_j]:
-                    self.player2.x -= 10
+                    self.player2.goLeft()
                     self.player2.modifImage(self.image_player_left)
                 if keys[pygame.K_l]:
-                    self.player2.x += 10
+                    self.player2.goRight()
                     self.player2.modifImage(self.image_player_right)
                 if keys[pygame.K_i]:
-                    self.player2.y -= 50
+                    self.player2.goUp(time.time())
 
                 else :
                     if self.player2.y != self.info_screen.current_h:
@@ -76,10 +77,10 @@ class Game:
                     self.player1.x -= 10
                     self.player2.x += 10
 
-                elif self.player1.rect.colliderect(self.floor.rect):
+                if self.player1.rect.colliderect(self.floor.rect):
                     self.player1.y -= 10
 
-                elif self.player2.rect.colliderect(self.floor.rect):
+                if self.player2.rect.colliderect(self.floor.rect):
                     self.player2.y -= 10
 
 

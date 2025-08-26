@@ -10,14 +10,25 @@ class Player:
         self.y = y
         self.img = pygame.image.load(image).convert_alpha()
         self.rect = self.img.get_rect()
+        self.last_time_used_jump = 0
+        self.cooldown = 1
 
     def draw(self, screen):
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
 
-        pygame.draw.rect(screen, (255,255,255), self.rect)
-
         screen.blit(self.img, self.rect)
 
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
+
+    def goUp(self, current_time):
+        if current_time - self.last_time_used_jump > self.cooldown:
+            self.y -= 200
+            self.last_time_used_jump = current_time
+
+    def goLeft(self):
+        self.x -= 10
+
+    def goRight(self):
+        self.x += 10
