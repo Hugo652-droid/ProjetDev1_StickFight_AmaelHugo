@@ -23,7 +23,7 @@ class Player:
 
     def goUp(self, current_time):
         if current_time - self.last_time_used_jump > self.cooldown:
-            self.y -= 200
+            self.y -= 300
             self.last_time_used_jump = current_time
 
     def goLeft(self):
