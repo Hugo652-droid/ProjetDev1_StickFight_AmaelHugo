@@ -1,6 +1,5 @@
 import pygame
 
-
 class Root:
     def __init__(self, pygame):
 
@@ -77,10 +76,15 @@ class Root:
 
 ################################################################################################ Game
 
-    def stopButton(self):
-        self.button_rect_stop = pygame.Rect(((self.largeur_ecran - 80)), 10, 1000, 1000)
+    def stopButton(self, paused):
+        self.button_rect_stop = pygame.Rect((self.largeur_ecran - 80), 10, 1000, 1000)
 
-        img_stop = pygame.image.load('images/img_stopButton.png')
+        if paused == False:
+            img_stop = pygame.image.load('images/img_stopButton.png')
+
+        else:
+            img_stop = pygame.image.load('images/img_paused_button.png')
+
 
         img_stop = pygame.transform.scale(img_stop, (70, 100))
 
@@ -89,7 +93,7 @@ class Root:
         pygame.display.flip()
 
     def stop(self):
-        self.changeBg('images/img_bg_game_paused.png.png')
+        self.changeBg('images/img_bg_game_paused.png')
 
 
 

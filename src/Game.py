@@ -10,7 +10,7 @@ class Game:
         player1 = Player("Amael", 100, 1, 100, 100, "images/test_stick.png")
         player2 = Player("Hugo", 100, 1, 300, 300, "images/test_stick - Copie.png")
         runningGame = True
-        paused = False
+        self.paused = False
         while runningGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -18,13 +18,13 @@ class Game:
 
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if windowGame.button_rect_stop.collidepoint(event.pos):
-                        paused = not paused
+                        self.paused = not self.paused
 
 
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
-                paused = not paused
+                self.paused = not self.paused
                 pygame.time.wait(175)
             if keys[pygame.K_a]:
                 player1.x -= 10
@@ -44,14 +44,14 @@ class Game:
             if keys[pygame.K_k]:
                 player2.y += 10
 
-            if paused == False :
+            if not self.paused:
                 windowGame.changeBg('images/img_bg_game.png')
                 player1.draw(windowGame.screen)
                 player2.draw(windowGame.screen)
             else :
                 windowGame.stop()
 
-            Root.stopButton(windowGame)
+            Root.stopButton(windowGame, self.paused)
 
             pygame.display.flip()
             clock.tick(60)
