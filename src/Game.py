@@ -26,6 +26,11 @@ class Game:
     def launchGame(self):
         while self.runningGame:
             self.playGame()
+            if self.player1.playerIsDead():
+                self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+
+            if self.player2.playerIsDead():
+                self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
         pygame.quit()
 
