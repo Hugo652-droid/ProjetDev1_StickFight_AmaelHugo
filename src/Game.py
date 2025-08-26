@@ -53,6 +53,7 @@ class Game:
                     self.player1.modifImage(self.image_player_right)
                 if keys[pygame.K_w]:
                     self.player1.goUp(time.time())
+                    self.player1.y += 10
                 else:
                     if self.player1.y != self.info_screen.current_h:
                         self.player1.y += 10
@@ -67,7 +68,7 @@ class Game:
                     self.player2.modifImage(self.image_player_right)
                 if keys[pygame.K_i]:
                     self.player2.goUp(time.time())
-
+                    self.player2.y += 10
                 else :
                     if self.player2.y != self.info_screen.current_h:
                         self.player2.y += 10
@@ -88,7 +89,7 @@ class Game:
                 if self.player1.rect.colliderect(self.floor.rect):
                     self.player1.y -= 10
 
-                elif self.player2.rect.colliderect(self.floor.rect):
+                if self.player2.rect.colliderect(self.floor.rect):
                     self.player2.y -= 10
 
             else :
