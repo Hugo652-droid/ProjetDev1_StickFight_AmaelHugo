@@ -1,5 +1,6 @@
 from src.Player import Player
 from src.Root import Root
+from src.Map import Map
 import pygame
 
 class Game:
@@ -10,10 +11,10 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player1 = Player("Amael", 100, 1, 300, (info_screen.current_h/2), "images/test_stick.png")
         self.player2 = Player("Hugo", 100, 1, (info_screen.current_w-300), (info_screen.current_h/2), "images/test_stick - Copie.png")
+        self.floor = Map(self.windowGame, pygame, (info_screen.current_w/2), (info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
-
         self.launchGame()
 
     def launchGame(self):
@@ -78,6 +79,7 @@ class Game:
 
                 self.player1.draw(self.windowGame.screen)
                 self.player2.draw(self.windowGame.screen)
+                self.floor.draw(self.windowGame.screen)
             else:
                 self.windowGame.stop()
 
