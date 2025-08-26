@@ -16,7 +16,6 @@ class Player:
     def draw(self, screen):
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
-
         screen.blit(self.img, self.rect)
 
     def modifImage(self, image):
