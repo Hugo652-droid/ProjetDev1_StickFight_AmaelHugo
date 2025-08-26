@@ -5,55 +5,66 @@ import pygame
 class Game:
     def __init__(self):
         pygame.init()
-        windowGame = Root(pygame)
-        clock = pygame.time.Clock()
-        player1 = Player("Amael", 100, 1, 100, 100, "images/test_stick.png")
-        player2 = Player("Hugo", 100, 1, 300, 300, "images/test_stick - Copie.png")
+        self.windowGame = Root(pygame)
+        self.clock = pygame.time.Clock()
+        self.player1 = Player("Amael", 100, 1, 100, 100, "images/test_stick.png")
+        self.player2 = Player("Hugo", 100, 1, 300, 300, "images/test_stick - Copie.png")
+        self.image_player_left = "images/test_stick - Copie.png"
+        self.image_player_right = "images/test_stick.png"
+        self.image_player_stand = "images/stickman_test.png"
+
+        self.launchGame()
+        
+    def launchGame(self):
         runningGame = True
         self.paused = False
         while runningGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     runningGame = False
-
+                if event.type != pygame.KEYDOWN:
+                    self.player2.modifImage(self.image_player_stand)
+                    self.player1.modifImage(self.image_player_stand)
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                    if windowGame.button_rect_stop.collidepoint(event.pos):
+                    if self.windowGame.button_rect_stop.collidepoint(event.pos):
                         self.paused = not self.paused
-
-
 
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
                 pygame.time.wait(175)
             if keys[pygame.K_a]:
-                player1.x -= 10
+                self.player1.x -= 10
+                self.player1.modifImage(self.image_player_left)
             if keys[pygame.K_d]:
-                player1.x += 10
+                self.player1.x += 10
+                self.player1.modifImage(self.image_player_right)
             if keys[pygame.K_w]:
-                player1.y -= 10
+                self.player1.y -= 10
             if keys[pygame.K_s]:
-                player1.y += 10
+                self.player1.y += 10
 
             if keys[pygame.K_j]:
-                player2.x -= 10
+                self.player2.x -= 10
+                self.player2.modifImage(self.image_player_left)
             if keys[pygame.K_l]:
-                player2.x += 10
+                self.player2.x += 10
+                self.player2.modifImage(self.image_player_right)
             if keys[pygame.K_i]:
-                player2.y -= 10
+                self.player2.y -= 10
             if keys[pygame.K_k]:
-                player2.y += 10
+                self.player2.y += 10
 
             if not self.paused:
-                windowGame.changeBg('images/img_bg_game.png')
-                player1.draw(windowGame.screen)
-                player2.draw(windowGame.screen)
-            else :
-                windowGame.stop()
+                self.windowGame.changeBg('images/img_bg_game.png')
+                self.player1.draw(self.windowGame.screen)
+                self.player2.draw(self.windowGame.screen)
+            else:
+                self.windowGame.stop()
 
-            Root.stopButton(windowGame, self.paused)
+            Root.stopButton(self.windowGame, self.paused)
 
             pygame.display.flip()
-            clock.tick(60)
+            self.clock.tick(60)
 
         pygame.quit()

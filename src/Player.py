@@ -8,9 +8,12 @@ class Player:
         self.weapon_id = weapon_id
         self.x = x
         self.y = y
-        self.img = pygame.image.load(image).convert()
+        self.img = pygame.image.load(image).convert_alpha()
 
     def draw(self, screen):
         rect = self.img.get_rect()
         rect.center = (self.x, self.y)
         screen.blit(self.img, rect)
+
+    def modifImage(self, image):
+        self.img = pygame.image.load(image).convert_alpha()
