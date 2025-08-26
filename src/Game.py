@@ -18,6 +18,11 @@ class Game:
                 if event.type == pygame.QUIT:
                     runningGame = False
 
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if windowGame.button_rect_stop.collidepoint(event.pos):
+                        windowGame.stop()
+
+
             keys = pygame.key.get_pressed()
 
             if keys[pygame.K_a]:
@@ -38,9 +43,12 @@ class Game:
             if keys[pygame.K_k]:
                 player2.y += 10
 
-            windowGame.changeColor((0, 0, 0))
+            windowGame.changeBg()
             player1.draw(windowGame.screen)
             player2.draw(windowGame.screen)
+
+            Root.stopButton(windowGame)
+
             pygame.display.flip()
             clock.tick(60)
 

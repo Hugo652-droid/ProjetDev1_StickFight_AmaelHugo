@@ -11,8 +11,8 @@ class Main():
         windowHome.changeBg()
         windowHome.buttonPlay()
         windowHome.buttonQuit()
-
         windowHome.title()
+        pygame.display.flip()
 
         runningHome = True
         while runningHome:
