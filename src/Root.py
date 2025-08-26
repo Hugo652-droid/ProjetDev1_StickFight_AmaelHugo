@@ -47,9 +47,6 @@ class Root:
         # Définir la position et la taille du bouton
         self.button_rect = pygame.Rect(self.placer_ecran_button, 600, 400, 160)
 
-        # Dessiner le bouton
-        pygame.draw.rect(self.screen, (255, 255, 255), self.button_rect)
-
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/jouer_text_test.png')
 
@@ -92,7 +89,7 @@ class Root:
         pygame.display.flip()
 
     def stop(self):
-        self.screen.fill((100, 100, 100, 128))
+        self.changeBg('images/img_bg_game_paused.png.png')
 
 
 
