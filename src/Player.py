@@ -10,13 +10,15 @@ class Player:
         self.img = pygame.image.load(image).convert_alpha()
         self.rect = self.img.get_rect()
         self.last_time_used_jump = 0
-        self.cooldown = 1
+        self.last_time_used_attack = 0
+        self.cooldown_jump = 1
+        self.cooldown_attack = 1
         self.direct_player = None
 
     def draw(self, screen, font):
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
-
+        self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
         screen.blit(self.img, self.rect)
         screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
 
@@ -24,7 +26,7 @@ class Player:
         self.img = pygame.image.load(image).convert_alpha()
 
     def goUp(self, current_time):
-        if current_time - self.last_time_used_jump > self.cooldown:
+        if current_time - self.last_time_used_jump > self.cooldown_jump:
             self.y -= 300
             self.last_time_used_jump = current_time
 
@@ -49,3 +51,20 @@ class Player:
 
     def playerIsDead(self):
         return self.hp <= 0
+    
+    def simple_attack(self, player_damaged, current_time, weapons):
+        if weapons == "":
+             if current_time - self.last_time_used_attack > self.cooldown_attack:
+                self.last_time_used_attack = current_time
+                if self.direct_player == "Left":
+                    self.dashLeft()
+                    if self.rect.colliderect(player_damaged.rect):
+                        player_damaged.tackDammage(10)
+                        print("hits left")
+    
+                elif self.direct_player == "Right":
+                    self.dashRight()
+                    if self.rect.colliderect(player_damaged.rect):
+                        player_damaged.tackDammage(10)
+                        print("hits right")
+            

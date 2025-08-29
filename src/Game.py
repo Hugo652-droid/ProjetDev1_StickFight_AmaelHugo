@@ -49,9 +49,7 @@ class Game:
                 elif self.windowGame.button_rect_quit.collidepoint(event.pos):
                     self.windowGame.closeRoot(pygame)
                     self.runningGame = False
-
-        if not self.runningGame:
-                return
+                    return
 
         if not self.paused:
             keys = pygame.key.get_pressed()
@@ -59,9 +57,9 @@ class Game:
                 self.paused = not self.paused
                 pygame.time.wait(175)
             if keys[pygame.K_e]:
-                self.weapons.simple_attack(self.player1, self.player2, time.time())
+                self.player1.simple_attack(self.player2, time.time(), "")
             if keys[pygame.K_o]:
-                self.weapons.simple_attack(self.player2, self.player1, time.time())
+                self.player2.simple_attack(self.player1, time.time(), "")
             if keys[pygame.K_a]:
                 self.player1.goLeft()
                 self.player1.modifImage(self.image_player_left)
@@ -87,25 +85,7 @@ class Game:
                 if self.player2.y != self.info_screen.current_h:
                     self.player2.y += 10
 
-            if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
-                self.player2.x -= 10
-
-            elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x > self.player1.x:
-                self.player1.x -= 10
-
-            if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x < self.player2.x:
-                self.player2.x += 10
-
-            elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
-                self.player1.x += 10
-
-            if self.player1.rect.colliderect(self.floor.rect):
-                self.player1.y -= 10
-
-            if self.player2.rect.colliderect(self.floor.rect):
-                self.player2.y -= 10
-
-
+            self.collision()
 
         else :
             keys = pygame.key.get_pressed()
@@ -113,12 +93,9 @@ class Game:
                 self.paused = not self.paused
                 pygame.time.wait(175)
 
-
         self.reloadPage()
 
         self.clock.tick(120)
-
-
 
     def reloadPage(self):
         if not self.paused:
@@ -133,3 +110,25 @@ class Game:
 
         pygame.display.flip()
 
+    def collision(self):
+        if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
+            self.player2.x -= 5
+            self.player1.x += 5
+
+        elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x > self.player1.x:
+            self.player2.x += 5
+            self.player1.x -= 5
+
+        if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x < self.player2.x:
+            self.player2.x += 5
+            self.player1.x -= 5
+
+        elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
+            self.player2.x -= 5
+            self.player1.x += 5
+
+        if self.player1.rect.colliderect(self.floor.rect):
+            self.player1.y -= 10
+
+        if self.player2.rect.colliderect(self.floor.rect):
+            self.player2.y -= 10
