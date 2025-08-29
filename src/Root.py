@@ -35,6 +35,10 @@ class Root:
 
         self.screen.blit(background, (0,0))
 
+        icon_image = pygame.image.load('images/stickman_test.png')
+
+        pygame.display.set_icon(icon_image)
+
 
 
     def changeColor(self, color):
