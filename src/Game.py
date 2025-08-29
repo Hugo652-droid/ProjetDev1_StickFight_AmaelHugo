@@ -13,12 +13,12 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h/2), "images/test_stick.png")
         self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
+        self.weapon_gun = Weapons('images/img_wapon.png')
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
         self.font = pygame.font.SysFont('Arial', 25)
-        self.weapons = Weapons()
         self.runningGame = True
         self.paused = False
         self.launchGame()
@@ -100,6 +100,7 @@ class Game:
     def reloadPage(self):
         if not self.paused:
             self.windowGame.changeBg('images/img_bg_game.png')
+            self.weapon_gun.spawnWeapon(self.windowGame.screen, time.time())
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
             self.floor.draw(self.windowGame.screen)

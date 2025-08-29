@@ -51,7 +51,7 @@ class Player:
 
     def playerIsDead(self):
         return self.hp <= 0
-    
+
     def simple_attack(self, player_damaged, current_time, weapons):
         if weapons == "":
              if current_time - self.last_time_used_attack > self.cooldown_attack:
@@ -61,10 +61,10 @@ class Player:
                     if self.rect.colliderect(player_damaged.rect):
                         player_damaged.tackDammage(10)
                         print("hits left")
-    
+
                 elif self.direct_player == "Right":
                     self.dashRight()
                     if self.rect.colliderect(player_damaged.rect):
                         player_damaged.tackDammage(10)
                         print("hits right")
-            
+
