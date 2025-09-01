@@ -124,8 +124,10 @@ class Game:
             self.floor.draw(self.windowGame.screen)
             if self.player1.attacking :
                 self.player1.simple_attack(self.player2, time.time(), "")
+                self.player1.attacking = False
             if self.player2.attacking :
                 self.player2.simple_attack(self.player1, time.time(), "")
+                self.player2.attacking = False
         else:
             self.windowGame.stop()
 
