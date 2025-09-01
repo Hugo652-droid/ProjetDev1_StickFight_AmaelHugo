@@ -1,3 +1,4 @@
+from src.Bullets import Bullet
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
@@ -13,6 +14,7 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h/2), "images/test_stick.png")
         self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
+        self.weapon_gun = Weapons('images/img_wapon.png')
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
@@ -23,6 +25,7 @@ class Game:
         self.lastdrop = time.time()
         self.cooldown_dropweapon = 20
         self.weapon_gun = []
+        self.bullet = Bullet(self.windowGame)
         self.launchGame()
 
     def launchGame(self):
@@ -143,11 +146,14 @@ class Game:
                 weapon.draw(self.windowGame.screen)
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
+            self.bullet.draw()
             self.floor.draw(self.windowGame.screen)
             if self.player1.attacking :
                 self.player1.simple_attack(self.player2, time.time(), "")
+                self.player1.attacking = False
             if self.player2.attacking :
                 self.player2.simple_attack(self.player1, time.time(), "")
+                self.player2.attacking = False
         else:
             self.windowGame.stop()
 

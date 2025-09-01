@@ -58,3 +58,4 @@ class Player:
         if weapons == "":
             if self.rect.colliderect(player_damaged.rect):
                 player_damaged.tackDammage(10)
+
