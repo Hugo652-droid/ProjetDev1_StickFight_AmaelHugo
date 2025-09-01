@@ -21,7 +21,7 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.lastdrop = time.time()
-        self.cooldown_dropweapon = 3
+        self.cooldown_dropweapon = 20
         self.weapon_gun = []
         self.launchGame()
 
@@ -33,6 +33,12 @@ class Game:
 
             if self.player2.playerIsDead():
                 self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+
+            if self.player1.weapon:
+                self.player1.img = pygame.image.load('images/stickman_test_armé.png').convert_alpha()
+
+            if self.player2.weapon:
+                self.player2.img = pygame.image.load('images/stickman_test_armé.png').convert_alpha()
 
         pygame.quit()
 
@@ -175,3 +181,12 @@ class Game:
         for weapon in self.weapon_gun:
             if weapon.rect_weapon.colliderect(self.floor.rect):
                 weapon.rect_weapon.y -= 10
+
+        for weapon in self.weapon_gun:
+            if weapon.rect_weapon.colliderect(self.player1.rect):
+                self.player1.weapon = weapon
+                self.weapon_gun.remove(weapon)
+
+            if weapon.rect_weapon.colliderect(self.player2.rect):
+                self.player2.weapon = weapon
+                self.weapon_gun.remove(weapon)

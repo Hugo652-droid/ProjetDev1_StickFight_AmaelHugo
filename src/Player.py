@@ -15,6 +15,7 @@ class Player:
         self.cooldown_attack = 1
         self.direct_player = None
         self.attacking = False
+        self.weapon = 0
 
     def draw(self, screen, font):
         self.rect = self.img.get_rect()

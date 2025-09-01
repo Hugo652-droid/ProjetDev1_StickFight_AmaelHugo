@@ -5,7 +5,7 @@ import time
 class Weapons():
     def __init__(self,img):
         self.cooldown = 1
-        self.cooldown_dropweapon = 3
+        self.cooldown_dropweapon = 30
         self.lastused = 0
         self.lastdrop = time.time()
         self.img_weapom = pygame.image.load(img)
@@ -18,6 +18,7 @@ class Weapons():
 
     def draw(self, screen):
             screen.blit(self.img_weapom, self.rect_weapon)
+
 
 
 
