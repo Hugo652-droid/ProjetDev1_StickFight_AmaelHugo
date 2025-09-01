@@ -1,3 +1,4 @@
+from src.Bullets import Bullet
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
@@ -21,6 +22,7 @@ class Game:
         self.font = pygame.font.SysFont('Arial', 25)
         self.runningGame = True
         self.paused = False
+        self.bullet = Bullet(self.windowGame)
         self.launchGame()
 
     def launchGame(self):
@@ -121,6 +123,7 @@ class Game:
             self.weapon_gun.spawnWeapon(self.windowGame.screen, time.time())
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
+            self.bullet.draw()
             self.floor.draw(self.windowGame.screen)
             if self.player1.attacking :
                 self.player1.simple_attack(self.player2, time.time(), "")
