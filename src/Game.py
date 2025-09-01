@@ -57,9 +57,27 @@ class Game:
                 self.paused = not self.paused
                 pygame.time.wait(175)
             if keys[pygame.K_e]:
-                self.player1.simple_attack(self.player2, time.time(), "")
+                if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack:
+                    self.player1.last_time_used_attack = time.time()
+                    if self.player1.direct_player == "Left":
+                        self.player1.dashLeft()
+                    elif self.player1.direct_player == "Right":
+                        self.player1.dashRight()
+                    self.player1.attacking = True
+                else :
+                    self.player1.attacking = False
+
             if keys[pygame.K_o]:
-                self.player2.simple_attack(self.player1, time.time(), "")
+                if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack:
+                    self.player2.last_time_used_attack = time.time()
+                    if self.player2.direct_player == "Left":
+                        self.player2.dashLeft()
+                    elif self.player2.direct_player == "Right":
+                        self.player2.dashRight()
+                    self.player2.attacking = True
+                else:
+                    self.player2.attacking = False
+
             if keys[pygame.K_a]:
                 self.player1.goLeft()
                 self.player1.modifImage(self.image_player_left)
@@ -104,6 +122,10 @@ class Game:
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
             self.floor.draw(self.windowGame.screen)
+            if self.player1.attacking :
+                self.player1.simple_attack(self.player2, time.time(), "")
+            if self.player2.attacking :
+                self.player2.simple_attack(self.player1, time.time(), "")
         else:
             self.windowGame.stop()
 
