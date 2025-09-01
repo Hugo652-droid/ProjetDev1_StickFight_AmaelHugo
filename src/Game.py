@@ -140,7 +140,7 @@ class Game:
                 weapon.draw(self.windowGame.screen)
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
-            self.bullet.draw()
+            self.bullet.draw(100, 100)
             self.floor.draw(self.windowGame.screen)
             if self.player1.attacking :
                 self.player1.simple_attack(self.player2, time.time(), "")
