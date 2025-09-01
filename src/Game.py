@@ -13,7 +13,6 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h/2), "images/test_stick.png")
         self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
-        self.weapon_gun = Weapons('images/img_wapon.png')
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
@@ -21,6 +20,9 @@ class Game:
         self.font = pygame.font.SysFont('Arial', 25)
         self.runningGame = True
         self.paused = False
+        self.lastdrop = time.time()
+        self.cooldown_dropweapon = 3
+        self.weapon_gun = []
         self.launchGame()
 
     def launchGame(self):
@@ -33,6 +35,11 @@ class Game:
                 self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
         pygame.quit()
+
+    def createWeapons(self):
+        newWeapon = Weapons('images/img_wapon.png')
+        self.weapon_gun.append(newWeapon)
+        print(self.weapon_gun)
 
     def playGame(self):
         for event in pygame.event.get():
@@ -85,6 +92,14 @@ class Game:
                 if self.player2.y != self.info_screen.current_h:
                     self.player2.y += 10
 
+            if time.time() - self.lastdrop > self.cooldown_dropweapon:
+                self.lastdrop = time.time()
+                self.createWeapons()
+
+            for weapon in self.weapon_gun:
+                if weapon.rect_weapon.y != self.info_screen.current_h:
+                    weapon.rect_weapon.y += 10
+
             self.collision()
 
         else :
@@ -100,7 +115,8 @@ class Game:
     def reloadPage(self):
         if not self.paused:
             self.windowGame.changeBg('images/img_bg_game.png')
-            self.weapon_gun.spawnWeapon(self.windowGame.screen, time.time())
+            for weapon in self.weapon_gun :
+                weapon.draw(self.windowGame.screen)
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
             self.floor.draw(self.windowGame.screen)
@@ -133,3 +149,7 @@ class Game:
 
         if self.player2.rect.colliderect(self.floor.rect):
             self.player2.y -= 10
+
+        for weapon in self.weapon_gun:
+            if weapon.rect_weapon.colliderect(self.floor.rect):
+                weapon.rect_weapon.y -= 10
