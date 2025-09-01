@@ -14,6 +14,7 @@ class Player:
         self.cooldown_jump = 1
         self.cooldown_attack = 1
         self.direct_player = None
+        self.attacking = False
 
     def draw(self, screen, font):
         self.rect = self.img.get_rect()
@@ -39,11 +40,11 @@ class Player:
         self.direct_player = "Right"
 
     def dashLeft(self):
-        self.x -= 100
+        self.x -= 150
         self.direct_player = "Left"
 
     def dashRight(self):
-        self.x += 100
+        self.x += 150
         self.direct_player = "Right"
 
     def tackDammage(self, damage):
@@ -54,17 +55,5 @@ class Player:
 
     def simple_attack(self, player_damaged, current_time, weapons):
         if weapons == "":
-             if current_time - self.last_time_used_attack > self.cooldown_attack:
-                self.last_time_used_attack = current_time
-                if self.direct_player == "Left":
-                    self.dashLeft()
-                    if self.rect.colliderect(player_damaged.rect):
-                        player_damaged.tackDammage(10)
-                        print("hits left")
-
-                elif self.direct_player == "Right":
-                    self.dashRight()
-                    if self.rect.colliderect(player_damaged.rect):
-                        player_damaged.tackDammage(10)
-                        print("hits right")
-
+            if self.rect.colliderect(player_damaged.rect):
+                player_damaged.tackDammage(10)
