@@ -17,6 +17,7 @@ class Root:
 
         taille_fenetre = (self.largeur_ecran, self.hauteur_ecran)
         self.screen = pygame.display.set_mode(taille_fenetre)
+        self.rect = self.screen.get_rect()
 
         # Nom de la fenêtre
         pygame.display.set_caption("SticK.Onion")
