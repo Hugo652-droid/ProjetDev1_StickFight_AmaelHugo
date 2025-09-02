@@ -10,7 +10,7 @@ class Weapons():
         self.cooldown = 1
         self.img_weapom = pygame.image.load(img)
         self.rect_weapon = self.img_weapom.get_rect()
-        self.img_weapom = pygame.transform.scale(self.img_weapom, (130, 70))
+        self.img_weapom = pygame.transform.scale(self.img_weapom, (80, 30))
         self.rect_weapon = self.img_weapom.get_rect()
         info = pygame.display.Info()
         self.dammage = dammage

@@ -16,13 +16,13 @@ class Player:
         self.last_time_used_attack = 0
         self.cooldown_jump = 1
         self.cooldown_attack = 1
-        self.direct_player = None
+        self.direct_player = "Left"
         self.attacking = False
         self.weapon = 0
         self.damage = 10
 
     def draw(self, screen, font):
-        self.img = pygame.transform.scale(self.img, (200, 100))
+        self.img = pygame.transform.scale(self.img, (150, 100))
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
         self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
