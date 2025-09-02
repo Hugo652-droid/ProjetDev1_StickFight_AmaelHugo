@@ -53,19 +53,38 @@ class Game:
             },
         ]
 
-
         self.score_player1 = 0
         self.score_player2 = 0
-
 
         self.createInstanse()
         self.launchGame()
 
     def createInstanse(self):
-        self.player1 = Player("Amael", 30, "", 300, (self.info_screen.current_h / 2), "images/test_stick.png")
-        self.player2 = Player("Hugo", 30, "", (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),
-                              "images/test_stick - Copie.png")
-        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100))
+        margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
+
+        self.player1 = Player(
+            "Amael",
+            30,
+            "",
+            margin,  # distance depuis la gauche
+            self.info_screen.current_h / 2,
+            "images/test_stick.png"
+        )
+
+        self.player2 = Player(
+            "Hugo",
+            30,
+            "",
+            self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
+            self.info_screen.current_h / 2,
+            "images/test_stick - Copie.png"
+        )
+
+        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100), (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
+        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450), (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
+
+        self.floors = [self.floor, self.floor2]
+
         self.weapon_gun = []
         self.lastdrop = time.time()
         self.bullets = []
@@ -264,6 +283,7 @@ class Game:
             self.player2.draw(self.windowGame.screen, self.font)
 
             self.floor.draw(self.windowGame.screen)
+            self.floor2.draw(self.windowGame.screen)
             if self.player1.attacking :
                 bullet = self.player1.simple_attack(self.player2)
                 if not bullet:
@@ -311,24 +331,26 @@ class Game:
             self.player2.x -= 5
             self.player1.x += 5
 
-        if self.player1.rect.colliderect(self.floor.rect):
+        for floor in self.floors:
 
-            if self.player1.rect.bottom > self.floor.rect.top:
-                self.player1.y -= 10
+            if self.player1.rect.colliderect(floor.rect):
 
-            elif self.player1.rect.right > self.floor.rect.left:
-                self.player1.x += 10
+                if self.player1.rect.bottom > floor.rect.top:
+                    self.player1.y -= 10
 
-            elif self.player1.rect.left > self.floor.rect.right:
-                self.player1.x -= 10
+                elif self.player1.rect.right > floor.rect.left:
+                    self.player1.x += 10
 
-        if self.player2.rect.colliderect(self.floor.rect):
-            self.player2.y -= 10
+                elif self.player1.rect.left > floor.rect.right:
+                    self.player1.x -= 10
+
+            if self.player2.rect.colliderect(floor.rect):
+                self.player2.y -= 10
 
 
-        for weapon in self.weapon_gun:
-            if weapon.rect_weapon.colliderect(self.floor.rect):
-                weapon.rect_weapon.y -= 10
+            for weapon in self.weapon_gun:
+                if weapon.rect_weapon.colliderect(floor.rect):
+                    weapon.rect_weapon.y -= 10
 
         for bullet in self.bullets:
             if bullet.rect.colliderect(self.player1.rect):
@@ -356,6 +378,6 @@ class Game:
                 self.player1.weapon = weapon
                 self.weapon_gun.remove(weapon)
 
-            if weapon.rect_weapon.colliderect(self.player2.rect):
+            elif weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
