@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Player.py
+Description fichier : Creation et gestion des platforms physique
+--
+"""
+
 import pygame
 
 class Map:

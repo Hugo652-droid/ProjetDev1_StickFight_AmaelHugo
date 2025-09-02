@@ -1,6 +1,17 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Weapons.py
+Description fichier : Creation et gestion des armes
+--
+"""
+
 import pygame
 import random
-import time
 
 class Weapons():
     def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, floors, screen):
