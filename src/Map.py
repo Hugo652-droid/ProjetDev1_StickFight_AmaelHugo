@@ -13,3 +13,4 @@ class Map:
         self.rect = self.img_floor.get_rect()
         self.rect.center = (self.x, self.y)
         screen.blit(self.img_floor, self.rect)
+

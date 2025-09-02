@@ -1,3 +1,4 @@
+from src.Bullets import Bullet
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
@@ -18,6 +19,7 @@ class Game:
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
+        self.image_player_crouch = "images/crouchnonarmé.png"
         self.font = pygame.font.SysFont('Arial', 25)
         self.runningGame = True
         self.paused = False
@@ -77,7 +79,7 @@ class Game:
 
         weapon_random = random.choice(self.dict_weapons)
 
-        newWeapon = Weapons(weapon_random["img"], 10)
+        newWeapon = Weapons(weapon_random["img"], weapon_random["damage"])
         self.weapon_gun.append(newWeapon)
 
     def playGame(self):
@@ -131,6 +133,8 @@ class Game:
                 else:
                     if self.player1.y != self.info_screen.current_h:
                         self.player1.y += 10
+                if keys[pygame.K_k]:
+                    self.player2.modifImage(self.image_player_crouch)
 
             if not self.player2.playerIsDead():
 
@@ -154,6 +158,8 @@ class Game:
                 if keys[pygame.K_l]:
                     self.player2.goRight()
                     self.player2.modifImage(self.image_player_right)
+                if keys[pygame.K_k]:
+                    self.player2.modifImage(self.image_player_crouch)
                 if keys[pygame.K_i]:
                     self.player2.goUp(time.time())
                     self.player2.y += 10
@@ -234,10 +240,19 @@ class Game:
             self.player1.x += 5
 
         if self.player1.rect.colliderect(self.floor.rect):
-            self.player1.y -= 10
+
+            if self.player1.rect.bottom > self.floor.rect.top:
+                self.player1.y -= 10
+
+            elif self.player1.rect.right > self.floor.rect.left:
+                self.player1.x += 10
+
+            elif self.player1.rect.left > self.floor.rect.right:
+                self.player1.x -= 10
 
         if self.player2.rect.colliderect(self.floor.rect):
             self.player2.y -= 10
+
 
         for weapon in self.weapon_gun:
             if weapon.rect_weapon.colliderect(self.floor.rect):
