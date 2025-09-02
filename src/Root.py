@@ -40,8 +40,6 @@ class Root:
 
         pygame.display.set_icon(icon_image)
 
-
-
     def changeColor(self, color):
         self.screen.fill(color)
 

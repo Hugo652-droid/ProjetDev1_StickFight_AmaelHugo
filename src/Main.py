@@ -13,7 +13,6 @@ class Main():
         windowHome.buttonQuit()
         windowHome.title('images/Image titre.png')
         pygame.display.flip()
-
         runningHome = True
         while runningHome:
             # Gérer les événements

@@ -353,14 +353,14 @@ class Game:
                 floor.draw(self.windowGame.screen)
 
             if self.player1.attacking :
-                bullet = self.player1.simple_attack(self.player2)
+                bullet = self.player1.simpleAttack(self.player2)
                 if not bullet:
                     self.player1.attacking = False
                 else:
                     self.bullets.append(bullet)
                     self.player1.attacking = False
             if self.player2.attacking :
-                bullet = self.player2.simple_attack(self.player1)
+                bullet = self.player2.simpleAttack(self.player1)
                 if not bullet:
                     self.player2.attacking = False
                 else :

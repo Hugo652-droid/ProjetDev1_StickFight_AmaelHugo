@@ -1,6 +1,6 @@
 import pygame
 
-from src.Bullets import Bullet
+from src.Bullet import Bullet
 
 class Player:
     def __init__(self, name, hp, weapon_id, x, y, image):
@@ -69,7 +69,7 @@ class Player:
     def playerIsDead(self):
         return self.hp <= 0
 
-    def simple_attack(self, player_damaged):
+    def simpleAttack(self, player_damaged):
         if self.weapon == 0:
             self.cooldown_attack = 1
             if self.rect.colliderect(player_damaged.rect):
