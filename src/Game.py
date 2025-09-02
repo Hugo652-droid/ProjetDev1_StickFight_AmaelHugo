@@ -26,7 +26,7 @@ class Game:
                 "id": 1,
                 "name": "gun",
                 "img": 'images/img_wapon.png',
-                "damage": 10,
+                "damage": 15,
                 "attackSpeed": 1,
                 "ammunition": 6,
                 "width": 30,
@@ -36,7 +36,7 @@ class Game:
                 "id": 2,
                 "name": "fusil d'assaut",
                 "img": 'images/fusildassaut.png',
-                "damage": 1,
+                "damage": 3,
                 "attackSpeed": 0.1,
                 "ammunition": 30,
                 "width": 30,
@@ -46,7 +46,7 @@ class Game:
                 "id": 3,
                 "name": "fusil a pome",
                 "img": 'images/pompe.png',
-                "damage": 20,
+                "damage": 25,
                 "attackSpeed": 3,
                 "ammunition": 10,
                 "width": 30,
@@ -184,10 +184,35 @@ class Game:
 
     def createWeapons(self):
 
-        weapon_random = random.choice(self.dict_weapons)
+        randomNb = random.randint(1, 100)
 
-        newWeapon = Weapons(weapon_random["id"], weapon_random["img"], weapon_random["damage"], weapon_random["attackSpeed"], weapon_random["ammunition"], weapon_random["width"], weapon_random["height"])
-        self.weapon_gun.append(newWeapon)
+        if randomNb <= 13:
+            weapon = self.dict_weapons[3]
+            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
+                                weapon["height"])
+            self.weapon_gun.append(newWeapon)
+
+        elif randomNb <= 36:
+            weapon = self.dict_weapons[2]
+            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
+                                weapon["height"])
+            self.weapon_gun.append(newWeapon)
+
+        elif randomNb <= 68:
+            weapon = self.dict_weapons[1]
+            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
+                                weapon["height"])
+            self.weapon_gun.append(newWeapon)
+
+        elif randomNb <= 100:
+            weapon = self.dict_weapons[0]
+            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
+                                weapon["height"])
+            self.weapon_gun.append(newWeapon)
 
     def playGame(self):
         self.changePlayer()
