@@ -20,6 +20,7 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.cooldown_dropweapon = 5
+        self.hpStart = 30
         self.dict_weapons = [
             {
                 "id": 1,
@@ -63,8 +64,8 @@ class Game:
         margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
 
         self.player1 = Player(
-            "Amael",
-            30,
+            "Player 1",
+            self.hpStart,
             "",
             margin,  # distance depuis la gauche
             self.info_screen.current_h / 2,
@@ -72,8 +73,8 @@ class Game:
         )
 
         self.player2 = Player(
-            "Hugo",
-            30,
+            "Player 2",
+            self.hpStart,
             "",
             self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
             self.info_screen.current_h / 2,
@@ -145,16 +146,19 @@ class Game:
                     self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
 
         if self.player1.playerIsDead():
-            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-
-        if self.player2.playerIsDead():
-            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-
-        if self.player1.playerIsDead():
             self.score_player2 += 1
 
         elif self.player2.playerIsDead():
             self.score_player1 += 1
+
+        if self.player1.playerIsDead():
+            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+            self.reloadPage()
+            pygame.time.wait(2000)
+        elif self.player2.playerIsDead():
+            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+            self.reloadPage()
+            pygame.time.wait(2000)
 
         if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
             self.createInstanse()
@@ -325,6 +329,11 @@ class Game:
                 bullet.draw(self.windowGame)
 
             self.windowGame.scores(self.font, self.score_player1, self.score_player2)
+
+            if self.player1.playerIsDead():
+                self.windowGame.win(self.player2)
+            elif self.player2.playerIsDead():
+                self.windowGame.win(self.player1)
 
         else:
             self.windowGame.stop()
