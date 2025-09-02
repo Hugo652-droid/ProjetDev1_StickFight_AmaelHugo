@@ -90,7 +90,7 @@ class Root:
 
     def scores(self, font, score1, score2):
         score_text = font.render(f"Scores:"
-                                 f"    Joueur 1: {score1}  -  Joueur 2: {score2}",True, (255, 255, 255))
+                                 f"    Joueur 1: {score1}  -  Joueur 2: {score2}",True, (0, 0, 0))
         self.screen.blit(score_text, (20, 20))
 
     ################################################################################################ Game

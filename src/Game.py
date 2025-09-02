@@ -27,7 +27,9 @@ class Game:
                 "img": 'images/img_wapon.png',
                 "damage": 10,
                 "attackSpeed": 1,
-                "ammunition": 6
+                "ammunition": 6,
+                "width": 30,
+                "height": 10
             },
             {
                 "id": 2,
@@ -35,7 +37,9 @@ class Game:
                 "img": 'images/fusildassaut.png',
                 "damage": 1,
                 "attackSpeed": 0.1,
-                "ammunition": 30
+                "ammunition": 30,
+                "width": 30,
+                "height": 10
             },
             {
                 "id": 3,
@@ -43,7 +47,9 @@ class Game:
                 "img": 'images/pompe.png',
                 "damage": 20,
                 "attackSpeed": 3,
-                "ammunition": 10
+                "ammunition": 10,
+                "width": 30,
+                "height": 70
             },
         ]
 
@@ -116,10 +122,10 @@ class Game:
             self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
         if self.player1.playerIsDead():
-            self.score_player1 += 1
+            self.score_player2 += 1
 
         elif self.player2.playerIsDead():
-            self.score_player2 += 1
+            self.score_player1 += 1
 
         if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
             self.createInstanse()
@@ -129,7 +135,7 @@ class Game:
 
         weapon_random = random.choice(self.dict_weapons)
 
-        newWeapon = Weapons(weapon_random["id"], weapon_random["img"], weapon_random["damage"], weapon_random["attackSpeed"], weapon_random["ammunition"])
+        newWeapon = Weapons(weapon_random["id"], weapon_random["img"], weapon_random["damage"], weapon_random["attackSpeed"], weapon_random["ammunition"], weapon_random["width"], weapon_random["height"])
         self.weapon_gun.append(newWeapon)
 
     def playGame(self):
@@ -247,7 +253,7 @@ class Game:
 
         self.reloadPage()
 
-        self.clock.tick(120)
+        self.clock.tick(200)
 
     def reloadPage(self):
         if not self.paused:
@@ -277,13 +283,14 @@ class Game:
                 bullet.shot()
                 bullet.draw(self.windowGame)
 
+            self.windowGame.scores(self.font, self.score_player1, self.score_player2)
+
         else:
             self.windowGame.stop()
 
-        self.windowGame.stopButton(self.paused)
+            self.windowGame.scores(self.font, self.score_player1, self.score_player2)
 
-        self.windowGame.scores(self.font, self.score_player1, self.score_player2)
-        pygame.display.flip()
+        self.windowGame.stopButton(self.paused)
 
         pygame.display.flip()
 
@@ -352,6 +359,3 @@ class Game:
             if weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
-
-
-

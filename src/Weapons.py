@@ -3,10 +3,12 @@ import random
 import time
 
 class Weapons():
-    def __init__(self,id, img,dammage, attackSpeed, ammunition):
+    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height):
         self.id = id
         self.attackSpeed = attackSpeed
         self.ammunition = ammunition
+        self.width = width
+        self.height = height
         self.cooldown = 1
         self.img_weapom = pygame.image.load(img)
         self.rect_weapon = self.img_weapom.get_rect()

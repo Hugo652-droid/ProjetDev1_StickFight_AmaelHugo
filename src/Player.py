@@ -73,7 +73,7 @@ class Player:
                 self.damage = self.weapon.dammage
                 self.cooldown_attack = self.weapon.attackSpeed
                 self.weapon.useAmmunition()
-                bullet = Bullet(self.rect.center, self.direct_player, self.name)
+                bullet = Bullet(self.rect.center, self.direct_player, self.name, self.weapon.width, self.weapon.height)
                 return bullet
 
     def noAmmunitionInWeapon(self):
