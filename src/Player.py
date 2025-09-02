@@ -12,10 +12,11 @@ class Player:
         self.img = pygame.image.load(image).convert_alpha()
         self.img = pygame.transform.scale(self.img, (200, 100))
         self.rect = self.img.get_rect()
-        self.last_time_used_jump = 0
+        self.last_time_used_vertical = 0
         self.last_time_used_attack = 0
         self.cooldown_jump = 1
         self.cooldown_attack = 1
+        self.cooldown_crouch = 1
         self.direct_player = "Left"
         self.attacking = False
         self.weapon = 0
@@ -36,9 +37,9 @@ class Player:
         self.img = pygame.image.load(image).convert_alpha()
 
     def goUp(self, current_time):
-        if current_time - self.last_time_used_jump > self.cooldown_jump:
+        if current_time - self.last_time_used_vertical > self.cooldown_jump:
             self.y -= 300
-            self.last_time_used_jump = current_time
+            self.last_time_used_vertical = current_time
 
     def goLeft(self):
         self.x -= 10
@@ -47,6 +48,11 @@ class Player:
     def goRight(self):
         self.x += 10
         self.direct_player = "Right"
+
+    def goDown(self, current_time):
+        if current_time - self.last_time_used_vertical > self.cooldown_crouch:
+            self.y += 150
+            self.last_time_used_vertical = current_time
 
     def dashLeft(self):
         self.x -= 150

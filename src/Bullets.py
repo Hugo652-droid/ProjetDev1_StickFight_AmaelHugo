@@ -24,6 +24,6 @@ class Bullet:
 
     def shot(self):
         if self.direction == 'Left':
-            self.x -= 10
+            self.x -= 20
         elif self.direction == 'Right':
-            self.x += 10
+            self.x += 20

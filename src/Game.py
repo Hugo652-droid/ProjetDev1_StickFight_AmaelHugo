@@ -214,7 +214,11 @@ class Game:
                     if self.player1.y != self.info_screen.current_h:
                         self.player1.y += 10
                 if keys[pygame.K_s]:
-                    self.player1.modifImage(self.image_player_crouch)
+                    if self.player1.rect.bottom > self.floors[0].rect.top:
+                        self.player1.modifImage(self.image_player_crouch)
+                    else:
+                        self.player1.modifImage(self.image_player_crouch)
+                        self.player1.goDown(time.time())
             else:
                 if self.player1.y != self.info_screen.current_h:
                     self.player1.y += 10
@@ -243,7 +247,12 @@ class Game:
                     self.player2.goRight()
                     self.player2.modifImage(self.image_player_right)
                 if keys[pygame.K_k]:
-                    self.player2.modifImage(self.image_player_crouch)
+                    if self.player2.rect.bottom > self.floors[0].rect.top:
+                        self.player2.modifImage(self.image_player_crouch)
+                    else:
+                        self.player2.modifImage(self.image_player_crouch)
+                        self.player2.goDown(time.time())
+
                 if keys[pygame.K_i]:
                     self.player2.goUp(time.time())
                     self.player2.y += 10
