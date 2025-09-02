@@ -69,7 +69,7 @@ class Root:
 
     def buttonRestart(self):
         # Définir la position et la taille du bouton
-        self.button_rect_restart = pygame.Rect(self.placer_ecran_button, 890, 400, 160)
+        self.button_rect_restart = pygame.Rect(self.placer_ecran_button, 600, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/restart.png')
