@@ -88,7 +88,12 @@ class Root:
 
         pygame.display.flip()
 
-################################################################################################ Game
+    def scores(self, font, score1, score2):
+        score_text = font.render(f"Scores:"
+                                 f"    Joueur 1: {score1}  -  Joueur 2: {score2}",True, (255, 255, 255))
+        self.screen.blit(score_text, (20, 20))
+
+    ################################################################################################ Game
 
     def stopButton(self, paused):
         self.button_rect_stop = pygame.Rect((self.largeur_ecran - 80), 10, 1000, 1000)
