@@ -25,6 +25,7 @@ class Game:
         self.lastdrop = time.time()
         self.cooldown_dropweapon = 5
         self.weapon_gun = []
+        self.restart = False
         self.dict_weapons = [
             {
                 "name": "gun",
@@ -74,6 +75,14 @@ class Game:
         if self.player2.playerIsDead():
             self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
+        if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
+
+            self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h / 2), "images/test_stick.png")
+            self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),"images/test_stick - Copie.png")
+
+            self.weapon_gun = []
+            self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2),(self.info_screen.current_h - 100))
+
     def createWeapons(self):
 
         weapon_random = random.choice(self.dict_weapons)
@@ -95,10 +104,14 @@ class Game:
                 if self.windowGame.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
 
+                elif self.windowGame.button_rect_restart.collidepoint(event.pos):
+                    self.restart = True
+
                 elif self.windowGame.button_rect_quit.collidepoint(event.pos):
                     self.windowGame.closeRoot(pygame)
                     self.runningGame = False
                     return
+
 
         if not self.paused:
             keys = pygame.key.get_pressed()

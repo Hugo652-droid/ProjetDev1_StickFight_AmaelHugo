@@ -67,6 +67,15 @@ class Root:
         img_text = pygame.transform.scale(img_text, (400, 160))
         self.screen.blit(img_text, (self.button_rect_quit.x, self.button_rect_quit.y))
 
+    def buttonRestart(self):
+        # Définir la position et la taille du bouton
+        self.button_rect_restart = pygame.Rect(self.placer_ecran_button, 890, 400, 160)
+
+        # Ajouter du texte sur le bouton
+        img_text = pygame.image.load('images/restart.png')
+        img_text = pygame.transform.scale(img_text, (400, 160))
+        self.screen.blit(img_text, (self.button_rect_restart.x, self.button_rect_restart.y))
+
     def title(self,img):
         self.button_rect_title = pygame.Rect(((self.largeur_ecran - 1200) / 2), 100, 1000, 1000)
 
@@ -101,5 +110,7 @@ class Root:
         self.changeBg('images/img_bg_game - Copie.png')
 
         self.buttonQuit()
+
+        self.buttonRestart()
 
         self.title('images/title_paused.png')
