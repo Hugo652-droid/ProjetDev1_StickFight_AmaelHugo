@@ -1,5 +1,4 @@
 import pygame
-from pygame.draw_py import draw_line
 
 from src.Bullets import Bullet
 

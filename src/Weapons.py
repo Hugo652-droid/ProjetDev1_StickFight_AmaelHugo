@@ -3,7 +3,8 @@ import random
 import time
 
 class Weapons():
-    def __init__(self,img,dammage, attackSpeed, ammunition):
+    def __init__(self,id, img,dammage, attackSpeed, ammunition):
+        self.id = id
         self.attackSpeed = attackSpeed
         self.ammunition = ammunition
         self.cooldown = 1

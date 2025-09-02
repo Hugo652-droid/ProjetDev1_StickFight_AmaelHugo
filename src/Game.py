@@ -22,13 +22,15 @@ class Game:
         self.cooldown_dropweapon = 5
         self.dict_weapons = [
             {
+                "id": 1,
                 "name": "gun",
                 "img": 'images/img_wapon.png',
                 "damage": 10,
-                "attackSpeed": 2,
+                "attackSpeed": 1,
                 "ammunition": 6
             },
             {
+                "id": 2,
                 "name": "fusil d'assaut",
                 "img": 'images/fusildassaut.png',
                 "damage": 1,
@@ -36,10 +38,11 @@ class Game:
                 "ammunition": 30
             },
             {
+                "id": 3,
                 "name": "fusil a pome",
                 "img": 'images/pompe.png',
                 "damage": 20,
-                "attackSpeed": 5,
+                "attackSpeed": 3,
                 "ammunition": 10
             },
         ]
@@ -66,19 +69,40 @@ class Game:
     def changePlayer(self):
         if self.player1.weapon:
             if self.player1.direct_player == "Left":
-                self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+                if self.player1.weapon.id == 1:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+                elif self.player1.weapon.id == 2:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
+                elif self.player1.weapon.id == 3:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
 
         if self.player2.weapon:
             if self.player2.direct_player == "Left":
-                self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+                if self.player2.weapon.id == 1:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+                elif self.player2.weapon.id == 2:
+                    self.player2.img = pygame.image.load(
+                        'images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
+                elif self.player2.weapon.id == 3:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
 
         if self.player1.weapon:
             if self.player1.direct_player == "Right":
-                self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+                if self.player1.weapon.id == 1:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+                elif self.player1.weapon.id == 2:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
+                elif self.player1.weapon.id == 3:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
 
         if self.player2.weapon:
             if self.player2.direct_player == "Right":
-                self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+                if self.player2.weapon.id == 1:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+                elif self.player2.weapon.id == 2:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
+                elif self.player2.weapon.id == 3:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
 
         if self.player1.playerIsDead():
             self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
@@ -94,7 +118,7 @@ class Game:
 
         weapon_random = random.choice(self.dict_weapons)
 
-        newWeapon = Weapons(weapon_random["img"], weapon_random["damage"], weapon_random["attackSpeed"], weapon_random["ammunition"])
+        newWeapon = Weapons(weapon_random["id"], weapon_random["img"], weapon_random["damage"], weapon_random["attackSpeed"], weapon_random["ammunition"])
         self.weapon_gun.append(newWeapon)
 
     def playGame(self):
