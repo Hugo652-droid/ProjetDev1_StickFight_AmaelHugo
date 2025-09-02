@@ -1,4 +1,3 @@
-from src.Bullets import Bullet
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
@@ -106,7 +105,7 @@ class Game:
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
                 pygame.time.wait(175)
-            if not self.player2.playerIsDead():
+            if not self.player1.playerIsDead():
                 if keys[pygame.K_e]:
                     if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon == 0:
                         self.player1.last_time_used_attack = time.time()
@@ -133,8 +132,8 @@ class Game:
                 else:
                     if self.player1.y != self.info_screen.current_h:
                         self.player1.y += 10
-                if keys[pygame.K_k]:
-                    self.player2.modifImage(self.image_player_crouch)
+                if keys[pygame.K_s]:
+                    self.player1.modifImage(self.image_player_crouch)
 
             if not self.player2.playerIsDead():
 
@@ -167,13 +166,13 @@ class Game:
                     if self.player2.y != self.info_screen.current_h:
                         self.player2.y += 10
 
-                if time.time() - self.lastdrop > self.cooldown_dropweapon:
-                    self.lastdrop = time.time()
-                    self.createWeapons()
+            if time.time() - self.lastdrop > self.cooldown_dropweapon:
+                self.lastdrop = time.time()
+                self.createWeapons()
 
-                for weapon in self.weapon_gun:
-                    if weapon.rect_weapon.y != self.info_screen.current_h:
-                        weapon.rect_weapon.y += 10
+            for weapon in self.weapon_gun:
+                if weapon.rect_weapon.y != self.info_screen.current_h:
+                    weapon.rect_weapon.y += 10
 
             self.collision()
 
