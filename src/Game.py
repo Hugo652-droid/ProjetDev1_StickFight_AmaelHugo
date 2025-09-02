@@ -5,6 +5,7 @@ from src.Map import Map
 from src.Weapons import Weapons
 import time
 import pygame
+import random
 
 class Game:
     def __init__(self):
@@ -22,8 +23,26 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.lastdrop = time.time()
-        self.cooldown_dropweapon = 20
+        self.cooldown_dropweapon = 1
         self.weapon_gun = []
+        self.bullet = Bullet(self.windowGame)
+        self.dict_weapons = [
+            {
+                "name": "gun",
+                "img": 'images/img_wapon.png',
+                "damage": 20
+            },
+            {
+                "name": "fusil d'assaut",
+                "img": 'images/fusildassaut.png',
+                "damage": 10
+            },
+            {
+                "name": "fusil a pome",
+                "img": 'images/pompe.png',
+                "damage": 5
+            },
+        ]
         self.bullets = []
         self.launchGame()
 
@@ -55,9 +74,11 @@ class Game:
         pygame.quit()
 
     def createWeapons(self):
-        newWeapon = Weapons('images/img_wapon.png', 10)
+
+        weapon_random = random.choice(self.dict_weapons)
+
+        newWeapon = Weapons(weapon_random["img"], 10)
         self.weapon_gun.append(newWeapon)
-        print(self.weapon_gun)
 
     def playGame(self):
         for event in pygame.event.get():
@@ -71,7 +92,7 @@ class Game:
                 if self.windowGame.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
 
-                elif self.windowGame.button_rect_stop.collidepoint(event.pos):
+                elif self.windowGame.button_rect_quit.collidepoint(event.pos):
                     self.windowGame.closeRoot(pygame)
                     self.runningGame = False
                     return
