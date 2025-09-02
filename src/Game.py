@@ -38,10 +38,20 @@ class Game:
                 self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
             if self.player1.weapon:
-                self.player1.img = pygame.image.load('images/stickman_test_armé.png').convert_alpha()
+                if self.player1.direct_player == "Left":
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
 
             if self.player2.weapon:
-                self.player2.img = pygame.image.load('images/stickman_test_armé.png').convert_alpha()
+                if self.player2.direct_player == "Left":
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+
+            if self.player1.weapon:
+                if self.player1.direct_player == "Right":
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+
+            if self.player2.weapon:
+                if self.player2.direct_player == "Right":
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
 
         pygame.quit()
 
@@ -62,7 +72,7 @@ class Game:
                 if self.windowGame.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
 
-                elif self.windowGame.button_rect_quit.collidepoint(event.pos):
+                elif self.windowGame.button_rect_stop.collidepoint(event.pos):
                     self.windowGame.closeRoot(pygame)
                     self.runningGame = False
                     return
