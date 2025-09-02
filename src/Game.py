@@ -23,9 +23,8 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.lastdrop = time.time()
-        self.cooldown_dropweapon = 1
+        self.cooldown_dropweapon = 5
         self.weapon_gun = []
-        self.bullet = Bullet(self.windowGame)
         self.dict_weapons = [
             {
                 "name": "gun",
