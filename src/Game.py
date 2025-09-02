@@ -5,6 +5,7 @@ from src.Map import Map
 from src.Weapons import Weapons
 import time
 import pygame
+import random
 
 class Game:
     def __init__(self):
@@ -14,7 +15,6 @@ class Game:
         self.clock = pygame.time.Clock()
         self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h/2), "images/test_stick.png")
         self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
-        self.weapon_gun = Weapons('images/img_wapon.png')
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
@@ -23,9 +23,26 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.lastdrop = time.time()
-        self.cooldown_dropweapon = 20
+        self.cooldown_dropweapon = 1
         self.weapon_gun = []
         self.bullet = Bullet(self.windowGame)
+        self.dict_weapons = [
+            {
+                "name": "gun",
+                "img": 'images/img_wapon.png',
+                "damage": 20
+            },
+            {
+                "name": "fusil d'assaut",
+                "img": 'images/fusildassaut.png',
+                "damage": 10
+            },
+            {
+                "name": "fusil a pome",
+                "img": 'images/pompe.png',
+                "damage": 5
+            },
+        ]
         self.launchGame()
 
     def launchGame(self):
@@ -56,9 +73,12 @@ class Game:
         pygame.quit()
 
     def createWeapons(self):
-        newWeapon = Weapons('images/img_wapon.png')
+
+        weapon_random = random.choice(self.dict_weapons)
+
+        newWeapon = Weapons(weapon_random["img"])
         self.weapon_gun.append(newWeapon)
-        print(self.weapon_gun)
+
 
     def playGame(self):
         for event in pygame.event.get():
@@ -72,7 +92,7 @@ class Game:
                 if self.windowGame.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
 
-                elif self.windowGame.button_rect_stop.collidepoint(event.pos):
+                elif self.windowGame.button_rect_quit.collidepoint(event.pos):
                     self.windowGame.closeRoot(pygame)
                     self.runningGame = False
                     return
