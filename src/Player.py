@@ -61,7 +61,7 @@ class Player:
                 player_damaged.tackDammage(10)
                 return False
         else :
-            bullet = Bullet(self.x, self.y)
+            bullet = Bullet(self.x, self.y, self.direct_player)
             return bullet
 
 

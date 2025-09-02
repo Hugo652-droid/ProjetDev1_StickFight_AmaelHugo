@@ -25,7 +25,6 @@ class Game:
         self.lastdrop = time.time()
         self.cooldown_dropweapon = 1
         self.weapon_gun = []
-        self.bullet = Bullet(self.windowGame)
         self.dict_weapons = [
             {
                 "name": "gun",
@@ -198,7 +197,10 @@ class Game:
                     self.player2.attacking = False
 
             for bullet in self.bullets:
+                bullet.shot()
                 bullet.draw(self.windowGame)
+                if not bullet.rect.colliderect(self.windowGame.rect):
+                    self.bullets.remove(bullet)
 
         else:
             self.windowGame.stop()
