@@ -93,6 +93,12 @@ class Root:
                                  f"    Joueur 1: {score1}  -  Joueur 2: {score2}",True, (0, 0, 0))
         self.screen.blit(score_text, (20, 20))
 
+    def win(self, playerWin):
+        font = pygame.font.SysFont('Arial', 200)
+        win_text = font.render(f"VAINQUEUR:"
+                                 f" {playerWin.name}", True, (0, 0, 0))
+        self.screen.blit(win_text, (0, self.hauteur_ecran / 2))
+
     ################################################################################################ Game
 
     def stopButton(self, paused):
