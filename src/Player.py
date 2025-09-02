@@ -11,6 +11,7 @@ class Player:
         self.x = x
         self.y = y
         self.img = pygame.image.load(image).convert_alpha()
+        self.img = pygame.transform.scale(self.img, (200, 100))
         self.rect = self.img.get_rect()
         self.last_time_used_jump = 0
         self.last_time_used_attack = 0
@@ -19,13 +20,18 @@ class Player:
         self.direct_player = None
         self.attacking = False
         self.weapon = 0
+        self.damage = 10
 
     def draw(self, screen, font):
+        self.img = pygame.transform.scale(self.img, (200, 100))
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
         self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
         screen.blit(self.img, self.rect)
-        screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
+        if self.weapon == 0:
+            screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
+        else :
+            screen.blit(font.render(f'HP : {self.hp} Ammo : {self.weapon.ammunition}', True, (0, 0, 0)), (self.x - 25, self.y - 150))
 
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
@@ -59,12 +65,21 @@ class Player:
 
     def simple_attack(self, player_damaged):
         if self.weapon == 0:
+            self.cooldown_attack = 1
             if self.rect.colliderect(player_damaged.rect):
-                player_damaged.tackDammage(10)
+                player_damaged.tackDammage(self.damage)
                 return False
         else :
-            bullet = Bullet(self.rect.center, self.direct_player, self.name)
-            return bullet
+            if not self.weapon.noAmmunition():
+                self.damage = self.weapon.dammage
+                self.cooldown_attack = self.weapon.attackSpeed
+                self.weapon.useAmmunition()
+                bullet = Bullet(self.rect.center, self.direct_player, self.name)
+                return bullet
 
+    def noAmmunitionInWeapon(self):
+        if self.weapon.noAmmunition():
+            self.weapon = 0
+            self.cooldown_attack = 1
 
 

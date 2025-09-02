@@ -12,8 +12,8 @@ class Game:
         self.windowGame = Root(pygame)
         self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
-        self.player1 = Player("Amael", 100, "", 300, (self.info_screen.current_h/2), "images/test_stick.png")
-        self.player2 = Player("Hugo", 100, "", (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
+        self.player1 = Player("Amael", 250, "", 300, (self.info_screen.current_h/2), "images/test_stick.png")
+        self.player2 = Player("Hugo", 250, "", (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
@@ -30,17 +30,23 @@ class Game:
             {
                 "name": "gun",
                 "img": 'images/img_wapon.png',
-                "damage": 20
+                "damage": 10,
+                "attackSpeed": 2,
+                "ammunition": 6
             },
             {
                 "name": "fusil d'assaut",
                 "img": 'images/fusildassaut.png',
-                "damage": 10
+                "damage": 1,
+                "attackSpeed": 0.1,
+                "ammunition": 30
             },
             {
                 "name": "fusil a pome",
                 "img": 'images/pompe.png',
-                "damage": 5
+                "damage": 20,
+                "attackSpeed": 5,
+                "ammunition": 10
             },
         ]
         self.bullets = []
@@ -87,7 +93,7 @@ class Game:
 
         weapon_random = random.choice(self.dict_weapons)
 
-        newWeapon = Weapons(weapon_random["img"], weapon_random["damage"])
+        newWeapon = Weapons(weapon_random["img"], weapon_random["damage"], weapon_random["attackSpeed"], weapon_random["ammunition"])
         self.weapon_gun.append(newWeapon)
 
     def playGame(self):
@@ -128,6 +134,7 @@ class Game:
                             self.player1.dashRight()
                         self.player1.attacking = True
                     elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
+                        self.player1.noAmmunitionInWeapon()
                         self.player1.last_time_used_attack = time.time()
                         self.player1.attacking = True
                     else :
@@ -147,6 +154,9 @@ class Game:
                         self.player1.y += 10
                 if keys[pygame.K_s]:
                     self.player1.modifImage(self.image_player_crouch)
+            else:
+                if self.player1.y != self.info_screen.current_h:
+                    self.player1.y += 10
 
             if not self.player2.playerIsDead():
 
@@ -159,6 +169,7 @@ class Game:
                             self.player2.dashRight()
                         self.player2.attacking = True
                     elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
+                        self.player2.noAmmunitionInWeapon()
                         self.player2.last_time_used_attack = time.time()
                         self.player2.attacking = True
                     else:
@@ -178,6 +189,9 @@ class Game:
                 else :
                     if self.player2.y != self.info_screen.current_h:
                         self.player2.y += 10
+            else:
+                if self.player2.y != self.info_screen.current_h:
+                    self.player2.y += 10
 
             if time.time() - self.lastdrop > self.cooldown_dropweapon:
                 self.lastdrop = time.time()
@@ -275,18 +289,21 @@ class Game:
                 if bullet.playerAttackName == self.player1.name:
                     pass
                 else:
-                    self.player1.tackDammage(self.player2.weapon.dammage)
+                    self.player1.tackDammage(self.player2.damage)
                     self.bullets.remove(bullet)
+
 
             if bullet.rect.colliderect(self.player2.rect):
                 if bullet.playerAttackName == self.player2.name:
                     pass
                 else:
-                    self.player2.tackDammage(self.player1.weapon.dammage)
+                    self.player2.tackDammage(self.player1.damage)
                     self.bullets.remove(bullet)
+
 
             if not bullet.rect.colliderect(self.windowGame.rect):
                 self.bullets.remove(bullet)
+
 
         for weapon in self.weapon_gun:
             if weapon.rect_weapon.colliderect(self.player1.rect):
