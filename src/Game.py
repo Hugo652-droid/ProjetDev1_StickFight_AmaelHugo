@@ -1,4 +1,3 @@
-from src.Bullets import Bullet
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
@@ -52,12 +51,6 @@ class Game:
         pygame.quit()
 
     def changePlayer(self):
-        if self.player1.playerIsDead():
-            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-
-        if self.player2.playerIsDead():
-            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-
         if self.player1.weapon:
             if self.player1.direct_player == "Left":
                 self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
@@ -73,6 +66,12 @@ class Game:
         if self.player2.weapon:
             if self.player2.direct_player == "Right":
                 self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+
+        if self.player1.playerIsDead():
+            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+
+        if self.player2.playerIsDead():
+            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
     def createWeapons(self):
 
@@ -105,64 +104,70 @@ class Game:
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
                 pygame.time.wait(175)
-            if keys[pygame.K_e]:
-                if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon == 0:
-                    self.player1.last_time_used_attack = time.time()
-                    if self.player1.direct_player == "Left":
-                        self.player1.dashLeft()
-                    elif self.player1.direct_player == "Right":
-                        self.player1.dashRight()
-                    self.player1.attacking = True
-                elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
-                    self.player1.attacking = True
-                else :
-                    self.player1.attacking = False
+            if not self.player2.playerIsDead():
+                if keys[pygame.K_e]:
+                    if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon == 0:
+                        self.player1.last_time_used_attack = time.time()
+                        if self.player1.direct_player == "Left":
+                            self.player1.dashLeft()
+                        elif self.player1.direct_player == "Right":
+                            self.player1.dashRight()
+                        self.player1.attacking = True
+                    elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
+                        self.player1.last_time_used_attack = time.time()
+                        self.player1.attacking = True
+                    else :
+                        self.player1.attacking = False
 
-            if keys[pygame.K_o]:
-                if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack and self.player2.weapon == 0:
-                    self.player2.last_time_used_attack = time.time()
-                    if self.player2.direct_player == "Left":
-                        self.player2.dashLeft()
-                    elif self.player2.direct_player == "Right":
-                        self.player2.dashRight()
-                    self.player2.attacking = True
-                elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
-                    self.player2.attacking = True
-                else:
-                    self.player2.attacking = False
-
-            if keys[pygame.K_a]:
-                self.player1.goLeft()
-                self.player1.modifImage(self.image_player_left)
-            if keys[pygame.K_d]:
-                self.player1.goRight()
-                self.player1.modifImage(self.image_player_right)
-            if keys[pygame.K_w]:
-                self.player1.goUp(time.time())
-                self.player1.y += 10
-            else:
-                if self.player1.y != self.info_screen.current_h:
+                if keys[pygame.K_a]:
+                    self.player1.goLeft()
+                    self.player1.modifImage(self.image_player_left)
+                if keys[pygame.K_d]:
+                    self.player1.goRight()
+                    self.player1.modifImage(self.image_player_right)
+                if keys[pygame.K_w]:
+                    self.player1.goUp(time.time())
                     self.player1.y += 10
-            if keys[pygame.K_j]:
-                self.player2.goLeft()
-                self.player2.modifImage(self.image_player_left)
-            if keys[pygame.K_l]:
-                self.player2.goRight()
-                self.player2.modifImage(self.image_player_right)
-            if keys[pygame.K_i]:
-                self.player2.goUp(time.time())
-                self.player2.y += 10
-            else :
-                if self.player2.y != self.info_screen.current_h:
+                else:
+                    if self.player1.y != self.info_screen.current_h:
+                        self.player1.y += 10
+
+            if not self.player2.playerIsDead():
+
+                if keys[pygame.K_o]:
+                    if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack and self.player2.weapon == 0:
+                        self.player2.last_time_used_attack = time.time()
+                        if self.player2.direct_player == "Left":
+                            self.player2.dashLeft()
+                        elif self.player2.direct_player == "Right":
+                            self.player2.dashRight()
+                        self.player2.attacking = True
+                    elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
+                        self.player2.last_time_used_attack = time.time()
+                        self.player2.attacking = True
+                    else:
+                        self.player2.attacking = False
+
+                if keys[pygame.K_j]:
+                    self.player2.goLeft()
+                    self.player2.modifImage(self.image_player_left)
+                if keys[pygame.K_l]:
+                    self.player2.goRight()
+                    self.player2.modifImage(self.image_player_right)
+                if keys[pygame.K_i]:
+                    self.player2.goUp(time.time())
                     self.player2.y += 10
+                else :
+                    if self.player2.y != self.info_screen.current_h:
+                        self.player2.y += 10
 
-            if time.time() - self.lastdrop > self.cooldown_dropweapon:
-                self.lastdrop = time.time()
-                self.createWeapons()
+                if time.time() - self.lastdrop > self.cooldown_dropweapon:
+                    self.lastdrop = time.time()
+                    self.createWeapons()
 
-            for weapon in self.weapon_gun:
-                if weapon.rect_weapon.y != self.info_screen.current_h:
-                    weapon.rect_weapon.y += 10
+                for weapon in self.weapon_gun:
+                    if weapon.rect_weapon.y != self.info_screen.current_h:
+                        weapon.rect_weapon.y += 10
 
             self.collision()
 
