@@ -12,26 +12,27 @@ Python et pygame
 
 ## Architecture du projet
 
+```
 ProjetDev1_StickFight_AmaelHugo 
 │   .gitignore                           
 │   README.md 
 │   
 ├───Conception
-│       .$UML_class.drawio.bkp
-│       jsLibraryMappings.xml
-│       modules.xml
-│       untitled.iml
-│       vcs.xml
-│       workspace.xml
+│       StickFight.mmap                         // Mindmap de la conception dans mindmanager
+│       StickFight.png
+│       UML_class.drawio                        // Diagram UML des classe sur draw.io
+│       UML_class.drawio.png
+│
+├───src                         
+│       Bullet.py                               // Creation et gestion des balles
+│       Game.py                                 // Creation et gestion des parties et du jeu
+│       Main.py                                 // Lancement de l'application et affichage de la page d'accueil
+│       Map.py                                  // Creation et gestion des platforms physique
+│       Player.py                               // Creation et gestion des personnages jouable
+│       Root.py                                 // Creation et gestion des fenêtres de l'application
+│       Weapons.py                              // Creation et gestion des armes
 │       
-├───controllers                         
-│       users.js                        
-│       
-├───docs                                
-│       IDESetup.md
-│       ProjectSetup.md
-│       
-├───middleware                          
-│       errorHandler.js
-└───routes                             
-        users.js                       
+└───────images
+         # Toutes les images utiliser dans le projet 
+```                
+
