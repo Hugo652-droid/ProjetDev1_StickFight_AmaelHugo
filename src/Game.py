@@ -60,6 +60,7 @@ class Game:
         self.player2 = Player("Hugo", 30, "", (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),
                               "images/test_stick - Copie.png")
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100))
+
         self.weapon_gun = []
         self.lastdrop = time.time()
         self.bullets = []
@@ -349,7 +350,7 @@ class Game:
                 self.player1.weapon = weapon
                 self.weapon_gun.remove(weapon)
 
-            if weapon.rect_weapon.colliderect(self.player2.rect):
+            elif weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
 
