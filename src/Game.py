@@ -346,18 +346,42 @@ class Game:
         for floor in self.floors:
 
             if self.player1.rect.colliderect(floor.rect):
+                dx = min(self.player1.rect.right - floor.rect.left,
+                         floor.rect.right - self.player1.rect.left)
+                dy = min(self.player1.rect.bottom - floor.rect.top,
+                         floor.rect.bottom - self.player1.rect.top)
 
-                if self.player1.rect.bottom > floor.rect.top:
-                    self.player1.y -= 10
+                if dx < dy:
 
-                elif self.player1.rect.right > floor.rect.left:
-                    self.player1.x += 10
+                    if self.player1.rect.centerx < floor.rect.centerx:
+                        self.player1.x -= dx
+                    else:
+                        self.player1.x += dx
+                else:
 
-                elif self.player1.rect.left > floor.rect.right:
-                    self.player1.x -= 10
+                    if self.player1.rect.centery < floor.rect.centery:
+                        self.player1.y -= dy
+                    else:
+                        self.player1.y += dy
 
             if self.player2.rect.colliderect(floor.rect):
-                self.player2.y -= 10
+                dx = min(self.player2.rect.right - floor.rect.left,
+                         floor.rect.right - self.player2.rect.left)
+                dy = min(self.player2.rect.bottom - floor.rect.top,
+                         floor.rect.bottom - self.player2.rect.top)
+
+                if dx < dy:
+
+                    if self.player2.rect.centerx < floor.rect.centerx:
+                        self.player2.x -= dx
+                    else:
+                        self.player2.x += dx
+                else:
+
+                    if self.player2.rect.centery < floor.rect.centery:
+                        self.player2.y -= dy
+                    else:
+                        self.player2.y += dy
 
 
             for weapon in self.weapon_gun:
