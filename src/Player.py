@@ -3,10 +3,9 @@ import pygame
 from src.Bullet import Bullet
 
 class Player:
-    def __init__(self, name, hp, weapon_id, x, y, image):
+    def __init__(self, name, hp, x, y, image):
         self.name = name
         self.hp = hp
-        self.weapon_id = weapon_id
         self.x = x
         self.y = y
         self.info_screen = pygame.display.Info()

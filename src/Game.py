@@ -76,7 +76,6 @@ class Game:
         self.player1 = Player(
             "Player 1",
             self.hpStart,
-            "",
             margin,  # distance depuis la gauche
             self.info_screen.current_h / 2,
             "images/test_stick.png"
@@ -85,7 +84,6 @@ class Game:
         self.player2 = Player(
             "Player 2",
             self.hpStart,
-            "",
             self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
             self.info_screen.current_h / 2,
             "images/test_stick - Copie.png"
