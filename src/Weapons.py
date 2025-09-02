@@ -1,19 +1,48 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Weapons.py
+Description fichier : Creation et gestion des armes
+--
+"""
+
 import pygame
+import random
 
 class Weapons():
-    def __init__(self):
+    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, floors, screen):
+        self.id = id
+        self.attackSpeed = attackSpeed
+        self.ammunition = ammunition
+        self.width = width
+        self.height = height
         self.cooldown = 1
-        self.lastused = 0
+        self.img_weapom = pygame.image.load(img)
+        self.rect_weapon = self.img_weapom.get_rect()
+        self.img_weapom = pygame.transform.scale(self.img_weapom, (80, 30))
+        self.rect_weapon = self.img_weapom.get_rect()
+        self.info = pygame.display.Info()
+        self.dammage = dammage
+        self.screen = screen
+        self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
+        self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
 
-    def simple_attack(self, player_attack, player_damaged, current_time):
-         if current_time - self.lastused > self.cooldown:
-            self.lastused = current_time
-            if player_attack.direct_player == "Left":
-                player_attack.dashLeft()
-                if player_attack.rect.colliderect(player_damaged.rect):
-                    player_damaged.tackDammage(10)
+    def draw(self):
+        self.screen.blit(self.img_weapom, self.rect_weapon)
 
-            elif player_attack.direct_player == "Right":
-                player_attack.dashRight()
-                if player_attack.rect.colliderect(player_damaged.rect):
-                    player_damaged.tackDammage(10)
+    def useAmmunition(self):
+        self.ammunition -= 1
+
+    def noAmmunition(self):
+        return self.ammunition <= 0
+
+
+
+
+
+
+

@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Root.py
+Description fichier : Creation et gestion des fenêtres de l'application
+--
+"""
+
 import pygame
 
 class Root:
@@ -17,6 +29,7 @@ class Root:
 
         taille_fenetre = (self.largeur_ecran, self.hauteur_ecran)
         self.screen = pygame.display.set_mode(taille_fenetre)
+        self.rect = self.screen.get_rect()
 
         # Nom de la fenêtre
         pygame.display.set_caption("SticK.Onion")
@@ -35,7 +48,9 @@ class Root:
 
         self.screen.blit(background, (0,0))
 
+        icon_image = pygame.image.load('images/stickman_test.png')
 
+        pygame.display.set_icon(icon_image)
 
     def changeColor(self, color):
         self.screen.fill(color)
@@ -62,6 +77,15 @@ class Root:
         img_text = pygame.transform.scale(img_text, (400, 160))
         self.screen.blit(img_text, (self.button_rect_quit.x, self.button_rect_quit.y))
 
+    def buttonRestart(self):
+        # Définir la position et la taille du bouton
+        self.button_rect_restart = pygame.Rect(self.placer_ecran_button, 600, 400, 160)
+
+        # Ajouter du texte sur le bouton
+        img_text = pygame.image.load('images/restart.png')
+        img_text = pygame.transform.scale(img_text, (400, 160))
+        self.screen.blit(img_text, (self.button_rect_restart.x, self.button_rect_restart.y))
+
     def title(self,img):
         self.button_rect_title = pygame.Rect(((self.largeur_ecran - 1200) / 2), 100, 1000, 1000)
 
@@ -74,7 +98,18 @@ class Root:
 
         pygame.display.flip()
 
-################################################################################################ Game
+    def scores(self, font, score1, score2):
+        score_text = font.render(f"Scores:"
+                                 f"    Joueur 1: {score1}  -  Joueur 2: {score2}",True, (0, 0, 0))
+        self.screen.blit(score_text, (20, 20))
+
+    def win(self, playerWin):
+        font = pygame.font.SysFont('Arial', 200)
+        win_text = font.render(f"VAINQUEUR:"
+                                 f" {playerWin.name}", True, (0, 0, 0))
+        self.screen.blit(win_text, (0, self.hauteur_ecran / 2))
+
+    ################################################################################################ Game
 
     def stopButton(self, paused):
         self.button_rect_stop = pygame.Rect((self.largeur_ecran - 80), 10, 1000, 1000)
@@ -96,5 +131,7 @@ class Root:
         self.changeBg('images/img_bg_game - Copie.png')
 
         self.buttonQuit()
+
+        self.buttonRestart()
 
         self.title('images/title_paused.png')
