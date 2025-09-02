@@ -47,6 +47,11 @@ class Game:
             },
         ]
 
+
+        self.score_player1 = 0
+        self.score_player2 = 0
+
+
         self.createInstanse()
         self.launchGame()
 
@@ -109,6 +114,12 @@ class Game:
 
         if self.player2.playerIsDead():
             self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+
+        if self.player1.playerIsDead():
+            self.score_player1 += 1
+
+        elif self.player2.playerIsDead():
+            self.score_player2 += 1
 
         if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
             self.createInstanse()
@@ -270,6 +281,9 @@ class Game:
             self.windowGame.stop()
 
         self.windowGame.stopButton(self.paused)
+
+        self.windowGame.scores(self.font, self.score_player1, self.score_player2)
+        pygame.display.flip()
 
         pygame.display.flip()
 
