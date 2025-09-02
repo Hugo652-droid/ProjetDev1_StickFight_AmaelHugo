@@ -3,7 +3,9 @@ import random
 import time
 
 class Weapons():
-    def __init__(self,img,dammage):
+    def __init__(self,img,dammage, attackSpeed, ammunition):
+        self.attackSpeed = attackSpeed
+        self.ammunition = ammunition
         self.cooldown = 1
         self.img_weapom = pygame.image.load(img)
         self.rect_weapon = self.img_weapom.get_rect()
@@ -16,6 +18,12 @@ class Weapons():
 
     def draw(self, screen):
             screen.blit(self.img_weapom, self.rect_weapon)
+
+    def useAmmunition(self):
+        self.ammunition -= 1
+
+    def noAmmunition(self):
+        return self.ammunition <= 0
 
 
 
