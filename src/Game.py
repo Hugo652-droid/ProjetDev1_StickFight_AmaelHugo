@@ -80,10 +80,20 @@ class Game:
             "images/test_stick - Copie.png"
         )
 
-        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100), (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
-        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450), (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
+        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
-        self.floors = [self.floor, self.floor2]
+        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450),
+                          (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
+
+        self.floor3 = Map(self.windowGame, pygame, (self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+                          self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
+
+        self.floor4 = Map(self.windowGame, pygame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+                          self.info_screen.current_w - self.info_screen.current_w / 1.7,
+                          (self.info_screen.current_h / 20))
+
+        self.floors = [self.floor, self.floor2, self.floor3, self.floor4]
 
         self.weapon_gun = []
         self.lastdrop = time.time()
@@ -291,8 +301,10 @@ class Game:
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
 
-            self.floor.draw(self.windowGame.screen)
-            self.floor2.draw(self.windowGame.screen)
+            for floor in self.floors:
+
+                floor.draw(self.windowGame.screen)
+
             if self.player1.attacking :
                 bullet = self.player1.simple_attack(self.player2)
                 if not bullet:
@@ -343,18 +355,42 @@ class Game:
         for floor in self.floors:
 
             if self.player1.rect.colliderect(floor.rect):
+                dx = min(self.player1.rect.right - floor.rect.left,
+                         floor.rect.right - self.player1.rect.left)
+                dy = min(self.player1.rect.bottom - floor.rect.top,
+                         floor.rect.bottom - self.player1.rect.top)
 
-                if self.player1.rect.bottom > floor.rect.top:
-                    self.player1.y -= 10
+                if dx < dy:
 
-                elif self.player1.rect.right > floor.rect.left:
-                    self.player1.x += 10
+                    if self.player1.rect.centerx < floor.rect.centerx:
+                        self.player1.x -= dx
+                    else:
+                        self.player1.x += dx
+                else:
 
-                elif self.player1.rect.left > floor.rect.right:
-                    self.player1.x -= 10
+                    if self.player1.rect.centery < floor.rect.centery:
+                        self.player1.y -= dy
+                    else:
+                        self.player1.y += dy
 
             if self.player2.rect.colliderect(floor.rect):
-                self.player2.y -= 10
+                dx = min(self.player2.rect.right - floor.rect.left,
+                         floor.rect.right - self.player2.rect.left)
+                dy = min(self.player2.rect.bottom - floor.rect.top,
+                         floor.rect.bottom - self.player2.rect.top)
+
+                if dx < dy:
+
+                    if self.player2.rect.centerx < floor.rect.centerx:
+                        self.player2.x -= dx
+                    else:
+                        self.player2.x += dx
+                else:
+
+                    if self.player2.rect.centery < floor.rect.centery:
+                        self.player2.y -= dy
+                    else:
+                        self.player2.y += dy
 
 
             for weapon in self.weapon_gun:
