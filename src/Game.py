@@ -54,15 +54,14 @@ class Game:
             },
             {
                 "id": 4,
-                "name": "fusil de sniper",
+                "name": "fusil sniper",
                 "img": 'images/fusilsniper.png',
                 "damage": 100,
-                "attackSpeed": 1,
+                "attackSpeed": 3,
                 "ammunition": 1,
                 "width": 30,
                 "height": 5
             },
-
         ]
 
         self.score_player1 = 0
@@ -127,6 +126,8 @@ class Game:
                     self.player1.img = pygame.image.load('images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
                 elif self.player1.weapon.id == 3:
                     self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
+                elif self.player1.weapon.id == 4:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_left_sniper.png').convert_alpha()
 
         if self.player2.weapon:
             if self.player2.direct_player == "Left":
@@ -137,6 +138,8 @@ class Game:
                         'images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
                 elif self.player2.weapon.id == 3:
                     self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
+                elif self.player2.weapon.id == 4:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_left_sniper.png').convert_alpha()
 
         if self.player1.weapon:
             if self.player1.direct_player == "Right":
@@ -146,6 +149,8 @@ class Game:
                     self.player1.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
                 elif self.player1.weapon.id == 3:
                     self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
+                elif self.player1.weapon.id == 4:
+                    self.player1.img = pygame.image.load('images/stickman_test_armé_right_sniper.png').convert_alpha()
 
         if self.player2.weapon:
             if self.player2.direct_player == "Right":
@@ -155,6 +160,8 @@ class Game:
                     self.player2.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
                 elif self.player2.weapon.id == 3:
                     self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
+                elif self.player2.weapon.id == 4:
+                    self.player2.img = pygame.image.load('images/stickman_test_armé_right_sniper.png').convert_alpha()
 
         if self.player1.playerIsDead():
             self.score_player2 += 1
