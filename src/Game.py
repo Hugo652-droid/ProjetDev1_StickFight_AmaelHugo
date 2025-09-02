@@ -343,6 +343,12 @@ class Game:
             self.player2.x -= 5
             self.player1.x += 5
 
+        if self.player1.y > self.info_screen.current_h:
+            self.player1.hp = 0
+
+        elif self.player2.y > self.info_screen.current_h:
+            self.player2.hp = 0
+
         for floor in self.floors:
 
             if self.player1.rect.colliderect(floor.rect):
