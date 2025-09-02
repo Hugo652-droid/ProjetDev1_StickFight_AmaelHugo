@@ -48,29 +48,31 @@ class Game:
     def launchGame(self):
         while self.runningGame:
             self.playGame()
-            if self.player1.playerIsDead():
-                self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-
-            if self.player2.playerIsDead():
-                self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-
-            if self.player1.weapon:
-                if self.player1.direct_player == "Left":
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
-
-            if self.player2.weapon:
-                if self.player2.direct_player == "Left":
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
-
-            if self.player1.weapon:
-                if self.player1.direct_player == "Right":
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
-
-            if self.player2.weapon:
-                if self.player2.direct_player == "Right":
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
 
         pygame.quit()
+
+    def changePlayer(self):
+        if self.player1.playerIsDead():
+            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+
+        if self.player2.playerIsDead():
+            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+
+        if self.player1.weapon:
+            if self.player1.direct_player == "Left":
+                self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+
+        if self.player2.weapon:
+            if self.player2.direct_player == "Left":
+                self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+
+        if self.player1.weapon:
+            if self.player1.direct_player == "Right":
+                self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+
+        if self.player2.weapon:
+            if self.player2.direct_player == "Right":
+                self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
 
     def createWeapons(self):
 
@@ -80,6 +82,8 @@ class Game:
         self.weapon_gun.append(newWeapon)
 
     def playGame(self):
+        self.changePlayer()
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.runningGame = False
@@ -199,8 +203,6 @@ class Game:
             for bullet in self.bullets:
                 bullet.shot()
                 bullet.draw(self.windowGame)
-                if not bullet.rect.colliderect(self.windowGame.rect):
-                    self.bullets.remove(bullet)
 
         else:
             self.windowGame.stop()
@@ -236,6 +238,24 @@ class Game:
             if weapon.rect_weapon.colliderect(self.floor.rect):
                 weapon.rect_weapon.y -= 10
 
+        for bullet in self.bullets:
+            if bullet.rect.colliderect(self.player1.rect):
+                if bullet.playerAttackName == self.player1.name:
+                    pass
+                else:
+                    self.player1.tackDammage(self.player2.weapon.dammage)
+                    self.bullets.remove(bullet)
+
+            if bullet.rect.colliderect(self.player2.rect):
+                if bullet.playerAttackName == self.player2.name:
+                    pass
+                else:
+                    self.player2.tackDammage(self.player1.weapon.dammage)
+                    self.bullets.remove(bullet)
+
+            if not bullet.rect.colliderect(self.windowGame.rect):
+                self.bullets.remove(bullet)
+
         for weapon in self.weapon_gun:
             if weapon.rect_weapon.colliderect(self.player1.rect):
                 self.player1.weapon = weapon
@@ -244,3 +264,6 @@ class Game:
             if weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
+
+
+
