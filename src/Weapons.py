@@ -17,7 +17,7 @@ class Weapons():
         info = pygame.display.Info()
         self.dammage = dammage
         self.rect_weapon.x = random.randint(0, info.current_w - self.rect_weapon.width)
-        self.rect_weapon.y = 0
+        self.rect_weapon.y = random.randint(0, info.current_h - self.rect_weapon.height)
 
     def draw(self, screen):
             screen.blit(self.img_weapom, self.rect_weapon)

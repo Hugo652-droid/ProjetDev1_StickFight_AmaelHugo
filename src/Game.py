@@ -80,10 +80,20 @@ class Game:
             "images/test_stick - Copie.png"
         )
 
-        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100), (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
-        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450), (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
+        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
-        self.floors = [self.floor, self.floor2]
+        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450),
+                          (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
+
+        self.floor3 = Map(self.windowGame, pygame, (self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+                          self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
+
+        self.floor4 = Map(self.windowGame, pygame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+                          self.info_screen.current_w - self.info_screen.current_w / 1.7,
+                          (self.info_screen.current_h / 20))
+
+        self.floors = [self.floor, self.floor2, self.floor3, self.floor4]
 
         self.weapon_gun = []
         self.lastdrop = time.time()
@@ -282,8 +292,10 @@ class Game:
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
 
-            self.floor.draw(self.windowGame.screen)
-            self.floor2.draw(self.windowGame.screen)
+            for floor in self.floors:
+
+                floor.draw(self.windowGame.screen)
+
             if self.player1.attacking :
                 bullet = self.player1.simple_attack(self.player2)
                 if not bullet:
