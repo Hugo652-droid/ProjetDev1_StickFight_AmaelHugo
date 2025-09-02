@@ -3,7 +3,7 @@ import random
 import time
 
 class Weapons():
-    def __init__(self,img):
+    def __init__(self,img,dammage):
         self.cooldown = 1
         self.cooldown_dropweapon = 30
         self.lastused = 0
@@ -13,6 +13,7 @@ class Weapons():
         self.img_weapom = pygame.transform.scale(self.img_weapom, (100, 70))
         self.rect_weapon = self.img_weapom.get_rect()
         info = pygame.display.Info()
+        self.dammage = dammage
         self.rect_weapon.x = random.randint(0, info.current_w - self.rect_weapon.width)
         self.rect_weapon.y = 0
 
