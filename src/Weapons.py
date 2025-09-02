@@ -14,13 +14,17 @@ class Weapons():
         self.rect_weapon = self.img_weapom.get_rect()
         self.img_weapom = pygame.transform.scale(self.img_weapom, (80, 30))
         self.rect_weapon = self.img_weapom.get_rect()
-        info = pygame.display.Info()
+        self.info = pygame.display.Info()
         self.dammage = dammage
-        self.rect_weapon.x = random.randint(0, info.current_w - self.rect_weapon.width)
-        self.rect_weapon.y = random.randint(0, info.current_h - self.rect_weapon.height)
+        self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
+        self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
 
-    def draw(self, screen):
-            screen.blit(self.img_weapom, self.rect_weapon)
+    def draw(self, screen, floors):
+        screen.blit(self.img_weapom, self.rect_weapon)
+        for floor in floors:
+            if self.rect_weapon.collidepoint(floor.rect):
+                self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
+                self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
 
     def useAmmunition(self):
         self.ammunition -= 1
