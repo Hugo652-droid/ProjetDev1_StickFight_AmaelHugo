@@ -48,8 +48,8 @@ class Game:
         self.launchGame()
 
     def createInstanse(self):
-        self.player1 = Player("Amael", 250, "", 300, (self.info_screen.current_h / 2), "images/test_stick.png")
-        self.player2 = Player("Hugo", 250, "", (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),
+        self.player1 = Player("Amael", 30, "", 300, (self.info_screen.current_h / 2), "images/test_stick.png")
+        self.player2 = Player("Hugo", 30, "", (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),
                               "images/test_stick - Copie.png")
         self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100))
         self.weapon_gun = []
@@ -88,6 +88,7 @@ class Game:
 
         if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
             self.createInstanse()
+            self.paused = False
 
     def createWeapons(self):
 
