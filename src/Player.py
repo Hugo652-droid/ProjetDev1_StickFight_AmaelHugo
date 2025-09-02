@@ -9,6 +9,7 @@ class Player:
         self.weapon_id = weapon_id
         self.x = x
         self.y = y
+        self.info_screen = pygame.display.Info()
         self.img = pygame.image.load(image).convert_alpha()
         self.img = pygame.transform.scale(self.img, (200, 100))
         self.rect = self.img.get_rect()
@@ -30,7 +31,7 @@ class Player:
         screen.blit(self.img, self.rect)
         if self.weapon == 0:
             screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
-        else :
+        else:
             screen.blit(font.render(f'HP : {self.hp} Ammo : {self.weapon.ammunition}', True, (0, 0, 0)), (self.x - 25, self.y - 150))
 
     def modifImage(self, image):
@@ -38,7 +39,7 @@ class Player:
 
     def goUp(self, current_time):
         if current_time - self.last_time_used_vertical > self.cooldown_jump:
-            self.y -= 300
+            self.y -= self.info_screen.current_h/4
             self.last_time_used_vertical = current_time
 
     def goLeft(self):

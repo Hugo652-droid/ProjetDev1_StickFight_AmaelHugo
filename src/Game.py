@@ -91,16 +91,16 @@ class Game:
             "images/test_stick - Copie.png"
         )
 
-        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+        self.floor = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
                          (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
-        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450),
+        self.floor2 = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
                           (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
 
-        self.floor3 = Map(self.windowGame, pygame, (self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+        self.floor3 = Map(self.windowGame, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
 
-        self.floor4 = Map(self.windowGame, pygame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+        self.floor4 = Map(self.windowGame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w / 1.7,
                           (self.info_screen.current_h / 20))
 
@@ -190,28 +190,28 @@ class Game:
             weapon = self.dict_weapons[3]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 36:
             weapon = self.dict_weapons[2]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 68:
             weapon = self.dict_weapons[1]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 100:
             weapon = self.dict_weapons[0]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
     def playGame(self):
@@ -344,7 +344,7 @@ class Game:
         if not self.paused:
             self.windowGame.changeBg('images/img_bg_game.png')
             for weapon in self.weapon_gun :
-                weapon.draw(self.windowGame.screen)
+                weapon.draw()
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
 

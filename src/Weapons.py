@@ -3,7 +3,7 @@ import random
 import time
 
 class Weapons():
-    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height):
+    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, floors, screen):
         self.id = id
         self.attackSpeed = attackSpeed
         self.ammunition = ammunition
@@ -16,15 +16,12 @@ class Weapons():
         self.rect_weapon = self.img_weapom.get_rect()
         self.info = pygame.display.Info()
         self.dammage = dammage
+        self.screen = screen
         self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
         self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
 
-    def draw(self, screen, floors):
-        screen.blit(self.img_weapom, self.rect_weapon)
-        for floor in floors:
-            if self.rect_weapon.collidepoint(floor.rect):
-                self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
-                self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
+    def draw(self):
+        self.screen.blit(self.img_weapom, self.rect_weapon)
 
     def useAmmunition(self):
         self.ammunition -= 1
