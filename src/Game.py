@@ -12,9 +12,6 @@ class Game:
         self.windowGame = Root(pygame)
         self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
-        self.player1 = Player("Amael", 250, "", 300, (self.info_screen.current_h/2), "images/test_stick.png")
-        self.player2 = Player("Hugo", 250, "", (self.info_screen.current_w-300), (self.info_screen.current_h/2), "images/test_stick - Copie.png")
-        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w/2), (self.info_screen.current_h-100))
         self.image_player_left = "images/test_stick - Copie.png"
         self.image_player_right = "images/test_stick.png"
         self.image_player_stand = "images/stickman_test.png"
@@ -22,10 +19,7 @@ class Game:
         self.font = pygame.font.SysFont('Arial', 25)
         self.runningGame = True
         self.paused = False
-        self.lastdrop = time.time()
         self.cooldown_dropweapon = 5
-        self.weapon_gun = []
-        self.restart = False
         self.dict_weapons = [
             {
                 "name": "gun",
@@ -49,8 +43,19 @@ class Game:
                 "ammunition": 10
             },
         ]
-        self.bullets = []
+
+        self.createInstanse()
         self.launchGame()
+
+    def createInstanse(self):
+        self.player1 = Player("Amael", 250, "", 300, (self.info_screen.current_h / 2), "images/test_stick.png")
+        self.player2 = Player("Hugo", 250, "", (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),
+                              "images/test_stick - Copie.png")
+        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100))
+        self.weapon_gun = []
+        self.lastdrop = time.time()
+        self.bullets = []
+        self.restart = False
 
     def launchGame(self):
         while self.runningGame:
@@ -82,12 +87,7 @@ class Game:
             self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
 
         if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
-
-            self.player1 = Player("Amael", 100, 1, 300, (self.info_screen.current_h / 2), "images/test_stick.png")
-            self.player2 = Player("Hugo", 100, 1, (self.info_screen.current_w - 300), (self.info_screen.current_h / 2),"images/test_stick - Copie.png")
-
-            self.weapon_gun = []
-            self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2),(self.info_screen.current_h - 100))
+            self.createInstanse()
 
     def createWeapons(self):
 
