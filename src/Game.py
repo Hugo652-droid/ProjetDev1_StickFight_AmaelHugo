@@ -351,6 +351,7 @@ class Game:
                 self.paused = not self.paused
                 pygame.time.wait(175)
 
+
         self.reloadPage()
 
         self.clock.tick(200)
