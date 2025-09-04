@@ -23,6 +23,8 @@ class Main():
         windowHome.buttonPlay()
         windowHome.buttonQuit()
         windowHome.title('images/Image titre.png')
+        self.font = pygame.font.SysFont('Arial', 25)
+        windowHome.version(self.font)
         pygame.display.flip()
         runningHome = True
         while runningHome:
