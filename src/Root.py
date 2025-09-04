@@ -104,7 +104,7 @@ class Root:
         self.screen.blit(score_text, (20, 20))
 
     def version(self, font):
-        version_text = font.render("V0.0", True, (0, 0, 0))
+        version_text = font.render("V1.0", True, (0, 0, 0))
         text_rect = version_text.get_rect()
 
         text_rect.topleft = (20, self.screen.get_height() - text_rect.height - 20)
