@@ -1,51 +1,31 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Player.py
+Description fichier : Creation et gestion des platforms physique
+--
+"""
+
 import pygame
 
-pygame.init()
-screen = pygame.display.set_mode((1920, 1080))
-clock = pygame.time.Clock()
+class Map:
+    def __init__(self, window, x, y, w, h):
+        self.window = window
+        self.img_floor = pygame.image.load('./images/floor_test.png')
+        self.x = x
+        self.y = y
+        self.w = w
+        self.h = h
+        self.rect = self.img_floor.get_rect()
+        self.info_screen = pygame.display.Info()
 
-# Starting position
-x, y = 300, 220
-a, b = 200, 320
-speed = 5
+    def draw(self, screen):
+        self.img_floor = pygame.transform.scale(self.img_floor, (self.w, self.h))
+        self.rect = self.img_floor.get_rect()
+        self.rect.center = (self.x, self.y)
+        screen.blit(self.img_floor, self.rect)
 
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Get pressed keys
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        x -= speed
-    if keys[pygame.K_RIGHT]:
-        x += speed
-    if keys[pygame.K_UP]:
-        y -= speed
-    if keys[pygame.K_DOWN]:
-        y += speed
-
-    if keys[pygame.K_a]:
-        a -= 10
-    if keys[pygame.K_d]:
-        a += 10
-    if keys[pygame.K_w]:
-        b -= 10
-    if keys[pygame.K_s]:
-        b += 10
-
-    # 1. Clear the screen each frame
-    screen.fill((0, 0, 0))  # Black background
-
-    # 2. Draw the object
-    pygame.draw.rect(screen, (0, 255, 0), (x, y, 50, 50))  # Green rectangle
-    pygame.draw.rect(screen, (0, 255, 0), (a, b, 50, 50))  # Green rectangle
-
-    # 3. Update the display
-    pygame.display.flip()
-
-    # 4. Control the frame rate
-    clock.tick(60)
-
-pygame.quit()
