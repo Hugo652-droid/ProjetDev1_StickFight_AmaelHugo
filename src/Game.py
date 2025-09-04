@@ -237,15 +237,14 @@ class Game:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.windowGame.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
+                if self.paused:
+                    if self.windowGame.button_rect_restart.collidepoint(event.pos):
+                        self.restart = True
 
-                elif self.windowGame.button_rect_restart.collidepoint(event.pos):
-                    self.restart = True
-
-                elif self.windowGame.button_rect_quit.collidepoint(event.pos):
-                    self.windowGame.closeRoot(pygame)
-                    self.runningGame = False
-                    return
-
+                    elif self.windowGame.button_rect_quit.collidepoint(event.pos):
+                        self.windowGame.closeRoot(pygame)
+                        self.runningGame = False
+                        return
 
         if not self.paused:
             keys = pygame.key.get_pressed()
@@ -358,6 +357,7 @@ class Game:
 
     def reloadPage(self):
         if not self.paused:
+            pygame.mouse.set_visible(False)
             self.windowGame.changeBg('images/img_bg_game.png')
             for weapon in self.weapon_gun :
                 weapon.draw()
@@ -395,6 +395,8 @@ class Game:
                 self.windowGame.win(self.player1)
 
         else:
+
+            pygame.mouse.set_visible(True)
             self.windowGame.stop()
 
             self.windowGame.scores(self.font, self.score_player1, self.score_player2)
