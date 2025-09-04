@@ -32,7 +32,7 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.cooldown_dropweapon = 5
-        self.hpStart = 30
+        self.hpStart = 100
         self.dict_weapons = [
             {
                 "id": 1,
@@ -270,10 +270,7 @@ class Game:
                 if keys[pygame.K_q]:
                     if time.time() - self.player1.last_time_used_push > self.player1.cooldown_push:
                         self.player1.last_time_used_push = time.time()
-                        if self.player1.direct_player == "Left":
-                            self.player2.dashLeft()
-                        elif self.player1.direct_player == "Right":
-                            self.player2.dashRight()
+                        self.player1.pushing = True
                 if keys[pygame.K_a]:
                     self.player1.goLeft()
                     self.player1.modifImage(self.image_player_left)
@@ -312,13 +309,10 @@ class Game:
                         self.player2.attacking = True
                     else:
                         self.player2.attacking = False
-                if keys[pygame.K_q]:
+                if keys[pygame.K_u]:
                     if time.time() - self.player2.last_time_used_push > self.player2.cooldown_push:
                         self.player2.last_time_used_push = time.time()
-                        if self.player2.direct_player == "Left":
-                            self.player1.dashLeft()
-                        elif self.player2.direct_player == "Right":
-                            self.player1.dashRight()
+                        self.player2.pushing = True
                 if keys[pygame.K_j]:
                     self.player2.goLeft()
                     self.player2.modifImage(self.image_player_left)
@@ -506,3 +500,20 @@ class Game:
             elif weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
+
+        if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
+            self.player1.pushing = False
+            if self.player1.direct_player == "Left":
+                self.player2.dashLeft()
+            elif self.player1.direct_player == "Right":
+                self.player2.dashRight()
+        else:
+            self.player1.pushing = False
+        if self.player2.pushing and self.player2.rect.colliderect(self.player1.rect):
+            self.player2.pushing = False
+            if self.player2.direct_player == "Left":
+                self.player1.dashLeft()
+            elif self.player2.direct_player == "Right":
+                self.player1.dashRight()
+        else:
+            self.player2.pushing = False
