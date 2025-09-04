@@ -37,7 +37,7 @@ class Player:
         self.img = pygame.transform.scale(self.img, (150, 100))
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
-        self.rect = pygame.Rect(self.x, self.y, self.rect.width - 70, self.rect.height)
+        self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
         screen.blit(self.img, self.rect)
         if self.weapon == 0:
             screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
