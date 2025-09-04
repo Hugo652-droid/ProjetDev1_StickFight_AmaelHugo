@@ -25,11 +25,14 @@ class Player:
         self.rect = self.img.get_rect()
         self.last_time_used_vertical = 0
         self.last_time_used_attack = 0
+        self.last_time_used_push = 0
         self.cooldown_jump = 1
         self.cooldown_attack = 1
         self.cooldown_crouch = 1
+        self.cooldown_push = 1
         self.direct_player = "Left"
         self.attacking = False
+        self.pushing = False
         self.weapon = 0
         self.damage = 10
 
