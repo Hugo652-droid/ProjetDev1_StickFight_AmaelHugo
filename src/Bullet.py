@@ -1,5 +1,16 @@
-import pygame
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Bullet.py
+Description fichier : Creation et gestion des balles
+--
+"""
 
+import pygame
 
 class Bullet:
     def __init__(self, position, direction, playerAttackName, width, height):

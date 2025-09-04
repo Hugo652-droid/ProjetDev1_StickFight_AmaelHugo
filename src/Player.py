@@ -1,14 +1,25 @@
-import pygame
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Player.py
+Description fichier : Creation et gestion des personnages jouable
+--
+"""
 
-from src.Bullets import Bullet
+import pygame
+from src.Bullet import Bullet
 
 class Player:
-    def __init__(self, name, hp, weapon_id, x, y, image):
+    def __init__(self, name, hp, x, y, image):
         self.name = name
         self.hp = hp
-        self.weapon_id = weapon_id
         self.x = x
         self.y = y
+        self.info_screen = pygame.display.Info()
         self.img = pygame.image.load(image).convert_alpha()
         self.img = pygame.transform.scale(self.img, (200, 100))
         self.rect = self.img.get_rect()
@@ -30,7 +41,7 @@ class Player:
         screen.blit(self.img, self.rect)
         if self.weapon == 0:
             screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
-        else :
+        else:
             screen.blit(font.render(f'HP : {self.hp} Ammo : {self.weapon.ammunition}', True, (0, 0, 0)), (self.x - 25, self.y - 150))
 
     def modifImage(self, image):
@@ -38,7 +49,7 @@ class Player:
 
     def goUp(self, current_time):
         if current_time - self.last_time_used_vertical > self.cooldown_jump:
-            self.y -= 300
+            self.y -= self.info_screen.current_h/4
             self.last_time_used_vertical = current_time
 
     def goLeft(self):
@@ -68,7 +79,7 @@ class Player:
     def playerIsDead(self):
         return self.hp <= 0
 
-    def simple_attack(self, player_damaged):
+    def simpleAttack(self, player_damaged):
         if self.weapon == 0:
             self.cooldown_attack = 1
             if self.rect.colliderect(player_damaged.rect):

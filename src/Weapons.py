@@ -1,9 +1,20 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Weapons.py
+Description fichier : Creation et gestion des armes
+--
+"""
+
 import pygame
 import random
-import time
 
 class Weapons():
-    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height):
+    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, floors, screen):
         self.id = id
         self.attackSpeed = attackSpeed
         self.ammunition = ammunition
@@ -14,13 +25,14 @@ class Weapons():
         self.rect_weapon = self.img_weapom.get_rect()
         self.img_weapom = pygame.transform.scale(self.img_weapom, (80, 30))
         self.rect_weapon = self.img_weapom.get_rect()
-        info = pygame.display.Info()
+        self.info = pygame.display.Info()
         self.dammage = dammage
-        self.rect_weapon.x = random.randint(0, info.current_w - self.rect_weapon.width)
-        self.rect_weapon.y = random.randint(0, info.current_h - self.rect_weapon.height)
+        self.screen = screen
+        self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
+        self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
 
-    def draw(self, screen):
-            screen.blit(self.img_weapom, self.rect_weapon)
+    def draw(self):
+        self.screen.blit(self.img_weapom, self.rect_weapon)
 
     def useAmmunition(self):
         self.ammunition -= 1

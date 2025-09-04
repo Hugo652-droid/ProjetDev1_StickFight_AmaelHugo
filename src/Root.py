@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Root.py
+Description fichier : Creation et gestion des fenêtres de l'application
+--
+"""
+
 import pygame
 
 class Root:
@@ -39,8 +51,6 @@ class Root:
         icon_image = pygame.image.load('images/stickman_test.png')
 
         pygame.display.set_icon(icon_image)
-
-
 
     def changeColor(self, color):
         self.screen.fill(color)

@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Game.py
+Description fichier : Creation et gestion des parties et du jeu
+--
+"""
+
 from src.Player import Player
 from src.Root import Root
 from src.Map import Map
@@ -76,7 +88,6 @@ class Game:
         self.player1 = Player(
             "Player 1",
             self.hpStart,
-            "",
             margin,  # distance depuis la gauche
             self.info_screen.current_h / 2,
             "images/test_stick.png"
@@ -85,22 +96,21 @@ class Game:
         self.player2 = Player(
             "Player 2",
             self.hpStart,
-            "",
             self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
             self.info_screen.current_h / 2,
             "images/test_stick - Copie.png"
         )
 
-        self.floor = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+        self.floor = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
                          (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
-        self.floor2 = Map(self.windowGame, pygame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 450),
+        self.floor2 = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
                           (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
 
-        self.floor3 = Map(self.windowGame, pygame, (self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+        self.floor3 = Map(self.windowGame, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
 
-        self.floor4 = Map(self.windowGame, pygame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h - self.info_screen.current_w / 2.7),
+        self.floor4 = Map(self.windowGame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w / 1.7,
                           (self.info_screen.current_h / 20))
 
@@ -190,28 +200,28 @@ class Game:
             weapon = self.dict_weapons[3]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 36:
             weapon = self.dict_weapons[2]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 68:
             weapon = self.dict_weapons[1]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 100:
             weapon = self.dict_weapons[0]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"])
+                                weapon["height"], self.floors, self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
     def playGame(self):
@@ -344,7 +354,7 @@ class Game:
         if not self.paused:
             self.windowGame.changeBg('images/img_bg_game.png')
             for weapon in self.weapon_gun :
-                weapon.draw(self.windowGame.screen)
+                weapon.draw()
             self.player1.draw(self.windowGame.screen, self.font)
             self.player2.draw(self.windowGame.screen, self.font)
 
@@ -353,14 +363,14 @@ class Game:
                 floor.draw(self.windowGame.screen)
 
             if self.player1.attacking :
-                bullet = self.player1.simple_attack(self.player2)
+                bullet = self.player1.simpleAttack(self.player2)
                 if not bullet:
                     self.player1.attacking = False
                 else:
                     self.bullets.append(bullet)
                     self.player1.attacking = False
             if self.player2.attacking :
-                bullet = self.player2.simple_attack(self.player1)
+                bullet = self.player2.simpleAttack(self.player1)
                 if not bullet:
                     self.player2.attacking = False
                 else :
