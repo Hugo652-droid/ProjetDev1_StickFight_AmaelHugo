@@ -14,6 +14,7 @@ from src.Player import Player
 from src.Root import Root
 from src.Map import Map
 from src.Weapons import Weapons
+from src.Data.weapon import dict_weapons
 import time
 import pygame
 import random
@@ -31,54 +32,16 @@ class Game:
         self.font = pygame.font.SysFont('Arial', 25)
         self.runningGame = True
         self.paused = False
-        self.cooldown_dropweapon = 5
-        self.hpStart = 100
-        self.dict_weapons = [
-            {
-                "id": 1,
-                "name": "gun",
-                "img": 'images/img_wapon.png',
-                "damage": 15,
-                "attackSpeed": 1,
-                "ammunition": 6,
-                "width": 30,
-                "height": 10
-            },
-            {
-                "id": 2,
-                "name": "fusil d'assaut",
-                "img": 'images/fusildassaut.png',
-                "damage": 3,
-                "attackSpeed": 0.1,
-                "ammunition": 30,
-                "width": 30,
-                "height": 10
-            },
-            {
-                "id": 3,
-                "name": "fusil a pome",
-                "img": 'images/pompe.png',
-                "damage": 25,
-                "attackSpeed": 3,
-                "ammunition": 10,
-                "width": 30,
-                "height": 70
-            },
-            {
-                "id": 4,
-                "name": "fusil sniper",
-                "img": 'images/fusilsniper.png',
-                "damage": 100,
-                "attackSpeed": 3,
-                "ammunition": 1,
-                "width": 30,
-                "height": 5
-            },
-        ]
-
+        self.cooldown_drop_weapon = 5
+        self.heal_points_start = 100
+        self.weapons = dict_weapons
         self.score_player1 = 0
         self.score_player2 = 0
-
+        self.last_drop = time.time()
+        self.weapon_gun = []
+        self.bullets = []
+        self.restart = False
+        self.floors = []
         self.createInstanse()
 
 
@@ -87,45 +50,44 @@ class Game:
 
         self.player1 = Player(
             "Player 1",
-            self.hpStart,
+            self.heal_points_start,
             margin,  # distance depuis la gauche
             self.info_screen.current_h / 2,
-            "images/test_stick.png"
+            "images/test_stick.png",
+            self.windowGame.screen
         )
 
         self.player2 = Player(
             "Player 2",
-            self.hpStart,
+            self.heal_points_start,
             self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
             self.info_screen.current_h / 2,
-            "images/test_stick - Copie.png"
+            "images/test_stick - Copie.png",
+            self.windowGame.screen
         )
 
-        self.floor = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+        floor = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
                          (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
-        self.floor2 = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
+        mid_platform = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
                           (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
 
-        self.floor3 = Map(self.windowGame, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
+        top_left_platform = Map(self.windowGame, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
 
-        self.floor4 = Map(self.windowGame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
+        top_right_platform = Map(self.windowGame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w / 1.7,
                           (self.info_screen.current_h / 20))
 
-        self.floors = [self.floor, self.floor2, self.floor3, self.floor4]
-
+        self.floors = [floor, mid_platform, top_left_platform, top_right_platform]
+        self.last_drop = time.time()
         self.weapon_gun = []
-        self.lastdrop = time.time()
         self.bullets = []
         self.restart = False
 
     def launchGame(self):
         while self.runningGame:
             self.playGame()
-
-
 
     def changePlayer(self):
         if self.player1.weapon:
@@ -197,31 +159,31 @@ class Game:
         randomNb = random.randint(1, 100)
 
         if randomNb <= 13:
-            weapon = self.dict_weapons[3]
+            weapon = self.weapons[3]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
+                                weapon["height"], self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 36:
-            weapon = self.dict_weapons[2]
+            weapon = self.weapons[2]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
+                                weapon["height"], self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 68:
-            weapon = self.dict_weapons[1]
+            weapon = self.weapons[1]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
+                                weapon["height"], self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
         elif randomNb <= 100:
-            weapon = self.dict_weapons[0]
+            weapon = self.weapons[0]
             newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
+                                weapon["height"], self.windowGame.screen)
             self.weapon_gun.append(newWeapon)
 
     def playGame(self):
@@ -253,7 +215,7 @@ class Game:
                 pygame.time.wait(175)
             if not self.player1.playerIsDead():
                 if keys[pygame.K_e]:
-                    if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon == 0:
+                    if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon.id == 0:
                         self.player1.last_time_used_attack = time.time()
                         if self.player1.direct_player == "Left":
                             self.player1.dashLeft()
@@ -295,7 +257,7 @@ class Game:
             if not self.player2.playerIsDead():
 
                 if keys[pygame.K_o]:
-                    if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack and self.player2.weapon == 0:
+                    if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack and self.player2.weapon.id == 0:
                         self.player2.last_time_used_attack = time.time()
                         if self.player2.direct_player == "Left":
                             self.player2.dashLeft()
@@ -335,8 +297,8 @@ class Game:
                 if self.player2.y != self.info_screen.current_h:
                     self.player2.y += 10
 
-            if time.time() - self.lastdrop > self.cooldown_dropweapon:
-                self.lastdrop = time.time()
+            if time.time() - self.last_drop > self.cooldown_drop_weapon:
+                self.last_drop = time.time()
                 self.createWeapons()
 
             for weapon in self.weapon_gun:
@@ -362,8 +324,8 @@ class Game:
             self.windowGame.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.png')
             for weapon in self.weapon_gun :
                 weapon.draw()
-            self.player1.draw(self.windowGame.screen, self.font)
-            self.player2.draw(self.windowGame.screen, self.font)
+            self.player1.draw(self.font)
+            self.player2.draw(self.font)
 
             for floor in self.floors:
 

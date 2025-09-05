@@ -14,7 +14,7 @@ import pygame
 import random
 
 class Weapons():
-    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, floors, screen):
+    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, screen):
         self.id = id
         self.attackSpeed = attackSpeed
         self.ammunition = ammunition
