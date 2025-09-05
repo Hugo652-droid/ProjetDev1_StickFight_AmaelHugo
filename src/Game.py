@@ -80,7 +80,7 @@ class Game:
         self.score_player2 = 0
 
         self.createInstanse()
-        self.launchGame()
+
 
     def createInstanse(self):
         margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
@@ -125,7 +125,7 @@ class Game:
         while self.runningGame:
             self.playGame()
 
-        pygame.quit()
+
 
     def changePlayer(self):
         if self.player1.weapon:

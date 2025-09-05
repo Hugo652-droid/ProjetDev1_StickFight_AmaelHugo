@@ -6,7 +6,7 @@ Date de fin : --.--.----
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Main.py
-Description fichier : Lancement de l'application et affichage de la page d'accueil
+Description fichier : Lancement de l'application
 --
 """
 
@@ -18,6 +18,7 @@ class Main():
     def __init__(self):
         pygame.init()
         home = Home()
+        home.launch()
         pygame.quit()
         exit()
 
