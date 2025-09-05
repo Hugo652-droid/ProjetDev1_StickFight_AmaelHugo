@@ -136,7 +136,7 @@ class Root:
         pygame.display.flip()
 
     def stop(self):
-        self.changeBg('images/img_bg_game - Copie.png')
+        self.changeBg('images/imgBackgrounds/gamePageBgs/pausedBg/img_bg_game_paused.png')
 
         self.buttonQuit()
 

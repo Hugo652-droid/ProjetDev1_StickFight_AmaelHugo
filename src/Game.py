@@ -359,7 +359,7 @@ class Game:
     def reloadPage(self):
         if not self.paused:
             pygame.mouse.set_visible(False)
-            self.windowGame.changeBg('images/img_bg_game.png')
+            self.windowGame.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.png')
             for weapon in self.weapon_gun :
                 weapon.draw()
             self.player1.draw(self.windowGame.screen, self.font)
