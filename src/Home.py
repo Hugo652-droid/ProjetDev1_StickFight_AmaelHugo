@@ -20,7 +20,7 @@ class Home :
         self.windowHome.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
         self.windowHome.buttonPlay()
         self.windowHome.buttonQuit()
-        self.windowHome.title('images/text_title.png')
+        self.windowHome.title('images/imgTexts/textsMain/textsMain/text_title.png')
         self.font = pygame.font.SysFont('Arial', 25)
         self.windowHome.version(self.font)
         
