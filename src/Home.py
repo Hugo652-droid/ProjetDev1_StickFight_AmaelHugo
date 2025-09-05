@@ -17,10 +17,10 @@ from src.Game import Game
 class Home :
     def __init__(self):
         self.windowHome = Root(pygame)
-        self.windowHome.changeBg('images/img_bg_main.png')
+        self.windowHome.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
         self.windowHome.buttonPlay()
         self.windowHome.buttonQuit()
-        self.windowHome.title('images/Image titre.png')
+        self.windowHome.title('images/text_title.png')
         self.font = pygame.font.SysFont('Arial', 25)
         self.windowHome.version(self.font)
         
