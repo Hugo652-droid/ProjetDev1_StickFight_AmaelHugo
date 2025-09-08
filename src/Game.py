@@ -22,7 +22,8 @@ import random
 class Game:
     def __init__(self):
         pygame.init()
-        self.window_game = Root()
+        self.font = pygame.font.SysFont('Arial', 25)
+        self.window_game = Root(self.font)
         self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
 
@@ -36,7 +37,7 @@ class Game:
 
         self.image_player2_crouch = "images/imgCharacters/imgPlayer2/crouchPlayer2/Player2_crouch.png"
         self.image_player1_crouch = "images/imgCharacters/imgPlayer1/crouchPlayer1/Player1_crouch.png"
-        self.font = pygame.font.SysFont('Arial', 25)
+
         self.running_game = True
         self.paused = False
         self.cooldown_drop_weapon = 5

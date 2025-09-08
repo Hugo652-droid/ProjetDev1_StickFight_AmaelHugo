@@ -12,12 +12,15 @@ Description fichier : Creation et gestion des fenêtres de l'application
 
 import pygame
 
-class Root:
-    def __init__(self):
-        info = pygame.display.Info()
+pygame.display.init()
+INFO = pygame.display.Info()
 
-        self.width_screen = info.current_w
-        self.height_screen = info.current_h
+class Root:
+    def __init__(self, font, width_screen=INFO.current_w, height_screen=INFO.current_h):
+        self.width_screen = width_screen
+        self.height_screen = height_screen
+
+        self.font = font
         # Définir les dimensions de l'écran
         self.placer_screen_button = (self.width_screen - 400) / 2
         self.settings_screen = False
@@ -149,10 +152,3 @@ class Root:
         self.buttonRestart()
 
         self.title('images/imgTexts/textsGame/textsPaused/title_paused.png')
-
-    ################################################################################################ Game
-
-    def settings(self):
-        self.changeBg('images/imgBackgrounds/gamePageBgs/paused.png')
-
-

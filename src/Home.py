@@ -13,10 +13,13 @@ Description fichier : Affichage de la page d'accueil
 import pygame
 from src.Root import Root
 from src.Game import Game
+from src.Settings import Settings
+
 
 class Home:
     def __init__(self):
-        self.window_home = Root()
+        self.font = pygame.font.SysFont('Arial', 20)
+        self.window_home = Root(self.font)
         self.window_home.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
         self.window_home.buttonPlay()
         self.window_home.buttonSetting()
@@ -29,6 +32,9 @@ class Home:
         pygame.display.flip()
         running_home = True
         while running_home:
+            if self.window_home.settings_screen :
+                settings = Settings()
+
             for event in pygame.event.get():
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_ESCAPE:
