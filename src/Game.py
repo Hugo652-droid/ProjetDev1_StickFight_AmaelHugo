@@ -239,11 +239,7 @@ class Game:
                     self.player1.goRight()
                     self.player1.modifImage(self.image_player_right)
                 if keys[pygame.K_w]:
-                    self.player1.goUp(time.time())
-                    self.player1.y += 10
-                else:
-                    if self.player1.y != self.info_screen.current_h:
-                        self.player1.y += 10
+                    self.player1.jump(time.time())
                 if keys[pygame.K_s]:
                     if self.player1.rect.bottom > self.floors[0].rect.top:
                         self.player1.modifImage(self.image_player_crouch)
@@ -286,13 +282,8 @@ class Game:
                     else:
                         self.player2.modifImage(self.image_player_crouch)
                         self.player2.goDown(time.time())
-
                 if keys[pygame.K_i]:
-                    self.player2.goUp(time.time())
-                    self.player2.y += 10
-                else :
-                    if self.player2.y != self.info_screen.current_h:
-                        self.player2.y += 10
+                    self.player2.jump(time.time())
             else:
                 if self.player2.y != self.info_screen.current_h:
                     self.player2.y += 10
@@ -322,8 +313,31 @@ class Game:
         if not self.paused:
             pygame.mouse.set_visible(False)
             self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.png')
+
             for weapon in self.weapon_gun :
                 weapon.draw()
+
+            if self.player1.jumping > 0 :
+                self.player1.y -= 20
+                if self.player1.jumping <= 0 :
+                    self.player1.jumping = 0
+                else :
+                    self.player1.jumping -= 20
+            elif self.player1.jumping <= 0:
+                if self.player1.y != self.info_screen.current_h:
+                    self.player1.y += 10
+
+            if self.player2.jumping > 0:
+                self.player2.y -= 20
+                if self.player2.jumping <= 0:
+                    self.player2.jumping = 0
+                else:
+                    self.player2.jumping -= 20
+            elif self.player2.jumping <= 0:
+                if self.player2.y != self.info_screen.current_h:
+                    self.player2.y += 10
+
+
             self.player1.draw(self.font)
             self.player2.draw(self.font)
 
@@ -345,6 +359,8 @@ class Game:
                 else :
                     self.bullets.append(bullet)
                     self.player2.attacking = False
+
+
 
             for bullet in self.bullets:
                 bullet.shot()

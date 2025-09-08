@@ -19,6 +19,7 @@ class Home:
         self.window_home = Root()
         self.window_home.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
         self.window_home.buttonPlay()
+        self.window_home.buttonSetting()
         self.window_home.buttonQuit()
         self.window_home.title('images/text_title.png')
         self.font = pygame.font.SysFont('Arial', 25)
@@ -45,7 +46,9 @@ class Home:
                         running_home = False
                         game = Game()
                         game.launchGame()
-
-                    if self.window_home.button_rect_quit.collidepoint(event.pos):
+                    elif self.window_home.button_rect_quit.collidepoint(event.pos):
                         self.window_home.closeRoot()
                         running_home = False
+
+                    if self.window_home.button_rect_setting.collidepoint(event.pos):
+                        self.window_home.settings_screen = True

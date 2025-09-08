@@ -31,6 +31,7 @@ class Player:
         self.cooldown_attack = 1
         self.cooldown_push = 1
         self.direct_player = "Left"
+        self.jumping = 0
         self.attacking = False
         self.pushing = False
         self.hands =  Weapons(0, "images/stickman_test.png", 10, 1, 0, 30, 5, screen)
@@ -48,9 +49,9 @@ class Player:
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
 
-    def goUp(self, current_time):
+    def jump(self, current_time):
         if current_time - self.last_time_used_vertical > self.cooldown_vertical:
-            self.y -= self.info_screen.current_h/4
+            self.jumping = self.info_screen.current_h/4
             self.last_time_used_vertical = current_time
 
     def goLeft(self):
