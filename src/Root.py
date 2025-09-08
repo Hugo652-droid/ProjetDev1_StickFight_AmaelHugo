@@ -26,6 +26,8 @@ class Root:
         self.screen = pygame.display.set_mode(size_window)
         self.rect = self.screen.get_rect()
 
+        self.button_stop_width = 70
+
         # Nom de la fenêtre
         pygame.display.set_caption("SticK.Onion")
 
@@ -104,10 +106,13 @@ class Root:
 
         pygame.display.flip()
 
-    def scores(self, font, score1, score2):
-        score_text = font.render(f"Scores:"
-                                 f"    Joueur 1: {score1}  -  Joueur 2: {score2}",True, (0, 0, 0))
+    def scores_player1(self, font, score):
+        score_text = font.render(f"{score}",True, (252, 186, 3))
         self.screen.blit(score_text, (20, 20))
+
+    def scores_player2(self, font, score):
+        score_text = font.render(f"{score}",True, (160, 7, 237))
+        self.screen.blit(score_text, (self.width_screen - 100, 20))
 
     def version(self, font):
         version_text = font.render("V1.0", True, (0, 0, 0))
@@ -124,22 +129,6 @@ class Root:
         self.screen.blit(win_text, (0, self.height_screen / 2))
 
     ################################################################################################ Game
-
-    def stopButton(self, paused):
-        self.button_rect_stop = pygame.Rect((self.width_screen - 80), 10, 1000, 1000)
-
-        if paused == False:
-            img_stop = pygame.image.load('images/imgButtons/gameBtns/gameBtns/img_stop_button.png')
-
-        else:
-            img_stop = pygame.image.load('images/imgButtons/gameBtns/pausedBtns/img_paused_button.png')
-
-
-        img_stop = pygame.transform.scale(img_stop, (70, 100))
-
-        self.screen.blit(img_stop, (self.button_rect_stop.x, self.button_rect_stop.y))
-
-        pygame.display.flip()
 
     def stop(self):
         self.changeBg('images/imgBackgrounds/gamePageBgs/pausedBg/img_bg_game_paused.png')
