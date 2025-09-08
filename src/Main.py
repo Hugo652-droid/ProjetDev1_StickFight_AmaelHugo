@@ -14,7 +14,7 @@ import pygame
 from sys import exit
 from src.Home import Home
 
-class Main():
+class Main:
     def __init__(self):
         pygame.init()
         home = Home()

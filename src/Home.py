@@ -14,33 +14,38 @@ import pygame
 from src.Root import Root
 from src.Game import Game
 
-class Home :
+class Home:
     def __init__(self):
-        self.windowHome = Root(pygame)
-        self.windowHome.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
-        self.windowHome.buttonPlay()
-        self.windowHome.buttonQuit()
-        self.windowHome.title('images/text_title.png')
+        self.window_home = Root()
+        self.window_home.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
+        self.window_home.buttonPlay()
+        self.window_home.buttonQuit()
+        self.window_home.title('images/text_title.png')
         self.font = pygame.font.SysFont('Arial', 25)
-        self.windowHome.version(self.font)
+        self.window_home.version(self.font)
         
     def launch(self):
         pygame.display.flip()
-        runningHome = True
-        while runningHome:
+        running_home = True
+        while running_home:
             for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYUP:
                     if event.key == pygame.K_ESCAPE:
-                        self.windowHome.closeRoot(pygame)
-                        runningHome = False
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if self.windowHome.button_rect.collidepoint(event.pos):
-                        self.windowHome.closeRoot(pygame)
-                        runningHome = False
+                        self.window_home.closeRoot()
+                        running_home = False
+                    elif event.key != pygame.K_ESCAPE :
+                        self.window_home.closeRoot()
+                        running_home = False
                         game = Game()
                         game.launchGame()
 
-                    if self.windowHome.button_rect_quit.collidepoint(event.pos):
-                        self.windowHome.closeRoot(pygame)
-                        runningHome = False
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.window_home.button_rect_play.collidepoint(event.pos):
+                        self.window_home.closeRoot()
+                        running_home = False
+                        game = Game()
+                        game.launchGame()
+
+                    if self.window_home.button_rect_quit.collidepoint(event.pos):
+                        self.window_home.closeRoot()
+                        running_home = False

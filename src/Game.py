@@ -22,7 +22,7 @@ import random
 class Game:
     def __init__(self):
         pygame.init()
-        self.windowGame = Root(pygame)
+        self.window_game = Root()
         self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
         self.image_player_left = "images/test_stick - Copie.png"
@@ -30,7 +30,7 @@ class Game:
         self.image_player_stand = "images/stickman_test.png"
         self.image_player_crouch = "images/crouchnonarmé.png"
         self.font = pygame.font.SysFont('Arial', 25)
-        self.runningGame = True
+        self.running_game = True
         self.paused = False
         self.cooldown_drop_weapon = 5
         self.heal_points_start = 100
@@ -54,7 +54,7 @@ class Game:
             margin,  # distance depuis la gauche
             self.info_screen.current_h / 2,
             "images/test_stick.png",
-            self.windowGame.screen
+            self.window_game.screen
         )
 
         self.player2 = Player(
@@ -63,19 +63,19 @@ class Game:
             self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
             self.info_screen.current_h / 2,
             "images/test_stick - Copie.png",
-            self.windowGame.screen
+            self.window_game.screen
         )
 
-        floor = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+        floor = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
                          (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
-        mid_platform = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
+        mid_platform = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
                           (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
 
-        top_left_platform = Map(self.windowGame, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
+        top_left_platform = Map(self.window_game, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
 
-        top_right_platform = Map(self.windowGame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
+        top_right_platform = Map(self.window_game, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
                           self.info_screen.current_w - self.info_screen.current_w / 1.7,
                           (self.info_screen.current_h / 20))
 
@@ -86,7 +86,7 @@ class Game:
         self.restart = False
 
     def launchGame(self):
-        while self.runningGame:
+        while self.running_game:
             self.playGame()
 
     def changePlayer(self):
@@ -156,56 +156,56 @@ class Game:
 
     def createWeapons(self):
 
-        randomNb = random.randint(1, 100)
+        random_nb = random.randint(1, 100)
 
-        if randomNb <= 13:
+        if random_nb <= 13:
             weapon = self.weapons[3]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
+                                weapon["height"], self.window_game.screen)
+            self.weapon_gun.append(new_weapon)
 
-        elif randomNb <= 36:
+        elif random_nb <= 36:
             weapon = self.weapons[2]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
+                                weapon["height"], self.window_game.screen)
+            self.weapon_gun.append(new_weapon)
 
-        elif randomNb <= 68:
+        elif random_nb <= 68:
             weapon = self.weapons[1]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
+                                weapon["height"], self.window_game.screen)
+            self.weapon_gun.append(new_weapon)
 
-        elif randomNb <= 100:
+        elif random_nb <= 100:
             weapon = self.weapons[0]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
+            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
                                 weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
+                                weapon["height"], self.window_game.screen)
+            self.weapon_gun.append(new_weapon)
 
     def playGame(self):
         self.changePlayer()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.runningGame = False
+                self.running_game = False
 
             if event.type != pygame.KEYDOWN:
                 self.player2.modifImage(self.image_player_stand)
                 self.player1.modifImage(self.image_player_stand)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.windowGame.button_rect_stop.collidepoint(event.pos):
+                if self.window_game.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
                 if self.paused:
-                    if self.windowGame.button_rect_restart.collidepoint(event.pos):
+                    if self.window_game.button_rect_restart.collidepoint(event.pos):
                         self.restart = True
 
-                    elif self.windowGame.button_rect_quit.collidepoint(event.pos):
-                        self.windowGame.closeRoot(pygame)
-                        self.runningGame = False
+                    elif self.window_game.button_rect_quit.collidepoint(event.pos):
+                        self.window_game.closeRoot()
+                        self.running_game = False
                         return
 
         if not self.paused:
@@ -321,7 +321,7 @@ class Game:
     def reloadPage(self):
         if not self.paused:
             pygame.mouse.set_visible(False)
-            self.windowGame.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.png')
+            self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.png')
             for weapon in self.weapon_gun :
                 weapon.draw()
             self.player1.draw(self.font)
@@ -329,7 +329,7 @@ class Game:
 
             for floor in self.floors:
 
-                floor.draw(self.windowGame.screen)
+                floor.draw(self.window_game.screen)
 
             if self.player1.attacking :
                 bullet = self.player1.simpleAttack(self.player2)
@@ -348,23 +348,23 @@ class Game:
 
             for bullet in self.bullets:
                 bullet.shot()
-                bullet.draw(self.windowGame)
+                bullet.draw(self.window_game)
 
-            self.windowGame.scores(self.font, self.score_player1, self.score_player2)
+            self.window_game.scores(self.font, self.score_player1, self.score_player2)
 
             if self.player1.playerIsDead():
-                self.windowGame.win(self.player2)
+                self.window_game.win(self.player2)
             elif self.player2.playerIsDead():
-                self.windowGame.win(self.player1)
+                self.window_game.win(self.player1)
 
         else:
 
             pygame.mouse.set_visible(True)
-            self.windowGame.stop()
+            self.window_game.stop()
 
-            self.windowGame.scores(self.font, self.score_player1, self.score_player2)
+            self.window_game.scores(self.font, self.score_player1, self.score_player2)
 
-        self.windowGame.stopButton(self.paused)
+        self.window_game.stopButton(self.paused)
 
         pygame.display.flip()
 
@@ -438,7 +438,7 @@ class Game:
 
         for bullet in self.bullets:
             if bullet.rect.colliderect(self.player1.rect):
-                if bullet.playerAttackName == self.player1.name:
+                if bullet.player_attack_name == self.player1.name:
                     pass
                 else:
                     self.player1.tackDammage(self.player2.damage)
@@ -446,14 +446,14 @@ class Game:
 
 
             if bullet.rect.colliderect(self.player2.rect):
-                if bullet.playerAttackName == self.player2.name:
+                if bullet.player_attack_name == self.player2.name:
                     pass
                 else:
                     self.player2.tackDammage(self.player1.damage)
                     self.bullets.remove(bullet)
 
 
-            if not bullet.rect.colliderect(self.windowGame.rect):
+            if not bullet.rect.colliderect(self.window_game.rect):
                 self.bullets.remove(bullet)
 
 

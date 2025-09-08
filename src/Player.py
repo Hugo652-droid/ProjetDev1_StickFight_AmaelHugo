@@ -27,14 +27,13 @@ class Player:
         self.last_time_used_vertical = 0
         self.last_time_used_attack = 0
         self.last_time_used_push = 0
-        self.cooldown_jump = 1
+        self.cooldown_vertical = 1
         self.cooldown_attack = 1
-        self.cooldown_crouch = 1
         self.cooldown_push = 1
         self.direct_player = "Left"
         self.attacking = False
         self.pushing = False
-        self.hands =  Weapons(0, "images/stickman_test.png", 10, 1, 1000, 30, 5, screen)
+        self.hands =  Weapons(0, "images/stickman_test.png", 10, 1, 0, 30, 5, screen)
         self.weapon = self.hands
         self.damage = 10
         self.screen = screen
@@ -45,16 +44,12 @@ class Player:
         self.rect.center = (self.x, self.y)
         self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
         self.screen.blit(self.img, self.rect)
-        if self.weapon == 0:
-            self.screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
-        else:
-            self.screen.blit(font.render(f'HP : {self.hp} Ammo : {self.weapon.ammunition}', True, (0, 0, 0)), (self.x - 25, self.y - 150))
 
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
 
     def goUp(self, current_time):
-        if current_time - self.last_time_used_vertical > self.cooldown_jump:
+        if current_time - self.last_time_used_vertical > self.cooldown_vertical:
             self.y -= self.info_screen.current_h/4
             self.last_time_used_vertical = current_time
 
@@ -67,7 +62,7 @@ class Player:
         self.direct_player = "Right"
 
     def goDown(self, current_time):
-        if current_time - self.last_time_used_vertical > self.cooldown_crouch:
+        if current_time - self.last_time_used_vertical > self.cooldown_vertical:
             self.y += 150
             self.last_time_used_vertical = current_time
 
