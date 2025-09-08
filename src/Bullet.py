@@ -20,11 +20,11 @@ class Bullet:
         self.playerAttackName = playerAttackName
         self.direction = direction
         if self.direction == 'Left':
-            self.image = pygame.image.load('images/img_bullets_left.jpg').convert_alpha()
+            self.image = pygame.image.load('images/imgGames/imgBullets/img_bullets_left.jpg').convert_alpha()
             self.image = pygame.transform.scale(self.image, (width, height))
             self.rect = self.image.get_rect()
         elif self.direction == 'Right':
-            self.image = pygame.image.load('images/img_bullets_right.jpg').convert_alpha()
+            self.image = pygame.image.load('images/imgGames/imgBullets/img_bullets_right.jpg').convert_alpha()
             self.image = pygame.transform.scale(self.image, (width, height))
             self.rect = self.image.get_rect()
 

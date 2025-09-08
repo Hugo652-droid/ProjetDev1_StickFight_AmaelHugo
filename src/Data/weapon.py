@@ -2,7 +2,7 @@ dict_weapons = [
             {
                 "id": 1,
                 "name": "gun",
-                "img": 'images/img_wapon.png',
+                "img": 'images/imgGames/imgWeapons/gun.png',
                 "damage": 15,
                 "attackSpeed": 1,
                 "ammunition": 6,
@@ -12,7 +12,7 @@ dict_weapons = [
             {
                 "id": 2,
                 "name": "fusil d'assaut",
-                "img": 'images/fusildassaut.png',
+                "img": 'images/imgGames/imgWeapons/fusildassaut.png',
                 "damage": 3,
                 "attackSpeed": 0.1,
                 "ammunition": 30,
@@ -22,7 +22,7 @@ dict_weapons = [
             {
                 "id": 3,
                 "name": "fusil a pome",
-                "img": 'images/pompe.png',
+                "img": 'images/imgGames/imgWeapons/pompe.png',
                 "damage": 25,
                 "attackSpeed": 3,
                 "ammunition": 10,
@@ -32,7 +32,7 @@ dict_weapons = [
             {
                 "id": 4,
                 "name": "fusil sniper",
-                "img": 'images/fusilsniper.png',
+                "img": 'images/imgGames/imgWeapons/fusilsniper.png',
                 "damage": 100,
                 "attackSpeed": 3,
                 "ammunition": 1,
