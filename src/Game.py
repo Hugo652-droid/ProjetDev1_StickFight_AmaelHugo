@@ -38,6 +38,7 @@ class Game:
         self.image_player2_crouch = "images/imgCharacters/imgPlayer2/crouchPlayer2/Player2_crouch.png"
         self.image_player1_crouch = "images/imgCharacters/imgPlayer1/crouchPlayer1/Player1_crouch.png"
 
+        self.font = pygame.font.Font("assets/Orbitron-VariableFont_wght.ttf", 100)
         self.running_game = True
         self.paused = False
         self.cooldown_drop_weapon = 5
@@ -224,8 +225,6 @@ class Game:
                 self.player2.modifImage(self.image_player2_stand)
                 self.player1.modifImage(self.image_player1_stand)
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.window_game.button_rect_stop.collidepoint(event.pos):
-                    self.paused = not self.paused
                 if self.paused:
                     if self.window_game.button_rect_restart.collidepoint(event.pos):
                         self.restart = True
@@ -393,7 +392,8 @@ class Game:
                 bullet.shot()
                 bullet.draw(self.window_game)
 
-            self.window_game.scores(self.font, self.score_player1, self.score_player2)
+            self.window_game.scores_player1(self.font, self.score_player1)
+            self.window_game.scores_player2(self.font, self.score_player2)
 
             if self.player1.playerIsDead():
                 self.window_game.win(self.player2)
@@ -405,9 +405,9 @@ class Game:
             pygame.mouse.set_visible(True)
             self.window_game.stop()
 
-            self.window_game.scores(self.font, self.score_player1, self.score_player2)
+            self.window_game.scores_player1(self.font, self.score_player1)
+            self.window_game.scores_player2(self.font, self.score_player2)
 
-        self.window_game.stopButton(self.paused)
 
         pygame.display.flip()
 
