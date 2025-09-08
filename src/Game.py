@@ -25,10 +25,17 @@ class Game:
         self.window_game = Root()
         self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
-        self.image_player_left = "images/test_stick - Copie.png"
-        self.image_player_right = "images/test_stick.png"
-        self.image_player_stand = "images/stickman_test.png"
-        self.image_player_crouch = "images/crouchnonarmé.png"
+
+        self.image_player1_left = "images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_left_player1.png"
+        self.image_player1_right = "images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_right_player1.png"
+        self.image_player1_stand = "images/imgCharacters/imgPlayer1/stickman_stand_player1.png"
+
+        self.image_player2_left = "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_left_player2.png"
+        self.image_player2_right = "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png"
+        self.image_player2_stand = "images/imgCharacters/imgPlayer2/stickman_stand_player2.png"
+
+        self.image_player2_crouch = "images/imgCharacters/imgPlayer2/crouchPlayer2/Player2_crouch.png"
+        self.image_player1_crouch = "images/imgCharacters/imgPlayer1/crouchPlayer1/Player1_crouch.png"
         self.font = pygame.font.SysFont('Arial', 25)
         self.running_game = True
         self.paused = False
@@ -53,8 +60,9 @@ class Game:
             self.heal_points_start,
             margin,  # distance depuis la gauche
             self.info_screen.current_h / 2,
-            "images/test_stick.png",
-            self.window_game.screen
+            "images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_right_player1.png",
+            self.window_game.screen,
+            "images/imgCharacters/imgPlayer1/stickman_stand_player1.png"
         )
 
         self.player2 = Player(
@@ -62,8 +70,9 @@ class Game:
             self.heal_points_start,
             self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
             self.info_screen.current_h / 2,
-            "images/test_stick - Copie.png",
-            self.window_game.screen
+            "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png",
+            self.window_game.screen,
+            "images/imgCharacters/imgPlayer2/stickman_stand_player2.png"
         )
 
         floor = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
@@ -93,47 +102,62 @@ class Game:
         if self.player1.weapon:
             if self.player1.direct_player == "Left":
                 if self.player1.weapon.id == 1:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedGunPlayer1/stickman_armed_left_gun_player1.png').convert_alpha()
                 elif self.player1.weapon.id == 2:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedRiflePlayer1/stickman_armed_left_rifle_player1.png').convert_alpha()
                 elif self.player1.weapon.id == 3:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedShotgunPlayer1/stickman_armed_pompe_left_player1.png').convert_alpha()
                 elif self.player1.weapon.id == 4:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left_sniper.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedSniperPlayer1/stickman_armed_left_sniper_player1.png').convert_alpha()
 
         if self.player2.weapon:
             if self.player2.direct_player == "Left":
                 if self.player2.weapon.id == 1:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/stickman_armed_left_gun_player2.png').convert_alpha()
                 elif self.player2.weapon.id == 2:
                     self.player2.img = pygame.image.load(
-                        'images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/stickman_armed_left_rifle_player2.png').convert_alpha()
                 elif self.player2.weapon.id == 3:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/stickman_armed_pompe_left_player2.png').convert_alpha()
                 elif self.player2.weapon.id == 4:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_left_sniper.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/stickman_armed_left_sniper_player2.png').convert_alpha()
 
         if self.player1.weapon:
             if self.player1.direct_player == "Right":
                 if self.player1.weapon.id == 1:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedGunPlayer1/stickman_armed_right_gun_player1.png').convert_alpha()
                 elif self.player1.weapon.id == 2:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedRiflePlayer1/stickman_armed_right_rifle_player1.png').convert_alpha()
                 elif self.player1.weapon.id == 3:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedShotgunPlayer1/stickman_armed_pompe_right_player1.png').convert_alpha()
                 elif self.player1.weapon.id == 4:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right_sniper.png').convert_alpha()
+                    self.player1.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer1/armedPlayer1/armedSniperPlayer1/stickman_armed_right_sniper_player1.png').convert_alpha()
 
         if self.player2.weapon:
             if self.player2.direct_player == "Right":
                 if self.player2.weapon.id == 1:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/stickman_armed_right_gun_player2.png').convert_alpha()
                 elif self.player2.weapon.id == 2:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/stickman_armed_right_rifle_player2.png').convert_alpha()
                 elif self.player2.weapon.id == 3:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/stickman_armed_pompe_right_player2.png').convert_alpha()
                 elif self.player2.weapon.id == 4:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right_sniper.png').convert_alpha()
+                    self.player2.img = pygame.image.load(
+                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/stickman_armed_right_sniper_player2.png').convert_alpha()
 
         if self.player1.playerIsDead():
             self.score_player2 += 1
@@ -142,11 +166,13 @@ class Game:
             self.score_player1 += 1
 
         if self.player1.playerIsDead():
-            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+            self.player1.img = pygame.image.load(
+                'images/imgCharacters/imgPlayer1/deadPlayer1/stickman_dead_player1.png').convert_alpha()
             self.reloadPage()
             pygame.time.wait(2000)
         elif self.player2.playerIsDead():
-            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
+            self.player2.img = pygame.image.load(
+                'images/imgCharacters/imgPlayer2/deadPlayer2/stickman_dead_player2.png').convert_alpha()
             self.reloadPage()
             pygame.time.wait(2000)
 
@@ -194,8 +220,8 @@ class Game:
                 self.running_game = False
 
             if event.type != pygame.KEYDOWN:
-                self.player2.modifImage(self.image_player_stand)
-                self.player1.modifImage(self.image_player_stand)
+                self.player2.modifImage(self.image_player2_stand)
+                self.player1.modifImage(self.image_player1_stand)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.window_game.button_rect_stop.collidepoint(event.pos):
                     self.paused = not self.paused
@@ -223,7 +249,7 @@ class Game:
                             self.player1.dashRight()
                         self.player1.attacking = True
                     elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
-                        self.player1.noAmmunitionInWeapon()
+                        self.player1.noAmmunitionInWeapon(self.player1)
                         self.player1.last_time_used_attack = time.time()
                         self.player1.attacking = True
                     else :
@@ -234,17 +260,17 @@ class Game:
                         self.player1.pushing = True
                 if keys[pygame.K_a]:
                     self.player1.goLeft()
-                    self.player1.modifImage(self.image_player_left)
+                    self.player1.modifImage(self.image_player1_left)
                 if keys[pygame.K_d]:
                     self.player1.goRight()
-                    self.player1.modifImage(self.image_player_right)
+                    self.player1.modifImage(self.image_player2_right)
                 if keys[pygame.K_w]:
                     self.player1.jump(time.time())
                 if keys[pygame.K_s]:
                     if self.player1.rect.bottom > self.floors[0].rect.top:
-                        self.player1.modifImage(self.image_player_crouch)
+                        self.player1.modifImage(self.image_player1_crouch)
                     else:
-                        self.player1.modifImage(self.image_player_crouch)
+                        self.player1.modifImage(self.image_player1_crouch)
                         self.player1.goDown(time.time())
             else:
                 if self.player1.y != self.info_screen.current_h:
@@ -261,7 +287,7 @@ class Game:
                             self.player2.dashRight()
                         self.player2.attacking = True
                     elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
-                        self.player2.noAmmunitionInWeapon()
+                        self.player2.noAmmunitionInWeapon(self.player2)
                         self.player2.last_time_used_attack = time.time()
                         self.player2.attacking = True
                     else:
@@ -272,15 +298,15 @@ class Game:
                         self.player2.pushing = True
                 if keys[pygame.K_j]:
                     self.player2.goLeft()
-                    self.player2.modifImage(self.image_player_left)
+                    self.player2.modifImage(self.image_player2_left)
                 if keys[pygame.K_l]:
                     self.player2.goRight()
-                    self.player2.modifImage(self.image_player_right)
+                    self.player2.modifImage(self.image_player2_right)
                 if keys[pygame.K_k]:
                     if self.player2.rect.bottom > self.floors[0].rect.top:
-                        self.player2.modifImage(self.image_player_crouch)
+                        self.player2.modifImage(self.image_player2_crouch)
                     else:
-                        self.player2.modifImage(self.image_player_crouch)
+                        self.player2.modifImage(self.image_player2_crouch)
                         self.player2.goDown(time.time())
                 if keys[pygame.K_i]:
                     self.player2.jump(time.time())

@@ -15,7 +15,7 @@ from src.Bullet import Bullet
 from src.Weapons import Weapons
 
 class Player:
-    def __init__(self, name, hp, x, y, image, screen):
+    def __init__(self, name, hp, x, y, image, screen, img_hands):
         self.name = name
         self.hp = hp
         self.x = x
@@ -34,7 +34,7 @@ class Player:
         self.jumping = 0
         self.attacking = False
         self.pushing = False
-        self.hands =  Weapons(0, "images/stickman_test.png", 10, 1, 0, 30, 5, screen)
+        self.hands =  Weapons(0, img_hands, 10, 1, 1000, 30, 5, screen)
         self.weapon = self.hands
         self.damage = 10
         self.screen = screen
@@ -97,7 +97,7 @@ class Player:
                 return bullet
             return False
 
-    def noAmmunitionInWeapon(self):
+    def noAmmunitionInWeapon(self, player):
         if self.weapon.noAmmunition():
             self.weapon = self.hands
             self.cooldown_attack = 1
