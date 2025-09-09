@@ -52,7 +52,7 @@ class Player:
 
     def jump(self, current_time):
         if current_time - self.last_time_used_vertical > self.cooldown_vertical:
-            self.jumping = self.info_screen.current_h/4
+            self.jumping = self.info_screen.current_h/4 + 100
             self.last_time_used_vertical = current_time
 
     def goLeft(self):
