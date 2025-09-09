@@ -263,7 +263,7 @@ class Game:
                     self.player1.modifImage(self.image_player1_left)
                 if keys[pygame.K_d]:
                     self.player1.goRight()
-                    self.player1.modifImage(self.image_player2_right)
+                    self.player1.modifImage(self.image_player1_right)
                 if keys[pygame.K_w]:
                     self.player1.jump(time.time())
                 if keys[pygame.K_s]:
@@ -338,7 +338,7 @@ class Game:
     def reloadPage(self):
         if not self.paused:
             pygame.mouse.set_visible(False)
-            self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.png')
+            self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
 
             for weapon in self.weapon_gun :
                 weapon.draw()
@@ -404,9 +404,6 @@ class Game:
 
             pygame.mouse.set_visible(True)
             self.window_game.stop()
-
-            self.window_game.scores_player1(self.font, self.score_player1)
-            self.window_game.scores_player2(self.font, self.score_player2)
 
 
         pygame.display.flip()
