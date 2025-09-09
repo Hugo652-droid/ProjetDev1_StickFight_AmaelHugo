@@ -341,7 +341,7 @@ class Game:
             self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
 
             for weapon in self.weapon_gun :
-                weapon.draw()
+                weapon.draw(self.floors, self.player1, self.player2)
 
             if self.player1.jumping > 0 :
                 self.player1.y -= 20
