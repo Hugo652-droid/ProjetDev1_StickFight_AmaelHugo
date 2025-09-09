@@ -17,6 +17,7 @@ from src.Home import Home
 class Main:
     def __init__(self):
         pygame.init()
+        pygame.mixer.init()
         pygame.display.init()
         home = Home()
         home.launch()

@@ -21,7 +21,6 @@ import random
 
 class Game:
     def __init__(self):
-        pygame.init()
         self.font = pygame.font.SysFont('Arial', 25)
         self.window_game = Root(self.font)
         self.info_screen = pygame.display.Info()
@@ -51,6 +50,14 @@ class Game:
         self.bullets = []
         self.restart = False
         self.floors = []
+
+        self.sound_shot = pygame.mixer.Sound("./sounds/gun-shot.mp3")
+        self.sound_falling = pygame.mixer.Sound("./sounds/falling-character.mp3")
+        self.sounds = [self.sound_shot, self.sound_falling]
+        self.volume = 1.0
+        for sound in self.sounds:
+            sound.set_volume(self.volume)
+
         self.createInstanse()
 
 
@@ -251,6 +258,8 @@ class Game:
                             self.player1.dashRight()
                         self.player1.attacking = True
                     elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
+                        self.sound_shot.stop()
+                        self.sound_shot.play(0,0,0)
                         self.player1.noAmmunitionInWeapon(self.player1)
                         self.player1.last_time_used_attack = time.time()
                         self.player1.attacking = True
@@ -289,6 +298,8 @@ class Game:
                             self.player2.dashRight()
                         self.player2.attacking = True
                     elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
+                        self.sound_shot.stop()
+                        self.sound_shot.play(0, 0, 0)
                         self.player2.noAmmunitionInWeapon(self.player2)
                         self.player2.last_time_used_attack = time.time()
                         self.player2.attacking = True
@@ -377,16 +388,20 @@ class Game:
                 bullet = self.player1.simpleAttack(self.player2)
                 if not bullet:
                     self.player1.attacking = False
+
                 else:
                     self.bullets.append(bullet)
                     self.player1.attacking = False
+
             if self.player2.attacking :
                 bullet = self.player2.simpleAttack(self.player1)
                 if not bullet:
                     self.player2.attacking = False
+
                 else :
                     self.bullets.append(bullet)
                     self.player2.attacking = False
+
 
 
 
