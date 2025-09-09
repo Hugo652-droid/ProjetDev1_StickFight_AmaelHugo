@@ -18,7 +18,7 @@ from src.Settings import Settings
 
 class Home:
     def __init__(self):
-        self.font = pygame.font.SysFont('Arial', 20)
+        self.font = pygame.font.Font("assets/Shooting Star.ttf", 30)
         self.window_home = Root(self.font)
         self.reload()
 
@@ -61,9 +61,9 @@ class Home:
 
     def reload(self):
         self.window_home.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
+        self.window_home.version(self.font)
         self.window_home.buttonPlay()
         self.window_home.buttonSetting()
         self.window_home.buttonQuit()
         self.window_home.title('images/imgTexts/textsMain/textsMain/text_title.png')
-        self.font = pygame.font.Font("assets/Shooting Star.ttf", 30)
-        self.window_home.version(self.font)
+
