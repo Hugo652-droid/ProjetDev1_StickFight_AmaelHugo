@@ -27,6 +27,7 @@ class Root:
 
         size_window = (self.width_screen, self.height_screen)
         self.screen = pygame.display.set_mode(size_window)
+
         self.rect = self.screen.get_rect()
 
         self.button_stop_width = 70
@@ -141,3 +142,33 @@ class Root:
         self.buttonRestart()
 
         self.title('images/imgTexts/textsGame/textsPaused/title_paused.png')
+
+    ################################################################################################ Settings
+
+    def soundBar(self, volume, font):
+        i = 0
+
+        text_down = font.render(f"<",True, (255,255,255))
+        self.volume_down = pygame.rect.Rect(80, (self.height_screen // 4), 10, 160)
+        pygame.draw.rect(self.screen, (0,0,0), self.volume_down)
+        self.screen.blit(text_down, (self.volume_down.x, self.volume_down.y))
+
+        self.soundBars = []
+        while i <= 10:
+            self.soundBars.append(pygame.rect.Rect((i*20+100), (self.height_screen // 4), 10, 160))
+            i += 1
+
+        text_up = font.render(f">", True, (255, 255, 255))
+        self.volume_up = pygame.rect.Rect((i*20+100), (self.height_screen // 4), 10, 160)
+        pygame.draw.rect(self.screen, (0, 0, 0), self.volume_up)
+        self.screen.blit(text_up, (self.volume_up.x, self.volume_up.y))
+
+        volume_index = 0
+        for soundBar in self.soundBars:
+            if volume > volume_index:
+                pygame.draw.rect(self.screen, (0,0,255), soundBar)
+            elif volume <= volume_index:
+                pygame.draw.rect(self.screen, (0,0,0), soundBar)
+            volume_index += 10
+            if volume_index >= 100:
+                break
