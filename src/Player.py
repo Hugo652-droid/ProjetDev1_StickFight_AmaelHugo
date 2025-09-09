@@ -15,7 +15,7 @@ from src.Bullet import Bullet
 from src.Weapons import Weapons
 
 class Player:
-    def __init__(self, name, hp, x, y, image, screen, img_hands):
+    def __init__(self, name, hp, x, y, image, screen, img_hands, color):
         self.name = name
         self.hp = hp
         self.x = x
@@ -32,6 +32,7 @@ class Player:
         self.cooldown_push = 1
         self.direct_player = "Left"
         self.jumping = 0
+        self.color = color
         self.attacking = False
         self.pushing = False
         self.hands =  Weapons(0, img_hands, 10, 1, 1000, 30, 5, screen)

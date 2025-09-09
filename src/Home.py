@@ -65,5 +65,5 @@ class Home:
         self.window_home.buttonSetting()
         self.window_home.buttonQuit()
         self.window_home.title('images/imgTexts/textsMain/textsMain/text_title.png')
-        self.font = pygame.font.SysFont('Arial', 25)
+        self.font = pygame.font.Font("assets/Shooting Star.ttf", 30)
         self.window_home.version(self.font)
