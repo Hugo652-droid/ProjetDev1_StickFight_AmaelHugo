@@ -14,11 +14,12 @@ import pygame
 from src.Root import Root
 from src.Game import Game
 from src.Settings import Settings
+from src.Credits import Credits
 
 
 class Home:
     def __init__(self):
-        self.font = pygame.font.Font("assets/Shooting Star.ttf", 30)
+        self.font = pygame.font.Font("assets/Shooting Star.ttf", 20)
         self.window_home = Root(self.font)
         self.reload()
 
@@ -29,6 +30,10 @@ class Home:
             if self.window_home.settings_screen :
                 settings = Settings(self.window_home)
                 self.window_home.settings_screen = False
+
+            if self.window_home.credits_screen :
+                credits = Credits(self.window_home)
+                self.window_home.credits_screen = False
             else :
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
@@ -57,6 +62,9 @@ class Home:
 
                         if self.window_home.button_rect_setting.collidepoint(event.pos):
                             self.window_home.settings_screen = True
+
+                        if self.window_home.text_rect.collidepoint(event.pos):
+                            self.window_home.credits_screen = True
             self.reload()
 
     def reload(self):

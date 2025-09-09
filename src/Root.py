@@ -24,6 +24,7 @@ class Root:
         # Définir les dimensions de l'écran
         self.placer_screen_button = (self.width_screen - 400) / 2
         self.settings_screen = False
+        self.credits_screen = False
 
         size_window = (self.width_screen, self.height_screen)
         self.screen = pygame.display.set_mode(size_window)
@@ -120,16 +121,16 @@ class Root:
         self.screen.blit(score_text, (self.screen.get_width() - text_width - 20, -30))
 
     def version(self, font):
-        version_text = font.render("V1.0", True, (0, 0, 0))
-        text_rect = version_text.get_rect()
+        version_text = font.render("V1.0 - Amael Rochat & Hugo Rod", True, (0, 0, 0))
+        self.text_rect = version_text.get_rect()
 
-        text_rect.topleft = (20, self.screen.get_height() - text_rect.height - 20)
+        self.text_rect.topleft = (20, self.screen.get_height() - self.text_rect.height - 20)
 
-        self.screen.blit(version_text, text_rect)
+        self.screen.blit(version_text, self.text_rect)
 
     def win(self, player_win):
         font = pygame.font.Font('assets/Shooting Star.ttf', 200)
-        win_text = font.render(f"WINNER: {player_win.name}", True, player_win.color)
+        win_text = font.render(f"Winner is: {player_win.name}", True, player_win.color)
 
         text_rect = win_text.get_rect(center=(self.width_screen / 2, self.height_screen / 2))
 
@@ -175,3 +176,49 @@ class Root:
             volume_index += 10
             if volume_index >= 100:
                 break
+
+    ################################################################################################ Credits
+
+    def titleCredits(self, font):
+        credits_text = font.render(f"Credits", True, (0, 0, 0))
+
+        text_rect = credits_text.get_rect(center=(self.width_screen / 2, self.height_screen / 3))
+
+        self.screen.blit(credits_text, text_rect)
+
+    def show_credits(screen):
+        pygame.init()
+        clock = pygame.time.Clock()
+
+        width = screen.width_screen
+        height = screen.height_screen
+
+        font_title = pygame.font.Font(None, 80)  # Police pour les titres
+        font_text = pygame.font.Font(None, 50)  # Police pour le contenu
+
+        credits = [
+            ("Stick.Onion", font_title, (255, 255, 0)),
+            ("", font_text, (255, 255, 255)),
+
+            ("🎨 ART & GRAPHISMES", font_title, (255, 200, 200)),
+            ("Sprites des personnages : Ton nom", font_text, (255, 255, 255)),
+            ("Arrière-plans & décors : Images libres de droits", font_text, (255, 255, 255)),
+            ("Effets visuels : Ton nom", font_text, (255, 255, 255)),
+            ("", font_text, (255, 255, 255)),
+
+            ("💻 DÉVELOPPEMENT", font_title, (200, 200, 255)),
+            ("Programmation principale : Ton nom", font_text, (255, 255, 255)),
+            ("Gameplay & mécaniques : Ton équipe", font_text, (255, 255, 255)),
+            ("Tests & équilibrage : Amis/testeurs", font_text, (255, 255, 255)),
+            ("", font_text, (255, 255, 255)),
+
+            ("🎶 AUDIO", font_title, (200, 255, 200)),
+            ("Effets sonores : Source/Libre de droits", font_text, (255, 255, 255)),
+            ("Musiques : Source/Libre de droits", font_text, (255, 255, 255)),
+            ("", font_text, (255, 255, 255)),
+
+            ("🙌 REMERCIEMENTS", font_title, (255, 255, 200)),
+            ("Python & Pygame", font_text, (255, 255, 255)),
+            ("Communauté open source", font_text, (255, 255, 255)),
+            ("Amis & famille", font_text, (255, 255, 255)),
+        ]
