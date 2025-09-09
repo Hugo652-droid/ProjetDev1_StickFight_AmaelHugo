@@ -73,7 +73,7 @@ class Root:
         self.button_rect_setting = pygame.Rect(self.placer_screen_button, 680, 400, 160)
 
         # Ajouter du texte sur le bouton
-        img_text = pygame.image.load('images/options_text_test.png - Copie.png')
+        img_text = pygame.image.load('images/imgButtons/mainBtns/mainBtns/settings_text_btn.png')
 
         img_text = pygame.transform.scale(img_text, (400, 160))
 
@@ -109,13 +109,14 @@ class Root:
 
         pygame.display.flip()
 
-    def scores_player1(self, font, score):
-        score_text = font.render(f"{score}",True, (252, 186, 3))
-        self.screen.blit(score_text, (20, 20))
+    def scores_player1(self, font, score, player1):
+        score_text = font.render(f"{score}",True, player1.color)
+        self.screen.blit(score_text, (20, -30))
 
-    def scores_player2(self, font, score):
-        score_text = font.render(f"{score}",True, (160, 7, 237))
-        self.screen.blit(score_text, (self.width_screen - 100, 20))
+    def scores_player2(self, font, score, player2):
+        score_text = font.render(f"{score}",True, player2.color)
+        text_width = score_text.get_width()
+        self.screen.blit(score_text, (self.screen.get_width() - text_width - 20, -30))
 
     def version(self, font):
         version_text = font.render("V1.0", True, (0, 0, 0))
@@ -126,10 +127,12 @@ class Root:
         self.screen.blit(version_text, text_rect)
 
     def win(self, player_win):
-        font = pygame.font.SysFont('Arial', 200)
-        win_text = font.render(f"VAINQUEUR:"
-                                 f" {player_win.name}", True, (0, 0, 0))
-        self.screen.blit(win_text, (0, self.height_screen / 2))
+        font = pygame.font.Font('assets/Shooting Star.ttf', 200)
+        win_text = font.render(f"WINNER: {player_win.name}", True, player_win.color)
+
+        text_rect = win_text.get_rect(center=(self.width_screen / 2, self.height_screen / 2))
+
+        self.screen.blit(win_text, text_rect)
 
     ################################################################################################ Game
 

@@ -38,7 +38,7 @@ class Game:
         self.image_player2_crouch = "images/imgCharacters/imgPlayer2/crouchPlayer2/Player2_crouch.png"
         self.image_player1_crouch = "images/imgCharacters/imgPlayer1/crouchPlayer1/Player1_crouch.png"
 
-        self.font = pygame.font.Font("assets/Orbitron-VariableFont_wght.ttf", 100)
+        self.font = pygame.font.Font("assets/Shooting Star.ttf", 100)
         self.running_game = True
         self.paused = False
         self.cooldown_drop_weapon = 5
@@ -64,7 +64,8 @@ class Game:
             self.info_screen.current_h / 2,
             "images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_right_player1.png",
             self.window_game.screen,
-            "images/imgCharacters/imgPlayer1/stickman_stand_player1.png"
+            "images/imgCharacters/imgPlayer1/stickman_stand_player1.png",
+            (252, 186, 3),
         )
 
         self.player2 = Player(
@@ -74,7 +75,8 @@ class Game:
             self.info_screen.current_h / 2,
             "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png",
             self.window_game.screen,
-            "images/imgCharacters/imgPlayer2/stickman_stand_player2.png"
+            "images/imgCharacters/imgPlayer2/stickman_stand_player2.png",
+            (160, 7, 237),
         )
 
         floor = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
@@ -392,8 +394,8 @@ class Game:
                 bullet.shot()
                 bullet.draw(self.window_game)
 
-            self.window_game.scores_player1(self.font, self.score_player1)
-            self.window_game.scores_player2(self.font, self.score_player2)
+            self.window_game.scores_player1(self.font, self.score_player1, self.player1)
+            self.window_game.scores_player2(self.font, self.score_player2, self.player2)
 
             if self.player1.playerIsDead():
                 self.window_game.win(self.player2)
