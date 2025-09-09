@@ -98,12 +98,12 @@ class Root:
         self.screen.blit(img_text, (self.button_rect_restart.x, self.button_rect_restart.y))
 
     def title(self,img):
-        self.button_rect_title = pygame.Rect(((self.width_screen - 1200) / 2), 100, 1000, 1000)
+        self.button_rect_title = pygame.Rect(((self.width_screen - 900) / 2), 100, 1000, 1000)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load(img)
 
-        img_text = pygame.transform.scale(img_text, (1200, 500))
+        img_text = pygame.transform.scale(img_text, (900, 375))
 
         self.screen.blit(img_text, (self.button_rect_title.x, self.button_rect_title.y))
 
