@@ -22,7 +22,7 @@ class Root:
 
         self.font = font
         # Définir les dimensions de l'écran
-        self.placer_screen_button = (self.width_screen - 400) / 2
+        self.placer_screen_button_width = (self.width_screen -460) / 2 + 200
         self.settings_screen = False
         self.credits_screen = False
 
@@ -61,42 +61,42 @@ class Root:
 
     def buttonPlay(self):
         # Définir la position et la taille du bouton
-        self.button_rect_play = pygame.Rect(self.placer_screen_button, 500, 400, 160)
+        self.button_rect_play = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 70, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/imgButtons/mainBtns/mainBtns/play_text_btn.png')
 
-        img_text = pygame.transform.scale(img_text, (400, 160))
+        img_text = pygame.transform.scale(img_text, (140, 100))
 
         self.screen.blit(img_text, (self.button_rect_play.x, self.button_rect_play.y))
 
     def buttonSetting(self):
         # Définir la position et la taille du bouton
-        self.button_rect_setting = pygame.Rect(self.placer_screen_button, 680, 400, 160)
+        self.button_rect_setting = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 160, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/imgButtons/mainBtns/mainBtns/settings_text_btn.png')
 
-        img_text = pygame.transform.scale(img_text, (400, 160))
+        img_text = pygame.transform.scale(img_text, (140, 100))
 
         self.screen.blit(img_text, (self.button_rect_setting.x, self.button_rect_setting.y))
 
     def buttonQuit(self):
         # Définir la position et la taille du bouton
-        self.button_rect_quit = pygame.Rect(self.placer_screen_button, 860, 400, 160)
+        self.button_rect_quit = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 240, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/imgButtons/quit_text_btn.png')
-        img_text = pygame.transform.scale(img_text, (400, 160))
+        img_text = pygame.transform.scale(img_text, (140, 100))
         self.screen.blit(img_text, (self.button_rect_quit.x, self.button_rect_quit.y))
 
     def buttonRestart(self):
         # Définir la position et la taille du bouton
-        self.button_rect_restart = pygame.Rect(self.placer_screen_button, 600, 400, 160)
+        self.button_rect_restart = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 240, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/imgButtons/gameBtns/pausedBtns/restart_text_btn.png')
-        img_text = pygame.transform.scale(img_text, (400, 160))
+        img_text = pygame.transform.scale(img_text, (140, 100))
         self.screen.blit(img_text, (self.button_rect_restart.x, self.button_rect_restart.y))
 
     def title(self,img):
