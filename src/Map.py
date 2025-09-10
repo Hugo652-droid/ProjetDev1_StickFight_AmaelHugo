@@ -15,7 +15,7 @@ import pygame
 class Map:
     def __init__(self, window, x, y, w, h):
         self.window = window
-        self.img_floor = pygame.image.load('./images/floor_test.png')
+        self.img_floor = pygame.image.load('images/imgGames/imgFloors/floor1_dirt.png')
         self.x = x
         self.y = y
         self.w = w

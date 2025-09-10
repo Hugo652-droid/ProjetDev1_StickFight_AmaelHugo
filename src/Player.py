@@ -12,9 +12,10 @@ Description fichier : Creation et gestion des personnages jouable
 
 import pygame
 from src.Bullet import Bullet
+from src.Weapons import Weapons
 
 class Player:
-    def __init__(self, name, hp, x, y, image):
+    def __init__(self, name, hp, x, y, image, screen, img_hands, color):
         self.name = name
         self.hp = hp
         self.x = x
@@ -25,31 +26,33 @@ class Player:
         self.rect = self.img.get_rect()
         self.last_time_used_vertical = 0
         self.last_time_used_attack = 0
-        self.cooldown_jump = 1
+        self.last_time_used_push = 0
+        self.cooldown_vertical = 1
         self.cooldown_attack = 1
-        self.cooldown_crouch = 1
+        self.cooldown_push = 1
         self.direct_player = "Left"
+        self.jumping = 0
+        self.color = color
         self.attacking = False
-        self.weapon = 0
+        self.pushing = False
+        self.hands =  Weapons(0, img_hands, 10, 1, 1000, 30, 5, screen)
+        self.weapon = self.hands
         self.damage = 10
+        self.screen = screen
 
-    def draw(self, screen, font):
+    def draw(self, font):
         self.img = pygame.transform.scale(self.img, (150, 100))
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
         self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
-        screen.blit(self.img, self.rect)
-        if self.weapon == 0:
-            screen.blit(font.render(f'HP : {self.hp}', True, (0, 0, 0)), (self.x-25, self.y-150))
-        else:
-            screen.blit(font.render(f'HP : {self.hp} Ammo : {self.weapon.ammunition}', True, (0, 0, 0)), (self.x - 25, self.y - 150))
+        self.screen.blit(self.img, self.rect)
 
     def modifImage(self, image):
         self.img = pygame.image.load(image).convert_alpha()
 
-    def goUp(self, current_time):
-        if current_time - self.last_time_used_vertical > self.cooldown_jump:
-            self.y -= self.info_screen.current_h/4
+    def jump(self, current_time):
+        if current_time - self.last_time_used_vertical > self.cooldown_vertical:
+            self.jumping = self.info_screen.current_h/4 + 100
             self.last_time_used_vertical = current_time
 
 
@@ -62,7 +65,7 @@ class Player:
         self.direct_player = "Right"
 
     def goDown(self, current_time):
-        if current_time - self.last_time_used_vertical > self.cooldown_crouch:
+        if current_time - self.last_time_used_vertical > self.cooldown_vertical:
             self.y += 150
             self.last_time_used_vertical = current_time
 
@@ -81,11 +84,12 @@ class Player:
         return self.hp <= 0
 
     def simpleAttack(self, player_damaged):
-        if self.weapon == 0:
+        if self.weapon.id == 0:
             self.cooldown_attack = 1
             if self.rect.colliderect(player_damaged.rect):
                 player_damaged.tackDammage(self.damage)
                 return False
+            return False
         else :
             if not self.weapon.noAmmunition():
                 self.damage = self.weapon.dammage
@@ -93,10 +97,11 @@ class Player:
                 self.weapon.useAmmunition()
                 bullet = Bullet(self.rect.center, self.direct_player, self.name, self.weapon.width, self.weapon.height)
                 return bullet
+            return False
 
-    def noAmmunitionInWeapon(self):
+    def noAmmunitionInWeapon(self, player):
         if self.weapon.noAmmunition():
-            self.weapon = 0
+            self.weapon = self.hands
             self.cooldown_attack = 1
 
 

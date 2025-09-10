@@ -6,42 +6,21 @@ Date de fin : --.--.----
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Main.py
-Description fichier : Lancement de l'application et affichage de la page d'accueil
+Description fichier : Lancement de l'application
 --
 """
 
 import pygame
 from sys import exit
-from src.Root import Root
-from src.Game import Game
+from src.Home import Home
 
-class Main():
+class Main:
     def __init__(self):
         pygame.init()
-        windowHome = Root(pygame)
-        windowHome.changeBg('images/img_bg_main.png')
-        windowHome.buttonPlay()
-        windowHome.buttonQuit()
-        windowHome.title('images/Image titre.png')
-        pygame.display.flip()
-        runningHome = True
-        while runningHome:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if windowHome.button_rect.collidepoint(event.pos):
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
-                        game = Game()
-
-                    if windowHome.button_rect_quit.collidepoint(event.pos):
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
+        pygame.mixer.init()
+        pygame.display.init()
+        home = Home()
+        home.launch()
         pygame.quit()
         exit()
 

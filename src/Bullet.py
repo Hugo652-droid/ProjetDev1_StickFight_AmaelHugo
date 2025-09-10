@@ -13,18 +13,17 @@ Description fichier : Creation et gestion des balles
 import pygame
 
 class Bullet:
-    def __init__(self, position, direction, playerAttackName, width, height):
-
+    def __init__(self, position, direction, player_attack_name, width, height):
         self.x = position[0]
         self.y = position[1]
-        self.playerAttackName = playerAttackName
+        self.player_attack_name = player_attack_name
         self.direction = direction
         if self.direction == 'Left':
-            self.image = pygame.image.load('images/img_bullets_left.jpg').convert_alpha()
+            self.image = pygame.image.load('images/imgGames/imgBullets/img_bullets_left.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, (width, height))
             self.rect = self.image.get_rect()
         elif self.direction == 'Right':
-            self.image = pygame.image.load('images/img_bullets_right.jpg').convert_alpha()
+            self.image = pygame.image.load('images/imgGames/imgBullets/img_bullets_right.png').convert_alpha()
             self.image = pygame.transform.scale(self.image, (width, height))
             self.rect = self.image.get_rect()
 
