@@ -32,7 +32,7 @@ class Game:
         self.runningGame = True
         self.paused = False
         self.cooldown_dropweapon = 5
-        self.hpStart = 30
+        self.hpStart = 150
         self.dict_weapons = [
             {
                 "id": 1,

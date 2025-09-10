@@ -59,7 +59,7 @@ class Root:
 
     def buttonPlay(self):
         # Définir la position et la taille du bouton
-        self.button_rect = pygame.Rect(self.placer_ecran_button, 600, 400, 160)
+        self.button_rect = pygame.Rect(self.placer_ecran_button, self.hauteur_ecran - 300, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/jouer_text_test.png')
@@ -70,7 +70,7 @@ class Root:
 
     def buttonQuit(self):
         # Définir la position et la taille du bouton
-        self.button_rect_quit = pygame.Rect(self.placer_ecran_button, 780, 400, 160)
+        self.button_rect_quit = pygame.Rect(self.placer_ecran_button, self.hauteur_ecran- 150, 400, 160)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/quitter_text_test.png.png.png')

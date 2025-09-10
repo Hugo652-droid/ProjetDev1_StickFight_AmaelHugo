@@ -52,6 +52,7 @@ class Player:
             self.y -= self.info_screen.current_h/4
             self.last_time_used_vertical = current_time
 
+
     def goLeft(self):
         self.x -= 10
         self.direct_player = "Left"
