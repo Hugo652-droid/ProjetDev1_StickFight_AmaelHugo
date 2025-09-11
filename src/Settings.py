@@ -49,7 +49,7 @@ class Settings:
         for box in self.input_boxes:
             box.draw(self.screen.screen)
 
-        self.screen.soundBar(self.volume, self.font)
+        self.screen.soundBar(self.volume, self.font, "Main volume")
 
         pygame.display.flip()
 

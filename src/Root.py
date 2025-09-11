@@ -148,23 +148,26 @@ class Root:
 
     ################################################################################################ Settings
 
-    def soundBar(self, volume, font):
+    def soundBar(self, volume, font, title):
         i = 0
 
+        text_title = font.render(title, True, (255, 255, 255))
+        self.screen.blit(text_title, (80, (self.height_screen // 4 - 50)))
+
         text_down = font.render(f"<",True, (255,255,255))
-        self.volume_down = pygame.rect.Rect(80, (self.height_screen // 4), 10, 160)
+        self.volume_down = pygame.rect.Rect(80, (self.height_screen // 4), 15, 40)
         pygame.draw.rect(self.screen, (0,0,0), self.volume_down)
-        self.screen.blit(text_down, (self.volume_down.x, self.volume_down.y))
+        self.screen.blit(text_down, (self.volume_down.x, self.volume_down.centery - 13))
 
         self.soundBars = []
         while i <= 10:
-            self.soundBars.append(pygame.rect.Rect((i*20+100), (self.height_screen // 4), 10, 160))
+            self.soundBars.append(pygame.rect.Rect((i*20+100), (self.height_screen // 4), 15, 40))
             i += 1
 
         text_up = font.render(f">", True, (255, 255, 255))
-        self.volume_up = pygame.rect.Rect((i*20+100), (self.height_screen // 4), 10, 160)
+        self.volume_up = pygame.rect.Rect((i*20+80), (self.height_screen // 4), 15, 40)
         pygame.draw.rect(self.screen, (0, 0, 0), self.volume_up)
-        self.screen.blit(text_up, (self.volume_up.x, self.volume_up.y))
+        self.screen.blit(text_up, (self.volume_up.x, self.volume_up.centery - 13))
 
         volume_index = 0
         for soundBar in self.soundBars:
