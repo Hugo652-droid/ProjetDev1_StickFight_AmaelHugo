@@ -53,10 +53,10 @@ class Game:
 
         self.sound_shot = pygame.mixer.Sound("./sounds/gun-shot.mp3")
         self.sound_falling = pygame.mixer.Sound("./sounds/falling-character.mp3")
-        self.sounds = [self.sound_shot, self.sound_falling]
-        self.volume = 1.0
-        for sound in self.sounds:
-            sound.set_volume(self.volume)
+        self.sound_background = pygame.mixer.Sound("./sounds/fighting-battle-warrior-drums.mp3")
+        self.sounds = [self.sound_shot, self.sound_falling, self.sound_background]
+
+        pygame.mixer.Channel(0).play(self.sound_background, -1)
 
         self.createInstanse()
 
@@ -86,8 +86,10 @@ class Game:
             (160, 7, 237),
         )
 
-        floor = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
-                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
+        floor = Map(self.window_game,
+                    (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5),
+                    'images/imgGames/imgFloors/ground1_dirt.png')
 
         mid_platform = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
                           (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
@@ -99,7 +101,109 @@ class Game:
                           self.info_screen.current_w - self.info_screen.current_w / 1.7,
                           (self.info_screen.current_h / 20))
 
-        self.floors = [floor, mid_platform, top_left_platform, top_right_platform]
+        self.map1 = [floor, mid_platform, top_left_platform, top_right_platform]
+
+
+        floor = Map(self.window_game,
+                     self.info_screen.current_w / 2,
+                     self.info_screen.current_h - 100,
+                     self.info_screen.current_w - 200,
+                     self.info_screen.current_h / 5,
+                    'images/imgGames/imgFloors/ground1_dirt.png')
+
+        left_platform2 = Map(self.window_game,
+                             self.info_screen.current_w / 4,
+                             self.info_screen.current_h - self.info_screen.current_h / 2.5,
+                             self.info_screen.current_w / 4,
+                             self.info_screen.current_h / 20)
+
+        middle_platform2 = Map(self.window_game,
+                               self.info_screen.current_w / 2,
+                               self.info_screen.current_h - self.info_screen.current_h / 3,
+                               self.info_screen.current_w / 4,
+                               self.info_screen.current_h / 20)
+
+        right_platform2 = Map(self.window_game,
+                              self.info_screen.current_w - self.info_screen.current_w / 4,
+                              self.info_screen.current_h - self.info_screen.current_h / 2.5,
+                              self.info_screen.current_w / 4,
+                              self.info_screen.current_h / 20)
+
+        self.map2 = [floor, left_platform2, middle_platform2, right_platform2]
+
+        center_platform2 = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h / 2,
+            self.info_screen.current_w / 3,
+            self.info_screen.current_h / 20
+        )
+
+        side_left_platform2 = Map(
+            self.window_game,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 25
+        )
+
+        side_right_platform2 = Map(
+            self.window_game,
+            self.info_screen.current_w - self.info_screen.current_w / 5,
+            self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 25
+        )
+
+        self.map3 = [center_platform2, side_left_platform2, side_right_platform2]
+
+        # Plancher en deux parties pour laisser un espace vide au centre
+        left_floor = Map(
+            self.window_game,
+            self.info_screen.current_w / 4 - 50,  # partie gauche
+            self.info_screen.current_h - 100,
+            self.info_screen.current_w / 3,
+            self.info_screen.current_h / 6
+        )
+
+        right_floor = Map(
+            self.window_game,
+            self.info_screen.current_w - (self.info_screen.current_w / 4) + 50,  # partie droite
+            self.info_screen.current_h - 100,
+            self.info_screen.current_w / 3,
+            self.info_screen.current_h / 6
+        )
+
+        middle_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h - self.info_screen.current_h / 2.5,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        left_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w / 4,
+            self.info_screen.current_h - self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        right_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w - self.info_screen.current_w / 4,
+            self.info_screen.current_h - self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        self.map4 = [left_floor, right_floor, left_step3, middle_step3, right_step3]
+
+        maps = [self.map1, self.map2, self.map3, self.map4 ]
+
+        self.floors = random.choice(maps)
+
         self.last_drop = time.time()
         self.weapon_gun = []
         self.bullets = []
@@ -258,8 +362,8 @@ class Game:
                             self.player1.dashRight()
                         self.player1.attacking = True
                     elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
-                        self.sound_shot.stop()
-                        self.sound_shot.play(0,0,0)
+                        pygame.mixer.Channel(1).stop()
+                        pygame.mixer.Channel(1).play(self.sound_shot)
                         self.player1.noAmmunitionInWeapon(self.player1)
                         self.player1.last_time_used_attack = time.time()
                         self.player1.attacking = True
@@ -298,8 +402,8 @@ class Game:
                             self.player2.dashRight()
                         self.player2.attacking = True
                     elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
-                        self.sound_shot.stop()
-                        self.sound_shot.play(0, 0, 0)
+                        pygame.mixer.Channel(1).stop()
+                        pygame.mixer.Channel(1).play(self.sound_shot)
                         self.player2.noAmmunitionInWeapon(self.player2)
                         self.player2.last_time_used_attack = time.time()
                         self.player2.attacking = True
@@ -381,7 +485,6 @@ class Game:
             self.player2.draw(self.font)
 
             for floor in self.floors:
-
                 floor.draw(self.window_game.screen)
 
             if self.player1.attacking :

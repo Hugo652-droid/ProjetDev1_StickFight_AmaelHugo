@@ -1,7 +1,8 @@
 import pygame
 
 from src.assets.InputBox import InputBox
-from src.Root import Root
+from src.Root import Root, INFO
+
 
 class Credits:
     def __init__(self, screen):
@@ -10,7 +11,10 @@ class Credits:
         self.color = (255,0,0)
         self.screen.changeColor(self.color)
         self.bg = "images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png"
-        self.font_title = pygame.font.Font('assets/Shooting Star.ttf', 200)
+        self.font_title = pygame.font.Font('assets/Shooting Star.ttf', 150)
+
+        self.width_screen = INFO.current_w
+        self.height_screen = INFO.current_h
 
 
         self.running_credits = True
@@ -34,9 +38,7 @@ class Credits:
 
         self.screen.titleCredits(self.font_title)
 
-        self.screen.show_credits()
-
-
+        self.screen.showCredits()
 
         pygame.display.flip()
 
