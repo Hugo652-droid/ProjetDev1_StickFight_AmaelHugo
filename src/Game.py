@@ -88,7 +88,8 @@ class Game:
 
         floor = Map(self.window_game,
                     (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
-                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
+                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5),
+                    'images/imgGames/imgFloors/ground1_dirt.png')
 
         mid_platform = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
                           (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
@@ -103,11 +104,12 @@ class Game:
         self.map1 = [floor, mid_platform, top_left_platform, top_right_platform]
 
 
-        floor2 = Map(self.window_game,
+        floor = Map(self.window_game,
                      self.info_screen.current_w / 2,
                      self.info_screen.current_h - 100,
                      self.info_screen.current_w - 200,
-                     self.info_screen.current_h / 5)
+                     self.info_screen.current_h / 5,
+                    'images/imgGames/imgFloors/ground1_dirt.png')
 
         left_platform2 = Map(self.window_game,
                              self.info_screen.current_w / 4,
@@ -127,7 +129,7 @@ class Game:
                               self.info_screen.current_w / 4,
                               self.info_screen.current_h / 20)
 
-        self.map2 = [floor2, left_platform2, middle_platform2, right_platform2]
+        self.map2 = [floor, left_platform2, middle_platform2, right_platform2]
 
         center_platform2 = Map(
             self.window_game,
@@ -155,26 +157,35 @@ class Game:
 
         self.map3 = [center_platform2, side_left_platform2, side_right_platform2]
 
-        floor3 = Map(
+        # Plancher en deux parties pour laisser un espace vide au centre
+        left_floor = Map(
             self.window_game,
-            self.info_screen.current_w / 2,
+            self.info_screen.current_w / 4 - 50,  # partie gauche
             self.info_screen.current_h - 100,
-            self.info_screen.current_w - 200,
+            self.info_screen.current_w / 3,
             self.info_screen.current_h / 6
         )
 
-        left_step3 = Map(
+        right_floor = Map(
             self.window_game,
-            self.info_screen.current_w / 4,
-            self.info_screen.current_h - self.info_screen.current_h / 3,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 20
+            self.info_screen.current_w - (self.info_screen.current_w / 4) + 50,  # partie droite
+            self.info_screen.current_h - 100,
+            self.info_screen.current_w / 3,
+            self.info_screen.current_h / 6
         )
 
         middle_step3 = Map(
             self.window_game,
             self.info_screen.current_w / 2,
             self.info_screen.current_h - self.info_screen.current_h / 2.5,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        left_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w / 4,
+            self.info_screen.current_h - self.info_screen.current_h / 3,
             self.info_screen.current_w / 5,
             self.info_screen.current_h / 20
         )
@@ -187,7 +198,7 @@ class Game:
             self.info_screen.current_h / 20
         )
 
-        self.map4 = [floor3, left_step3, middle_step3, right_step3]
+        self.map4 = [left_floor, right_floor, left_step3, middle_step3, right_step3]
 
         maps = [self.map1, self.map2, self.map3, self.map4 ]
 
@@ -474,7 +485,6 @@ class Game:
             self.player2.draw(self.font)
 
             for floor in self.floors:
-
                 floor.draw(self.window_game.screen)
 
             if self.player1.attacking :
