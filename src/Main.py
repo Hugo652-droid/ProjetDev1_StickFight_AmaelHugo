@@ -19,6 +19,8 @@ class Main:
         pygame.init()
         pygame.mixer.init()
         pygame.display.init()
+        pygame.mixer.Channel(0).set_volume(1.0)
+        pygame.mixer.Channel(1).set_volume(1.0)
         home = Home()
         home.launch()
         pygame.quit()
