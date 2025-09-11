@@ -10,7 +10,8 @@ class Settings:
         self.screen.changeColor(self.color)
         input_box2 = InputBox(200, 500, 140, 32, self.font, (0, 0, 0), (255, 255, 255))
         self.input_boxes = [input_box2]
-        self.volume = 100
+        self.volume = int(pygame.mixer.Channel(1).get_volume() * 100)
+        print(self.volume)
 
 
         self.running_settings = True
@@ -36,6 +37,9 @@ class Settings:
 
             for box in self.input_boxes:
                 box.update()
+
+            pygame.mixer.Channel(0).set_volume(self.volume / 100)
+            pygame.mixer.Channel(1).set_volume(self.volume / 100)
 
             self.reload()
 
