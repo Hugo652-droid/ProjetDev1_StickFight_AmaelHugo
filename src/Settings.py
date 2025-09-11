@@ -44,7 +44,7 @@ class Settings:
             self.reload()
 
     def reload(self):
-        self.screen.changeColor(self.color)
+        self.screen.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
 
         for box in self.input_boxes:
             box.draw(self.screen.screen)
