@@ -86,7 +86,8 @@ class Game:
             (160, 7, 237),
         )
 
-        floor = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
+        floor = Map(self.window_game,
+                    (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
                          (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
 
         mid_platform = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
@@ -99,9 +100,9 @@ class Game:
                           self.info_screen.current_w - self.info_screen.current_w / 1.7,
                           (self.info_screen.current_h / 20))
 
-        self.floors = [floor, mid_platform, top_left_platform, top_right_platform]
+        self.map1 = [floor, mid_platform, top_left_platform, top_right_platform]
 
-        # === MAP 2 (plateformes en escalier) ===
+
         floor2 = Map(self.window_game,
                      self.info_screen.current_w / 2,
                      self.info_screen.current_h - 100,
@@ -126,8 +127,71 @@ class Game:
                               self.info_screen.current_w / 4,
                               self.info_screen.current_h / 20)
 
-        # Stocker les plateformes de la map 2
-        self.floors_map2 = [floor2, left_platform2, middle_platform2, right_platform2]
+        self.map2 = [floor2, left_platform2, middle_platform2, right_platform2]
+
+        center_platform2 = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h / 2,
+            self.info_screen.current_w / 3,
+            self.info_screen.current_h / 20
+        )
+
+        side_left_platform2 = Map(
+            self.window_game,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 25
+        )
+
+        side_right_platform2 = Map(
+            self.window_game,
+            self.info_screen.current_w - self.info_screen.current_w / 5,
+            self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 25
+        )
+
+        self.map3 = [center_platform2, side_left_platform2, side_right_platform2]
+
+        floor3 = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h - 100,
+            self.info_screen.current_w - 200,
+            self.info_screen.current_h / 6
+        )
+
+        left_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w / 4,
+            self.info_screen.current_h - self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        middle_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h - self.info_screen.current_h / 2.5,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        right_step3 = Map(
+            self.window_game,
+            self.info_screen.current_w - self.info_screen.current_w / 4,
+            self.info_screen.current_h - self.info_screen.current_h / 3,
+            self.info_screen.current_w / 5,
+            self.info_screen.current_h / 20
+        )
+
+        self.map4 = [floor3, left_step3, middle_step3, right_step3]
+
+        maps = [self.map1, self.map2, self.map3, self.map4 ]
+
+        self.floors = random.choice(maps)
 
         self.last_drop = time.time()
         self.weapon_gun = []
@@ -307,7 +371,7 @@ class Game:
                 if keys[pygame.K_w]:
                     self.player1.jump(time.time())
                 if keys[pygame.K_s]:
-                    if self.player1.rect.bottom > self.floors_map2[0].rect.top:
+                    if self.player1.rect.bottom > self.floors[0].rect.top:
                         self.player1.modifImage(self.image_player1_crouch)
                     else:
                         self.player1.modifImage(self.image_player1_crouch)
