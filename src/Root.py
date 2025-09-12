@@ -148,27 +148,27 @@ class Root:
 
     ################################################################################################ Settings
 
-    def soundBar(self, volume, font, title):
+    def soundBar(self, volume, font, title, height):
         i = 0
 
 
         text_title = font.render(title, True, (255, 255, 255))
-        self.screen.blit(text_title, (80, (self.height_screen // 4 - 50)))
+        self.screen.blit(text_title, (80, (height - 50)))
 
         text_down = font.render(f"<",True, (255,255,255))
-        self.volume_down = pygame.rect.Rect(80, (self.height_screen // 4), 15, 40)
-        pygame.draw.rect(self.screen, (0,0,0), self.volume_down)
-        self.screen.blit(text_down, (self.volume_down.x, self.volume_down.centery - 13))
+        volume_down = pygame.rect.Rect(80, height, 15, 40)
+        pygame.draw.rect(self.screen, (0,0,0), volume_down)
+        self.screen.blit(text_down, (volume_down.x, volume_down.centery - 13))
 
         self.soundBars = []
         while i <= 10:
-            self.soundBars.append(pygame.rect.Rect((i*20+100), (self.height_screen // 4), 15, 40))
+            self.soundBars.append(pygame.rect.Rect((i*20+100), height, 15, 40))
             i += 1
 
         text_up = font.render(f">", True, (255, 255, 255))
-        self.volume_up = pygame.rect.Rect((i*20+80), (self.height_screen // 4), 15, 40)
-        pygame.draw.rect(self.screen, (0, 0, 0), self.volume_up)
-        self.screen.blit(text_up, (self.volume_up.x, self.volume_up.centery - 13))
+        volume_up = pygame.rect.Rect((i*20+80), height, 15, 40)
+        pygame.draw.rect(self.screen, (0, 0, 0), volume_up)
+        self.screen.blit(text_up, (volume_up.x, volume_up.centery - 13))
 
         volume_index = 0
         for soundBar in self.soundBars:
@@ -179,6 +179,8 @@ class Root:
             volume_index += 10
             if volume_index >= 100:
                 break
+
+        return volume_down, volume_up
 
     ################################################################################################ Credits
 

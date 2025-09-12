@@ -10,9 +10,8 @@ class Settings:
         self.screen.changeColor(self.color)
         input_box2 = InputBox(200, 500, 140, 32, self.font, (0, 0, 0), (255, 255, 255))
         self.input_boxes = [input_box2]
-        self.volume = int(pygame.mixer.Channel(1).get_volume() * 100)
-        print(self.volume)
-
+        self.volume_music = pygame.mixer.Channel(0).get_volume() * 100
+        self.volume_effect = pygame.mixer.Channel(1).get_volume() * 100
 
         self.running_settings = True
         while self.running_settings:
@@ -23,12 +22,22 @@ class Settings:
                 for box in self.input_boxes:
                     box.handleEvent(event)
                 if event.type == pygame.MOUSEBUTTONDOWN:
-                        if self.screen.volume_down.collidepoint(event.pos):
-                            if self.volume > 0:
-                                self.volume -= 10
-                        if self.screen.volume_up.collidepoint(event.pos):
-                            if self.volume < 100:
-                                self.volume += 10
+                    if self.soundBarEffect[0].collidepoint(event.pos):
+                        if self.volume_effect > 0:
+                            self.volume_effect -= 10
+                            pygame.mixer.Channel(1).set_volume(self.volume_effect / 100)
+                    elif self.soundBarEffect[1].collidepoint(event.pos):
+                        if self.volume_effect < 100:
+                            self.volume_effect += 10
+                            pygame.mixer.Channel(1).set_volume(self.volume_effect / 100)
+                    elif self.soundBarMusic[0].collidepoint(event.pos):
+                        if self.volume_music > 0:
+                            self.volume_music -= 10
+                            pygame.mixer.Channel(0).set_volume(self.volume_music / 100)
+                    elif self.soundBarMusic[1].collidepoint(event.pos):
+                        if self.volume_music < 100:
+                            self.volume_music += 10
+                            pygame.mixer.Channel(0).set_volume(self.volume_music / 100)
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
@@ -38,8 +47,7 @@ class Settings:
             for box in self.input_boxes:
                 box.update()
 
-            pygame.mixer.Channel(0).set_volume(self.volume / 100)
-            pygame.mixer.Channel(1).set_volume(self.volume / 100)
+            print(self.volume_music, self.volume_effect)
 
             self.reload()
 
@@ -49,7 +57,9 @@ class Settings:
         for box in self.input_boxes:
             box.draw(self.screen.screen)
 
-        self.screen.soundBar(self.volume, self.font, "Main volume")
+        self.soundBarMusic = self.screen.soundBar(self.volume_music, self.font, "Musique volume", (pygame.display.Info().current_h // 4))
+
+        self.soundBarEffect = self.screen.soundBar(self.volume_effect, self.font, "Effect volume", (pygame.display.Info().current_h // 4 + 100))
 
         pygame.display.flip()
 

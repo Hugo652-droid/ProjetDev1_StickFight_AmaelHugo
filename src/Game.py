@@ -241,6 +241,8 @@ class Game:
         while self.running_game:
             self.playGame()
 
+        pygame.mixer.Channel(0).stop()
+
     def changePlayer(self):
         if self.player1.weapon:
             if self.player1.direct_player == "Left":
