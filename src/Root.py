@@ -71,7 +71,7 @@ class Root:
 
     def buttonSetting(self):
         # Définir la position et la taille du bouton
-        self.button_rect_setting = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 180, 400, 100)
+        self.button_rect_setting = pygame.Rect((self.width_screen - 160) // 2, self.height_screen / 2 + 180, 400, 100)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load('images/imgButtons/mainBtns/mainBtns/settings_text_btn.png')
@@ -150,6 +150,7 @@ class Root:
 
     def soundBar(self, volume, font, title):
         i = 0
+
 
         text_title = font.render(title, True, (255, 255, 255))
         self.screen.blit(text_title, (80, (self.height_screen // 4 - 50)))

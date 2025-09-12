@@ -11,10 +11,12 @@ Description fichier : Creation et gestion des parties et du jeu
 """
 
 from src.Player import Player
+from src.Powers import Powers
 from src.Root import Root
 from src.Map import Map
 from src.Weapons import Weapons
 from src.Data.weapon import dict_weapons
+from src.Data.powers import dict_power
 import time
 import pygame
 import random
@@ -50,6 +52,11 @@ class Game:
         self.bullets = []
         self.restart = False
         self.floors = []
+
+        self.cooldown_drop_power = 1
+        self.power = dict_power
+        self.power_list = []
+        self.last_drop_power = time.time()
 
         self.sound_shot = pygame.mixer.Sound("./sounds/gun-shot.mp3")
         self.sound_falling = pygame.mixer.Sound("./sounds/falling-character.mp3")
@@ -103,6 +110,69 @@ class Game:
 
         self.map1 = [floor, mid_platform, top_left_platform, top_right_platform]
 
+        # Grand sol en bas (mais pas sur toute la largeur → danger sur les côtés)
+        floor = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h - 80,
+            self.info_screen.current_w * 0.8,  # un peu de vide sur les côtés
+            self.info_screen.current_h / 10,
+            'images/imgGames/imgFloors/ground1_dirt.png'
+        )
+
+        # Deux plateformes intermédiaires (au milieu)
+        mid_left = Map(
+            self.window_game,
+            self.info_screen.current_w / 3,
+            self.info_screen.current_h / 1.8,
+            self.info_screen.current_w / 6,
+            self.info_screen.current_h / 25
+        )
+
+        mid_right = Map(
+            self.window_game,
+            self.info_screen.current_w - (self.info_screen.current_w / 3),
+            self.info_screen.current_h / 1.8,
+            self.info_screen.current_w / 6,
+            self.info_screen.current_h / 25
+        )
+
+        # Une petite plateforme flottante au centre (plus haute)
+        top_center = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h / 3,
+            self.info_screen.current_w / 8,
+            self.info_screen.current_h / 30
+        )
+
+        # Deux petites plateformes sur les côtés, tout en haut
+        top_left = Map(
+            self.window_game,
+            self.info_screen.current_w / 6,
+            self.info_screen.current_h / 4,
+            self.info_screen.current_w / 10,
+            self.info_screen.current_h / 30
+        )
+
+        top_right = Map(
+            self.window_game,
+            self.info_screen.current_w - (self.info_screen.current_w / 6),
+            self.info_screen.current_h / 4,
+            self.info_screen.current_w / 10,
+            self.info_screen.current_h / 30
+        )
+
+        # Une petite plateforme flottante au centre (plus haute)
+        bottom_center = Map(
+            self.window_game,
+            self.info_screen.current_w / 2,
+            self.info_screen.current_h / 2 + self.info_screen.current_h / 3,
+            self.info_screen.current_w / 8,
+            self.info_screen.current_h / 30
+        )
+
+        self.map5 = [floor, mid_left, mid_right, top_center, top_left, top_right, bottom_center]
 
         floor = Map(self.window_game,
                      self.info_screen.current_w / 2,
@@ -157,55 +227,13 @@ class Game:
 
         self.map3 = [center_platform2, side_left_platform2, side_right_platform2]
 
-        # Plancher en deux parties pour laisser un espace vide au centre
-        left_floor = Map(
-            self.window_game,
-            self.info_screen.current_w / 4 - 50,  # partie gauche
-            self.info_screen.current_h - 100,
-            self.info_screen.current_w / 3,
-            self.info_screen.current_h / 6
-        )
-
-        right_floor = Map(
-            self.window_game,
-            self.info_screen.current_w - (self.info_screen.current_w / 4) + 50,  # partie droite
-            self.info_screen.current_h - 100,
-            self.info_screen.current_w / 3,
-            self.info_screen.current_h / 6
-        )
-
-        middle_step3 = Map(
-            self.window_game,
-            self.info_screen.current_w / 2,
-            self.info_screen.current_h - self.info_screen.current_h / 2.5,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 20
-        )
-
-        left_step3 = Map(
-            self.window_game,
-            self.info_screen.current_w / 4,
-            self.info_screen.current_h - self.info_screen.current_h / 3,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 20
-        )
-
-        right_step3 = Map(
-            self.window_game,
-            self.info_screen.current_w - self.info_screen.current_w / 4,
-            self.info_screen.current_h - self.info_screen.current_h / 3,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 20
-        )
-
-        self.map4 = [left_floor, right_floor, left_step3, middle_step3, right_step3]
-
-        maps = [self.map1, self.map2, self.map3, self.map4 ]
+        maps = [self.map1, self.map2, self.map3, self.map5 ]
 
         self.floors = random.choice(maps)
 
         self.last_drop = time.time()
         self.weapon_gun = []
+        self.power_list = []
         self.bullets = []
         self.restart = False
 
@@ -327,6 +355,37 @@ class Game:
                                 weapon["height"], self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
+    def createPowers(self):
+
+        random_nb = random.randint(1, 100)
+
+        if random_nb <= 13:
+            power = self.power[0]
+            new_power = Powers(power["id"], power["img"], power["duration"], power["height"], power["width"], self.window_game.screen)
+
+            self.power_list.append(new_power)
+
+        elif random_nb <= 36:
+            power = self.power[0]
+            new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
+                               power["width"], self.window_game.screen)
+
+            self.power_list.append(new_power)
+
+        elif random_nb <= 68:
+            power = self.power[0]
+            new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
+                               power["width"], self.window_game.screen)
+
+            self.power_list.append(new_power)
+
+        elif random_nb <= 100:
+            power = self.power[0]
+            new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
+                               power["width"], self.window_game.screen)
+
+            self.power_list.append(new_power)
+
     def playGame(self):
         self.changePlayer()
 
@@ -435,9 +494,17 @@ class Game:
                 self.last_drop = time.time()
                 self.createWeapons()
 
+            if time.time() - self.last_drop_power > self.cooldown_drop_power:
+                self.last_drop_power = time.time()
+                self.createPowers()
+
             for weapon in self.weapon_gun:
                 if weapon.rect_weapon.y != self.info_screen.current_h:
                     weapon.rect_weapon.y += 10
+
+            for power in self.power_list:
+                if power.rect_power.y != self.info_screen.current_h:
+                    power.rect_power.y += 10
 
             self.collision()
 

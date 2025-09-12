@@ -1,0 +1,46 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : powers.py
+Description fichier : Creation et gestion des armes
+--
+"""
+
+import pygame
+import random
+
+class Powers():
+    def __init__(self, id, img, duration, width, height, screen):
+        self.id = id
+        self.duration = duration
+        self.width = width
+        self.height = height
+        self.img_power = pygame.image.load(img)
+        self.rect_power = self.img_power.get_rect()
+        self.img_power = pygame.transform.scale(self.img_power, (80, 30))
+        self.screen = screen
+        self.info = pygame.display.Info()
+        self.img = img
+        self.placed = False
+        
+    def draw(self, floors, player1, player2):
+        while not self.placed:
+            self.rect_power.x = random.randint(0, self.info.current_w - self.rect_power.width)
+            self.rect_power.y = random.randint(0, self.info.current_h - self.rect_power.height)
+
+            # vérifie si au moins une condition dans une liste est vraie
+            collision = any(self.rect_power.colliderect(floor.rect) for floor in floors)
+
+            if not collision and not self.rect_power.colliderect(player1.rect) and not self.rect_power.colliderect(player2.rect) :
+                self.placed = True
+                self.screen.blit(self.img_power, self.rect_power)
+
+        if self.placed:
+            self.screen.blit(self.img_power, self.rect_power)
+
+
+
