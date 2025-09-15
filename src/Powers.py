@@ -32,15 +32,5 @@ class Powers():
             self.rect_power.centerx = random.randint(0, self.info.current_w - self.rect_power.width)
             self.rect_power.centery = random.randint(0, self.info.current_h - self.rect_power.height)
 
-            # vérifie si au moins une condition dans une liste est vraie
-            collision = any(self.rect_power.colliderect(floor.rect) for floor in floors)
-
-            if not collision and not self.rect_power.colliderect(player1.rect) and not self.rect_power.colliderect(player2.rect) :
-                self.placed = True
-                self.screen.blit(self.img_power, self.rect_power)
-
-        if self.placed:
-            self.screen.blit(self.img_power, self.rect_power)
-
-
+            # vérifie si au moins une cow
 
