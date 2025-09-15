@@ -55,7 +55,7 @@ class Game:
         self.restart = False
         self.floors = []
 
-        self.cooldown_drop_power = 5
+        self.cooldown_drop_power = 1
         self.power = powers
         self.power_list = []
         self.last_drop_power = time.time()
@@ -258,52 +258,49 @@ class Game:
                         self.image_player.get("player1_left_shotgun")).convert_alpha()
                 elif self.player1.weapon.id == 4:
                     self.player1.img = pygame.image.load(
-                        self.image_player("player1_left_sniper")).convert_alpha()
+                        self.image_player.get("player1_left_sniper")).convert_alpha()
+            elif self.player1.direct_player == "Right":
+                if self.player1.weapon.id == 1:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_gun")).convert_alpha()
+                elif self.player1.weapon.id == 2:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_rifle")).convert_alpha()
+                elif self.player1.weapon.id == 3:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_shotgun")).convert_alpha()
+                elif self.player1.weapon.id == 4:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_sniper")).convert_alpha()
+
 
         if self.player2.weapon:
             if self.player2.direct_player == "Left":
                 if self.player2.weapon.id == 1:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/stickman_armed_left_gun_player2.png').convert_alpha()
+                        self.image_player.get("player2_left_gun")).convert_alpha()
                 elif self.player2.weapon.id == 2:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/stickman_armed_left_rifle_player2.png').convert_alpha()
+                        self.image_player.get("player2_left_rifle")).convert_alpha()
                 elif self.player2.weapon.id == 3:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/stickman_armed_shotgun_left_player2.png').convert_alpha()
+                        self.image_player.get("player2_left_shotgun")).convert_alpha()
                 elif self.player2.weapon.id == 4:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/stickman_armed_left_sniper_player2.png').convert_alpha()
-
-        if self.player1.weapon:
-            if self.player1.direct_player == "Right":
-                if self.player1.weapon.id == 1:
-                    self.player1.img = pygame.image.load(
-                        self.image_player("player1_right_gun")).convert_alpha()
-                elif self.player1.weapon.id == 2:
-                    self.player1.img = pygame.image.load(
-                        self.image_player("player1_right_rifle")).convert_alpha()
-                elif self.player1.weapon.id == 3:
-                    self.player1.img = pygame.image.load(
-                        self.image_player("player1_right_shotgun")).convert_alpha()
-                elif self.player1.weapon.id == 4:
-                    self.player1.img = pygame.image.load(
-                        self.image_player("player1_right_sniper")).convert_alpha()
-
-        if self.player2.weapon:
-            if self.player2.direct_player == "Right":
+                        self.image_player.get("player2_left_sniper")).convert_alpha()
+            elif self.player2.direct_player == "Right":
                 if self.player2.weapon.id == 1:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/stickman_armed_right_gun_player2.png').convert_alpha()
+                        self.image_player.get("player2_right_gun")).convert_alpha()
                 elif self.player2.weapon.id == 2:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/stickman_armed_right_rifle_player2.png').convert_alpha()
+                        self.image_player.get("player2_right_rifle")).convert_alpha()
                 elif self.player2.weapon.id == 3:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/stickman_armed_shotgun_right_player2.png').convert_alpha()
+                        self.image_player.get("player2_right_shotgun")).convert_alpha()
                 elif self.player2.weapon.id == 4:
                     self.player2.img = pygame.image.load(
-                        'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/stickman_armed_right_sniper_player2.png').convert_alpha()
+                        self.image_player.get("player2_right_sniper")).convert_alpha()
 
         if self.player1.playerIsDead():
             self.score_player2 += 1
@@ -313,12 +310,12 @@ class Game:
 
         if self.player1.playerIsDead():
             self.player1.img = pygame.image.load(
-                'images/imgCharacters/imgPlayer1/deadPlayer1/stickman_dead_player1.png').convert_alpha()
+                self.image_player.get("player1_dead")).convert_alpha()
             self.reloadPage()
             pygame.time.wait(2000)
         elif self.player2.playerIsDead():
             self.player2.img = pygame.image.load(
-                'images/imgCharacters/imgPlayer2/deadPlayer2/stickman_dead_player2.png').convert_alpha()
+                self.image_player.get("player2_dead")).convert_alpha()
             self.reloadPage()
             pygame.time.wait(2000)
 
