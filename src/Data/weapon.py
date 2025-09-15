@@ -1,4 +1,4 @@
-dict_weapons = [
+weapons = [
             {
                 "id": 1,
                 "name": "gun",

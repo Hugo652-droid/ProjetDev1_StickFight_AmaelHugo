@@ -29,9 +29,4 @@ class Map:
         self.rect.center = (self.x, self.y)
         screen.blit(self.img_floor, self.rect)
 
-    def draw_floor(self, screen):
-        self.img_floor = pygame.transform.scale(self.img_floor_ground, (self.w, self.h))
-        self.rect = self.img_floor.get_rect()
-        self.rect.center = (self.x, self.y)
-        screen.blit(self.img_floor, self.rect)
 
