@@ -53,7 +53,7 @@ class Game:
         self.restart = False
         self.floors = []
 
-        self.cooldown_drop_power = 5
+        self.cooldown_drop_power = 1
         self.power = dict_power
         self.power_list = []
         self.last_drop_power = time.time()
