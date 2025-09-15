@@ -14,7 +14,7 @@ import random
 import pygame
 from src.Bullet import Bullet
 from src.Weapons import Weapons
-from src.Data.powers import dict_power
+from src.Data.powers import powers
 
 class Player:
     def __init__(self, name, hp, x, y, image, screen, img_hands, color):
@@ -90,13 +90,13 @@ class Player:
         random_nb = random.randint(1, 100)
 
         if random_nb <= 33:
-            self.power = dict_power[0]
+            self.power = powers[0]
 
         elif random_nb <= 66:
-            self.power = dict_power[1]
+            self.power = powers[1]
 
         elif random_nb > 66:
-            self.power = dict_power[2]
+            self.power = powers[2]
 
 
     def simpleAttack(self, player_damaged):
