@@ -9,10 +9,12 @@ Nom fichier : Player.py
 Description fichier : Creation et gestion des personnages jouable
 --
 """
+import random
 
 import pygame
 from src.Bullet import Bullet
 from src.Weapons import Weapons
+from src.Data.powers import dict_power
 
 class Player:
     def __init__(self, name, hp, x, y, image, screen, img_hands, color):
@@ -39,6 +41,7 @@ class Player:
         self.weapon = self.hands
         self.damage = 10
         self.screen = screen
+        self.power = 0
 
     def draw(self, font):
         self.img = pygame.transform.scale(self.img, (150, 100))
@@ -82,6 +85,19 @@ class Player:
 
     def playerIsDead(self):
         return self.hp <= 0
+
+    def takePower(self):
+        random_nb = random.randint(1, 100)
+
+        if random_nb <= 33:
+            self.power = dict_power[0]
+
+        elif random_nb <= 66:
+            self.power = dict_power[1]
+
+        elif random_nb > 66:
+            self.power = dict_power[2]
+
 
     def simpleAttack(self, player_damaged):
         if self.weapon.id == 0:

@@ -55,7 +55,7 @@ class Game:
         self.restart = False
         self.floors = []
 
-        self.cooldown_drop_power = 1
+        self.cooldown_drop_power = 10
         self.power = powers
         self.power_list = []
         self.last_drop_power = time.time()
@@ -689,10 +689,12 @@ class Game:
             if power.rect_power.colliderect(self.player1.rect):
                 self.player1.power = power
                 self.power_list.remove(power)
+                self.player1.takePower(power)
 
             elif power.rect_power.colliderect(self.player2.rect):
                 self.player2.power = power
                 self.power_list.remove(power)
+                self.player2.takePower(power)
 
         if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
             self.player1.pushing = False
