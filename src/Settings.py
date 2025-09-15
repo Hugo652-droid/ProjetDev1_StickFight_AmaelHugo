@@ -7,9 +7,13 @@ class Settings:
         self.font = pygame.font.SysFont('Arial', 20)
         self.screen = screen
         self.color = (255,0,0)
+        self.games_mods = {
+            1: "Mode classique avec armes et pouvoirs",
+            2: "Mode à main nue sans armes et sans pouvoirs",
+        }
+
+        self.selected_mod = 1
         self.screen.changeColor(self.color)
-        input_box2 = InputBox(200, 500, 140, 32, self.font, (0, 0, 0), (255, 255, 255))
-        self.input_boxes = [input_box2]
         self.volume_music = pygame.mixer.Channel(0).get_volume() * 100
         self.volume_effect = pygame.mixer.Channel(1).get_volume() * 100
 
@@ -19,8 +23,6 @@ class Settings:
                 if event.type == pygame.QUIT:
                     self.running_game = False
                     return
-                for box in self.input_boxes:
-                    box.handleEvent(event)
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.soundBarEffect[0].collidepoint(event.pos):
                         if self.volume_effect > 0:
@@ -44,20 +46,16 @@ class Settings:
                         self.running_game = False
                         return
 
-            for box in self.input_boxes:
-                box.update()
-
             self.reload()
 
     def reload(self):
         self.screen.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
 
-        for box in self.input_boxes:
-            box.draw(self.screen.screen)
-
         self.soundBarMusic = self.screen.soundBar(self.volume_music, self.font, "Musique volume", (pygame.display.Info().current_h // 4))
 
         self.soundBarEffect = self.screen.soundBar(self.volume_effect, self.font, "Effect volume", (pygame.display.Info().current_h // 4 + 100))
+
+        self.modSelector = self.screen.modSelector(self.font, self.games_mods, self.selected_mod, 100)
 
         pygame.display.flip()
 
