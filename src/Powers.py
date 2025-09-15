@@ -21,7 +21,7 @@ class Powers():
         self.height = height
         self.img_power = pygame.image.load(img)
         self.rect_power = self.img_power.get_rect()
-        self.img_power = pygame.transform.scale(self.img_power, (80, 30))
+        self.img_power = pygame.transform.scale(self.img_power, (30, 30))
         self.screen = screen
         self.info = pygame.display.Info()
         self.img = img
@@ -34,6 +34,8 @@ class Powers():
 
             # vérifie si au moins une condition dans une liste est vraie
             collision = any(self.rect_power.colliderect(floor.rect) for floor in floors)
+
+            print("abc")
 
             if not collision and not self.rect_power.colliderect(player1.rect) and not self.rect_power.colliderect(player2.rect) :
                 self.placed = True

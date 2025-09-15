@@ -53,7 +53,7 @@ class Game:
         self.restart = False
         self.floors = []
 
-        self.cooldown_drop_power = 1
+        self.cooldown_drop_power = 5
         self.power = dict_power
         self.power_list = []
         self.last_drop_power = time.time()
@@ -361,28 +361,14 @@ class Game:
 
         random_nb = random.randint(1, 100)
 
-        if random_nb <= 13:
+        if random_nb <= 50:
             power = self.power[0]
             new_power = Powers(power["id"], power["img"], power["duration"], power["height"], power["width"], self.window_game.screen)
 
             self.power_list.append(new_power)
 
-        elif random_nb <= 36:
-            power = self.power[0]
-            new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
-                               power["width"], self.window_game.screen)
-
-            self.power_list.append(new_power)
-
-        elif random_nb <= 68:
-            power = self.power[0]
-            new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
-                               power["width"], self.window_game.screen)
-
-            self.power_list.append(new_power)
-
-        elif random_nb <= 100:
-            power = self.power[0]
+        elif random_nb > 50:
+            power = self.power[1]
             new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
                                power["width"], self.window_game.screen)
 
@@ -516,7 +502,6 @@ class Game:
                 self.paused = not self.paused
                 pygame.time.wait(175)
 
-
         self.reloadPage()
 
         self.clock.tick(200)
@@ -526,8 +511,14 @@ class Game:
             pygame.mouse.set_visible(False)
             self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
 
+            for floor in self.floors:
+                floor.draw(self.window_game.screen)
+
             for weapon in self.weapon_gun :
                 weapon.draw(self.floors, self.player1, self.player2)
+
+            for power in self.power_list :
+                power.draw(self.floors, self.player1, self.player2)
 
             if self.player1.jumping > 0 :
                 self.player1.y -= 20
@@ -552,9 +543,6 @@ class Game:
 
             self.player1.draw(self.font)
             self.player2.draw(self.font)
-
-            for floor in self.floors:
-                floor.draw(self.window_game.screen)
 
             if self.player1.attacking :
                 bullet = self.player1.simpleAttack(self.player2)
@@ -665,6 +653,10 @@ class Game:
                 if weapon.rect_weapon.colliderect(floor.rect):
                     weapon.rect_weapon.y -= 10
 
+            for power in self.power_list:
+                if power.rect_power.colliderect(floor.rect):
+                    power.rect_power.y -= 10
+
         for bullet in self.bullets:
             if bullet.rect.colliderect(self.player1.rect):
                 if bullet.player_attack_name == self.player1.name:
@@ -694,6 +686,15 @@ class Game:
             elif weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
+
+        for power in self.power_list:
+            if power.rect_power.colliderect(self.player1.rect):
+                self.player1.power = power
+                self.power_list.remove(power)
+
+            elif power.rect_power.colliderect(self.player2.rect):
+                self.player2.power = power
+                self.power_list.remove(power)
 
         if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
             self.player1.pushing = False
