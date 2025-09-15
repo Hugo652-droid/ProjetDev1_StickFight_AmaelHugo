@@ -47,8 +47,6 @@ class Settings:
             for box in self.input_boxes:
                 box.update()
 
-            print(self.volume_music, self.volume_effect)
-
             self.reload()
 
     def reload(self):

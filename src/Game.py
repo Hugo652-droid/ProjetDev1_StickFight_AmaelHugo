@@ -60,7 +60,6 @@ class Game:
 
         self.createInstanse()
 
-
     def createInstanse(self):
         margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
 
@@ -215,7 +214,7 @@ class Game:
 
         pygame.mixer.Channel(0).stop()
 
-    def changePlayer(self):
+    def changeImgPlayer(self):
         if self.player1.weapon:
             if self.player1.direct_player == "Left":
                 if self.player1.weapon.id == 1:
@@ -330,7 +329,7 @@ class Game:
             self.weapon_gun.append(new_weapon)
 
     def playGame(self):
-        self.changePlayer()
+        self.changeImgPlayer()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -634,13 +633,11 @@ class Game:
                 self.player2.dashLeft()
             elif self.player1.direct_player == "Right":
                 self.player2.dashRight()
-        else:
-            self.player1.pushing = False
+
         if self.player2.pushing and self.player2.rect.colliderect(self.player1.rect):
             self.player2.pushing = False
             if self.player2.direct_player == "Left":
                 self.player1.dashLeft()
             elif self.player2.direct_player == "Right":
                 self.player1.dashRight()
-        else:
-            self.player2.pushing = False
+
