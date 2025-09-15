@@ -43,3 +43,4 @@ class Powers():
             self.screen.blit(self.img_power, self.rect_power)
 
 
+
