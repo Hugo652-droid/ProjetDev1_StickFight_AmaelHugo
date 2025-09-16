@@ -43,8 +43,9 @@ class Player:
         self.damage = 10
         self.screen = screen
         self.power = None
-        self.last_time_used_power = 0
-        self.cooldown_power = 50
+        self.last_time_used_power = time.time()
+        self.cooldown_power = 0
+        self.hp_before = 0
 
     def draw(self, font):
         self.img = pygame.transform.scale(self.img, (150, 100))
@@ -95,12 +96,15 @@ class Player:
 
         if random_nb <= 33:
             self.power = powers[0]
+            self.cooldown_power = self.power.duration
 
         elif random_nb <= 66:
             self.power = powers[1]
+            self.cooldown_power = self.power.duration
 
         elif random_nb > 66:
             self.power = powers[2]
+            self.cooldown_power = self.power.duration
 
     def usePower(self):
         if self.power:
@@ -116,6 +120,13 @@ class Player:
             elif self.power.get("id") == 2:
                 if time.time() - self.last_time_used_power < self.cooldown_power:
                     print(self.power.get("name"))
+                    if self.hp <= 100:
+                        self.hp_before = self.hp
+                    self.hp = 1000
+                    self.last_time_used_power = time.time()
+
+                if time.time() - self.last_time_used_power > self.cooldown_power:
+                    self.hp = self.hp_before
 
             elif self.power.get("id") == 3:
                 if time.time() - self.last_time_used_power < self.cooldown_power:
