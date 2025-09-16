@@ -182,20 +182,30 @@ class Root:
 
         return volume_down, volume_up
 
-    def modSelector(self, font, games_mods, selected_mod, height):
-        for i in range(len(games_mods)):
-            text_title = font.render(games_mods[i+1], True, (255, 255, 255))
-            self.screen.blit(text_title, (120, (i*50+height)))
-            if i+1 != selected_mod:
-                text_down = font.render(f"[*]", True, (0, 255, 0))
-                volume_down = pygame.rect.Rect(80, (i*50+height), 15, 40)
-                pygame.draw.rect(self.screen, (0, 0, 0), volume_down)
-                self.screen.blit(text_down, (volume_down.x, volume_down.centery - 13))
-            else:
-                text_down = font.render(f"[ ]", True, (255, 255, 255))
-                volume_down = pygame.rect.Rect(80, (i*50+height), 15, 40)
-                pygame.draw.rect(self.screen, (0, 0, 0), volume_down)
-                self.screen.blit(text_down, (volume_down.x, volume_down.centery - 13))
+    def buttonSelected(self, font, id, height, mod_description):
+        text = font.render(f"{mod_description}",True, (255, 255, 255))
+        text_button = font.render(f"[*]", True, (0, 0, 0))
+        selected = pygame.rect.Rect(80, (id*50+height), 16, 40)
+
+        button = pygame.draw.rect(self.screen, (255, 255, 255), selected)
+        self.screen.blit(text, (100, selected.centery - 13))
+        self.screen.blit(text_button, (selected.x, selected.centery - 13))
+
+        return button
+
+
+    def buttonNotSelected(self, font, id, height, mod_description):
+        text = font.render(f"{mod_description}", True, (255, 255, 255))
+
+        text_button = font.render(f"[ ]", True, (255, 255, 255))
+        not_selected = pygame.rect.Rect(80, (id*50+height), 16, 40)
+
+        button = pygame.draw.rect(self.screen, (0, 0, 0), not_selected)
+        self.screen.blit(text, (100, not_selected.centery - 13))
+        self.screen.blit(text_button, (not_selected.x, not_selected.centery - 13))
+
+        return button
+
 
     ################################################################################################ Credits
 
