@@ -1,17 +1,17 @@
 powers = [
             {
                 "id": 1,
-                "name": "jetpack",
+                "name": "Jetpack",
                 "img": './images/imgGames/imgPowers/img_box.png',
-                "duration": 6,
+                "duration": 10,
                 "width": 30,
                 "height": 30
             },
             {
                 "id": 2,
-                "name": "abcd",
+                "name": "Invicibilité",
                 "img": './images/imgGames/imgPowers/img_box.png',
-                "duration": 6,
+                "duration": 5,
                 "width": 30,
                 "height": 30
             },
