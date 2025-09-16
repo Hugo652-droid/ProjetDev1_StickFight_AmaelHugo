@@ -23,7 +23,8 @@ import pygame
 import random
 
 class Game:
-    def __init__(self):
+    def __init__(self, game_mod):
+        self.game_mod = game_mod
         self.font = pygame.font.SysFont('Arial', 25)
         self.window_game = Root(self.font)
         self.info_screen = pygame.display.Info()
@@ -409,7 +410,7 @@ class Game:
                     elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
                         pygame.mixer.Channel(1).stop()
                         pygame.mixer.Channel(1).play(self.sound_shot)
-                        self.player1.noAmmunitionInWeapon(self.player1)
+                        self.player1.noAmmunitionInWeapon()
                         self.player1.last_time_used_attack = time.time()
                         self.player1.attacking = True
                     else :
@@ -449,7 +450,7 @@ class Game:
                     elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
                         pygame.mixer.Channel(1).stop()
                         pygame.mixer.Channel(1).play(self.sound_shot)
-                        self.player2.noAmmunitionInWeapon(self.player2)
+                        self.player2.noAmmunitionInWeapon()
                         self.player2.last_time_used_attack = time.time()
                         self.player2.attacking = True
                     else:
@@ -476,11 +477,11 @@ class Game:
                 if self.player2.y != self.info_screen.current_h:
                     self.player2.y += 10
 
-            if time.time() - self.last_drop > self.cooldown_drop_weapon:
+            if time.time() - self.last_drop > self.cooldown_drop_weapon and (self.game_mod == 1 or self.game_mod == 3):
                 self.last_drop = time.time()
                 self.createWeapons()
 
-            if time.time() - self.last_drop_power > self.cooldown_drop_power:
+            if time.time() - self.last_drop_power > self.cooldown_drop_power and self.game_mod == 1:
                 self.last_drop_power = time.time()
                 self.createPowers()
 

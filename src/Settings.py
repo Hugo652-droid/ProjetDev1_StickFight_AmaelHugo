@@ -3,16 +3,17 @@ import pygame
 from src.assets.InputBox import InputBox
 
 class Settings:
-    def __init__(self, screen):
+    def __init__(self, screen, selected_mod):
         self.font = pygame.font.SysFont('Arial', 20)
         self.screen = screen
         self.color = (255,0,0)
         self.games_mods = {
             1: "Mode classique avec armes et pouvoirs",
             2: "Mode à main nue sans armes et sans pouvoirs",
+            3: "Mode à main nue avec armes et sans pouvoirs",
         }
         self.mods_buttons = {}
-        self.selected_mod = 1
+        self.selected_mod = selected_mod
         self.volume_music = pygame.mixer.Channel(0).get_volume() * 100
         self.volume_effect = pygame.mixer.Channel(1).get_volume() * 100
         self.height = pygame.display.Info().current_h // 6
@@ -57,13 +58,13 @@ class Settings:
         self.height = pygame.display.Info().current_h // 6
         self.screen.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
 
-        self.soundBarMusic = self.screen.soundBar(self.volume_music, self.font, "Musique volume", (self.height))
+        self.soundBarMusic = self.screen.soundBar(self.volume_music, self.font, "Musique volume", self.height)
         self.height += 100
-        self.soundBarEffect = self.screen.soundBar(self.volume_effect, self.font, "Effect volume", (self.height))
+        self.soundBarEffect = self.screen.soundBar(self.volume_effect, self.font, "Effect volume", self.height)
         self.height += 50
 
         for mod in self.games_mods:
-            self.height += mod*10
+            self.height += mod * 10
             if mod == self.selected_mod:
                 button_mod = self.screen.buttonSelected(self.font, mod, self.height, self.games_mods[mod])
                 self.mods_buttons.update({mod: button_mod})

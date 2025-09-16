@@ -21,18 +21,19 @@ class Home:
     def __init__(self):
         self.font = pygame.font.Font("assets/Shooting Star.ttf", 20)
         self.window_home = Root(self.font)
-        self.reload()
+        self.game_mod = 1
 
     def launch(self):
         pygame.display.flip()
         running_home = True
         while running_home:
             if self.window_home.settings_screen :
-                settings = Settings(self.window_home)
+                settings = Settings(self.window_home, self.game_mod)
+                self.game_mod = settings.selected_mod
                 self.window_home.settings_screen = False
 
             if self.window_home.credits_screen :
-                credits = Credits(self.window_home)
+                Credits(self.window_home)
                 self.window_home.credits_screen = False
             else :
                 for event in pygame.event.get():
@@ -43,7 +44,7 @@ class Home:
                         elif event.key != pygame.K_ESCAPE :
                             self.window_home.closeRoot()
                             running_home = False
-                            game = Game()
+                            game = Game(self.game_mod)
                             game.launchGame()
                             self.window_home = Root(self.font)
                             self.reload()
@@ -51,7 +52,7 @@ class Home:
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         if self.window_home.button_rect_play.collidepoint(event.pos):
                             self.window_home.closeRoot()
-                            game = Game()
+                            game = Game(self.game_mod)
                             game.launchGame()
                             self.window_home = Root(self.font)
                             self.reload()

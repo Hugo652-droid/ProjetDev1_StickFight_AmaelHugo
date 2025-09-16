@@ -137,9 +137,7 @@ class Player:
                 return bullet
             return False
 
-    def noAmmunitionInWeapon(self, player):
+    def noAmmunitionInWeapon(self):
         if self.weapon.noAmmunition():
             self.weapon = self.hands
             self.cooldown_attack = 1
-
-
