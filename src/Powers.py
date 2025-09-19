@@ -14,17 +14,17 @@ import pygame
 import random
 
 class Powers():
-    def __init__(self, id, img, duration, width, height, screen):
-        self.id = id
-        self.duration = duration
-        self.width = width
-        self.height = height
-        self.img_power = pygame.image.load(img)
+    def __init__(self, power, screen):
+        self.id = power["id"]
+        self.duration = power["id"]
+        self.width = power["height"]
+        self.height = power["width"]
+        self.duration = power["duration"]
+        self.img_power = pygame.image.load(power["img"])
         self.img_power = pygame.transform.scale(self.img_power, (50, 50))
         self.rect_power = self.img_power.get_rect()
         self.screen = screen
         self.info = pygame.display.Info()
-        self.img = img
         self.placed = False
         
     def draw(self, floors, player1, player2):

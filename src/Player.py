@@ -47,7 +47,7 @@ class Player:
         self.cooldown_power = 0
         self.hp_before = 0
 
-    def draw(self, font):
+    def draw(self):
         self.img = pygame.transform.scale(self.img, (150, 100))
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
@@ -62,7 +62,6 @@ class Player:
         if current_time - self.last_time_used_vertical > self.cooldown_vertical:
             self.jumping = self.info_screen.current_h/4 + 100
             self.last_time_used_vertical = current_time
-
 
     def goLeft(self):
         self.x -= 10
@@ -147,6 +146,23 @@ class Player:
                 bullet = Bullet(self.rect.center, self.direct_player, self.name, self.weapon.width, self.weapon.height)
                 return bullet
             return False
+
+    def checkAttack(self, sound_shot):
+        if time.time() - self.last_time_used_attack > self.cooldown_attack and self.weapon.id == 0:
+            self.last_time_used_attack = time.time()
+            if self.direct_player == "Left":
+                self.dashLeft()
+            elif self.direct_player == "Right":
+                self.dashRight()
+            self.attacking = True
+        elif time.time() - self.last_time_used_attack > self.cooldown_attack:
+            pygame.mixer.Channel(1).stop()
+            pygame.mixer.Channel(1).play(sound_shot)
+            self.noAmmunitionInWeapon()
+            self.last_time_used_attack = time.time()
+            self.attacking = True
+        else:
+            self.attacking = False
 
     def noAmmunitionInWeapon(self):
         if self.weapon.noAmmunition():

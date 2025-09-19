@@ -14,19 +14,19 @@ import pygame
 import random
 
 class Weapons():
-    def __init__(self,id, img,dammage, attackSpeed, ammunition, width, height, screen):
-        self.id = id
-        self.attackSpeed = attackSpeed
-        self.ammunition = ammunition
-        self.width = width
-        self.height = height
+    def __init__(self, weaponData, screen):
+        self.id = weaponData["id"]
+        self.attackSpeed = weaponData["attackSpeed"]
+        self.ammunition = weaponData["ammunition"]
+        self.width = weaponData["width"]
+        self.height = weaponData["height"]
         self.cooldown = 1
-        self.img_weapom = pygame.image.load(img)
+        self.img_weapom = pygame.image.load(weaponData["img"])
         self.rect_weapon = self.img_weapom.get_rect()
         self.img_weapom = pygame.transform.scale(self.img_weapom, (80, 30))
         self.rect_weapon = self.img_weapom.get_rect()
         self.info = pygame.display.Info()
-        self.dammage = dammage
+        self.dammage = weaponData["damage"]
         self.screen = screen
         self.placed = False
 

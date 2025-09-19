@@ -24,53 +24,61 @@ import random
 
 class Game:
     def __init__(self, game_mod):
+        # Variable for the window and the game
         self.game_mod = game_mod
-        self.font = pygame.font.SysFont('Arial', 25)
+        self.font = pygame.font.Font("assets/Shooting Star.ttf", 100)
         self.window_game = Root(self.font)
+
+        # Variable for information (Screen and time)
         self.info_screen = pygame.display.Info()
         self.clock = pygame.time.Clock()
 
-        """
-        self.image_player1_left = "images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_left_player1.png"
-        self.image_player1_right = "images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_right_player1.png"
-        self.image_player1_stand = "images/imgCharacters/imgPlayer1/stickman_stand_player1.png"
-
-        self.image_player2_left = "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_left_player2.png"
-        self.image_player2_right = "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png"
-        self.image_player2_stand = "images/imgCharacters/imgPlayer2/stickman_stand_player2.png"
-
-        self.image_player2_crouch = "images/imgCharacters/imgPlayer2/crouchPlayer2/Player2_crouch.png"
-        """
+        # Variable for datas
         self.image_player = imagesPlayer
-        self.font = pygame.font.Font("assets/Shooting Star.ttf", 100)
+        self.power = powers
+        self.weapons = weapons
+
+        # Variable for the status of the game
         self.running_game = True
         self.paused = False
-        self.cooldown_drop_weapon = 5
+        self.restart = False
+
+        # Variable for the player
         self.heal_points_start = 100
-        self.weapons = weapons
         self.score_player1 = 0
         self.score_player2 = 0
-        self.last_drop = time.time()
+
+        # Variable for array of entities in the game
         self.weapon_gun = []
         self.bullets = []
-        self.restart = False
         self.floors = []
-
-        self.cooldown_drop_power = 1
-        self.power = powers
+        self.players = []
         self.power_list = []
+
+        # Variable of cooldown for dropping items
+        self.cooldown_drop_weapon = 5
+        self.cooldown_drop_power = 1
+
+        # Variable for the last drop of the item
+        self.last_drop_weapon = time.time()
         self.last_drop_power = time.time()
 
+        # Variable of sounds
         self.sound_shot = pygame.mixer.Sound("./sounds/gun-shot.mp3")
         self.sound_falling = pygame.mixer.Sound("./sounds/falling-character.mp3")
         self.sound_background = pygame.mixer.Sound("./sounds/fighting-battle-warrior-drums.mp3")
         self.sounds = [self.sound_shot, self.sound_falling, self.sound_background]
 
+        # Player for the background sound
         pygame.mixer.Channel(0).play(self.sound_background, -1)
 
         self.createInstanse()
 
     def createInstanse(self):
+        """
+        Create all entities for a game
+        :return: All entities initiate
+        """
         margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
 
         self.player1 = Player(
@@ -94,6 +102,8 @@ class Game:
             "images/imgCharacters/imgPlayer2/stickman_stand_player2.png",
             (160, 7, 237),
         )
+
+        self.players = [self.player1, self.player2]
 
         floor = Map(self.window_game,
                     (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
@@ -233,7 +243,7 @@ class Game:
 
         self.floors = random.choice(maps)
 
-        self.last_drop = time.time()
+        self.last_drop_weapon = time.time()
         self.weapon_gun = []
         self.power_list = []
         self.bullets = []
@@ -330,30 +340,22 @@ class Game:
 
         if random_nb <= 13:
             weapon = self.weapons[3]
-            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.window_game.screen)
+            new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 36:
             weapon = self.weapons[2]
-            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.window_game.screen)
+            new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 68:
             weapon = self.weapons[1]
-            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.window_game.screen)
+            new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 100:
             weapon = self.weapons[0]
-            new_weapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.window_game.screen)
+            new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
     def createPowers(self):
@@ -362,14 +364,13 @@ class Game:
 
         if random_nb <= 50:
             power = self.power[0]
-            new_power = Powers(power["id"], power["img"], power["duration"], power["height"], power["width"], self.window_game.screen)
+            new_power = Powers(power, self.window_game.screen)
 
             self.power_list.append(new_power)
 
         elif random_nb > 50:
             power = self.power[1]
-            new_power = Powers(power["id"], power["img"], power["duration"], power["height"],
-                               power["width"], self.window_game.screen)
+            new_power = Powers(power, self.window_game.screen)
 
             self.power_list.append(new_power)
 
@@ -400,21 +401,7 @@ class Game:
                 pygame.time.wait(175)
             if not self.player1.playerIsDead():
                 if keys[pygame.K_e]:
-                    if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon.id == 0:
-                        self.player1.last_time_used_attack = time.time()
-                        if self.player1.direct_player == "Left":
-                            self.player1.dashLeft()
-                        elif self.player1.direct_player == "Right":
-                            self.player1.dashRight()
-                        self.player1.attacking = True
-                    elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
-                        pygame.mixer.Channel(1).stop()
-                        pygame.mixer.Channel(1).play(self.sound_shot)
-                        self.player1.noAmmunitionInWeapon()
-                        self.player1.last_time_used_attack = time.time()
-                        self.player1.attacking = True
-                    else :
-                        self.player1.attacking = False
+                    self.player1.checkAttack(self.sound_shot)
                 if keys[pygame.K_q]:
                     if time.time() - self.player1.last_time_used_push > self.player1.cooldown_push:
                         self.player1.last_time_used_push = time.time()
@@ -440,21 +427,7 @@ class Game:
             if not self.player2.playerIsDead():
 
                 if keys[pygame.K_o]:
-                    if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack and self.player2.weapon.id == 0:
-                        self.player2.last_time_used_attack = time.time()
-                        if self.player2.direct_player == "Left":
-                            self.player2.dashLeft()
-                        elif self.player2.direct_player == "Right":
-                            self.player2.dashRight()
-                        self.player2.attacking = True
-                    elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
-                        pygame.mixer.Channel(1).stop()
-                        pygame.mixer.Channel(1).play(self.sound_shot)
-                        self.player2.noAmmunitionInWeapon()
-                        self.player2.last_time_used_attack = time.time()
-                        self.player2.attacking = True
-                    else:
-                        self.player2.attacking = False
+                    self.player2.checkAttack(self.sound_shot)
                 if keys[pygame.K_u]:
                     if time.time() - self.player2.last_time_used_push > self.player2.cooldown_push:
                         self.player2.last_time_used_push = time.time()
@@ -477,8 +450,8 @@ class Game:
                 if self.player2.y != self.info_screen.current_h:
                     self.player2.y += 10
 
-            if time.time() - self.last_drop > self.cooldown_drop_weapon and (self.game_mod == 1 or self.game_mod == 3):
-                self.last_drop = time.time()
+            if time.time() - self.last_drop_weapon > self.cooldown_drop_weapon and (self.game_mod == 1 or self.game_mod == 3):
+                self.last_drop_weapon = time.time()
                 self.createWeapons()
 
             if time.time() - self.last_drop_power > self.cooldown_drop_power and self.game_mod == 1:
@@ -526,7 +499,7 @@ class Game:
                 else :
                     self.player1.jumping -= 20
             elif self.player1.jumping <= 0:
-                if self.player1.y != self.info_screen.current_h:
+                if self.player1.y <= self.info_screen.current_h:
                     self.player1.y += 10
 
             if self.player2.jumping > 0:
@@ -536,12 +509,12 @@ class Game:
                 else:
                     self.player2.jumping -= 20
             elif self.player2.jumping <= 0:
-                if self.player2.y != self.info_screen.current_h:
+                if self.player2.y <= self.info_screen.current_h:
                     self.player2.y += 10
 
 
-            self.player1.draw(self.font)
-            self.player2.draw(self.font)
+            self.player1.draw()
+            self.player2.draw()
 
             if self.player1.attacking :
                 bullet = self.player1.simpleAttack(self.player2)
