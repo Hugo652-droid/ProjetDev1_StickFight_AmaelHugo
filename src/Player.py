@@ -16,9 +16,10 @@ import pygame
 from src.Bullet import Bullet
 from src.Weapons import Weapons
 from src.Data.powers import powers
+from src.Data.weapon import weapons
 
 class Player:
-    def __init__(self, name, hp, x, y, image, screen, img_hands, color):
+    def __init__(self, name, hp, x, y, image, screen, color):
         self.name = name
         self.hp = hp
         self.x = x
@@ -38,7 +39,7 @@ class Player:
         self.color = color
         self.attacking = False
         self.pushing = False
-        self.hands =  Weapons(0, img_hands, 10, 1, 1000, 30, 5, screen)
+        self.hands =  Weapons(weapons[0], screen)
         self.weapon = self.hands
         self.damage = 10
         self.screen = screen
@@ -95,15 +96,15 @@ class Player:
 
         if random_nb <= 33:
             self.power = powers[0]
-            self.cooldown_power = self.power.duration
+            self.cooldown_power = self.power['duration']
 
         elif random_nb <= 66:
             self.power = powers[1]
-            self.cooldown_power = self.power.duration
+            self.cooldown_power = self.power['duration']
 
         elif random_nb > 66:
             self.power = powers[2]
-            self.cooldown_power = self.power.duration
+            self.cooldown_power = self.power['duration']
 
     def usePower(self):
         if self.power:
