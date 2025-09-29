@@ -114,7 +114,7 @@ class Game:
         self.powers_list = []
         self.bullets = []
         self.restart = False
-        
+
     def createWeapons(self):
         """
         Function for creating a random weapon in the battlefield
@@ -188,7 +188,7 @@ class Game:
             self.playGame()
 
         pygame.mixer.Channel(0).stop()
-        
+
     def playGame(self):
         """
         Function for controlling all the game event
@@ -506,7 +506,7 @@ class Game:
                              floor.rect.right - player.rect.left)
                     different_y = min(player.rect.bottom - floor.rect.top,
                              floor.rect.bottom - player.rect.top)
-                    
+
                     if different_x < different_y:
                         if player.rect.centerx < floor.rect.centerx:
                             player.x -= different_x
@@ -557,20 +557,61 @@ class Game:
                 self.player2.weapon = weapon
                 self.weapon_gun.remove(weapon)
 
-        # Gestion of the collision with the powers and players
         for power in self.powers_list:
+
+            for power_col in self.powers_list:
+                if power.rect_power.colliderect(power_col.rect_power):
+                    if power_col.rect_power.centerx > power.rect_power.centerx:
+                        power.rect_power.centerx -= 10
+
+                    elif power_col.rect_power.centerx < power.rect_power.centerx:
+                        power.rect_power.centerx += 10
+
+            for floor in self.floors:
+
+                if power.rect_power.colliderect(floor.rect):
+                    dx = min(power.rect_power.right - floor.rect.left,
+                             floor.rect.right - power.rect_power.left)
+                    dy = min(power.rect_power.bottom - floor.rect.top,
+                             floor.rect.bottom - power.rect_power.top)
+
+                    if dx < dy:
+
+                        if power.rect_power.centerx < floor.rect.centerx:
+                            power.rect_power.x -= dx
+                        else:
+                            power.rect_power.x += dx
+                    else:
+
+                        if power.rect_power.centery < floor.rect.centery:
+                            power.rect_power.y -= dy
+                        else:
+                            power.rect_power.y += dy
+
             if power.rect_power.colliderect(self.player1.rect):
-                self.player1.power = power
-                self.powers_list.remove(power)
-                self.player1.takePower()
+                if not self.player1.power:
+                    self.player1.power = power
+                    self.powers_list.remove(power)
+                    self.player1.takePower()
 
-            elif power.rect_power.colliderect(self.player2.rect):
-                self.player2.power = power
-                self.powers_list.remove(power)
-                self.player2.takePower()
+                else:
+                    if self.player1.rect.centerx > power.rect_power.centerx:
+                        power.rect_power.centerx -= 10
+                    elif self.player1.rect.centerx  < power.rect_power.centerx:
+                        power.rect_power.centerx += 10
 
+            if power.rect_power.colliderect(self.player2.rect):
+                if not self.player2.power:
+                    self.player2.power = power
+                    self.powers_list.remove(power)
+                    self.player2.takePower()
 
-        # Gestion of pushing players
+                else:
+                    if self.player2.rect.centerx > power.rect_power.centerx:
+                        power.rect_power.centerx -= 10
+                    elif self.player2.rect.centerx < power.rect_power.centerx:
+                        power.rect_power.centerx += 10
+
         if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
             self.player1.pushing = False
             if self.player1.direct_player == "Left":
