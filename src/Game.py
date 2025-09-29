@@ -57,7 +57,7 @@ class Game:
 
         # Variable of cooldown for dropping items
         self.cooldown_drop_weapon = 5
-        self.cooldown_drop_power = 1
+        self.cooldown_drop_power = 7
 
         # Variable for the last drop of the item
         self.last_drop_weapon = time.time()
