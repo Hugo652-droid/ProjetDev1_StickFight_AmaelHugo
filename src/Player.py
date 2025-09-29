@@ -110,7 +110,6 @@ class Player:
             if self.power.get("id") == 1:
                 if time.time() - self.last_time_used_power < self.cooldown_power:
                     self.cooldown_vertical = 0
-                    print(self.power.get("name"))
                     self.last_time_used_power = time.time()
 
                 if time.time() - self.last_time_used_power > self.cooldown_power:
@@ -118,9 +117,9 @@ class Player:
 
             elif self.power.get("id") == 2:
                 if time.time() - self.last_time_used_power < self.cooldown_power:
-                    print(self.power.get("name"))
                     if self.hp <= 100:
                         self.hp_before = self.hp
+                        print(self.hp_before)
                     self.hp = 1000
                     self.last_time_used_power = time.time()
 
