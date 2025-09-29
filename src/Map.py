@@ -13,13 +13,16 @@ Description fichier : Creation et gestion des platforms physique
 import pygame
 
 class Map:
-    def __init__(self, window, x, y, w, h, image='images/imgGames/imgFloors/floor1_dirt.png'):
+    def __init__(self, window, floor_data):
         self.window = window
-        self.img_floor = pygame.image.load(image)
-        self.x = x
-        self.y = y
-        self.w = w
-        self.h = h
+        if floor_data['image'] != "":
+            self.img_floor = pygame.image.load(floor_data['image'])
+        else :
+            self.img_floor = pygame.image.load('images/imgGames/imgFloors/floor1_dirt.png')
+        self.x = floor_data['x']
+        self.y = floor_data['y']
+        self.w = floor_data['with']
+        self.h = floor_data['height']
         self.rect = self.img_floor.get_rect()
         self.info_screen = pygame.display.Info()
 

@@ -18,6 +18,7 @@ from src.Weapons import Weapons
 from src.Data.weapon import weapons
 from src.Data.powers import powers
 from src.Data.imagesPlayer import imagesPlayer
+from src.Data.maps import maps
 import time
 import pygame
 import random
@@ -37,6 +38,7 @@ class Game:
         self.image_player = imagesPlayer
         self.power = powers
         self.weapons = weapons
+        self.maps = maps
 
         # Variable for the status of the game
         self.running_game = True
@@ -105,143 +107,7 @@ class Game:
 
         self.players = [self.player1, self.player2]
 
-        floor = Map(self.window_game,
-                    (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
-                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5),
-                    'images/imgGames/imgFloors/ground1_dirt.png')
-
-        mid_platform = Map(self.window_game, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
-                          (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
-
-        top_left_platform = Map(self.window_game, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
-                          self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
-
-        top_right_platform = Map(self.window_game, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
-                          self.info_screen.current_w - self.info_screen.current_w / 1.7,
-                          (self.info_screen.current_h / 20))
-
-        self.map1 = [floor, mid_platform, top_left_platform, top_right_platform]
-
-        # Grand sol en bas (mais pas sur toute la largeur → danger sur les côtés)
-        floor = Map(
-            self.window_game,
-            self.info_screen.current_w / 2,
-            self.info_screen.current_h - 80,
-            self.info_screen.current_w * 0.8,  # un peu de vide sur les côtés
-            self.info_screen.current_h / 10,
-            'images/imgGames/imgFloors/ground1_dirt.png'
-        )
-
-        # Deux plateformes intermédiaires (au milieu)
-        mid_left = Map(
-            self.window_game,
-            self.info_screen.current_w / 3,
-            self.info_screen.current_h / 1.8,
-            self.info_screen.current_w / 6,
-            self.info_screen.current_h / 25
-        )
-
-        mid_right = Map(
-            self.window_game,
-            self.info_screen.current_w - (self.info_screen.current_w / 3),
-            self.info_screen.current_h / 1.8,
-            self.info_screen.current_w / 6,
-            self.info_screen.current_h / 25
-        )
-
-        # Une petite plateforme flottante au centre (plus haute)
-        top_center = Map(
-            self.window_game,
-            self.info_screen.current_w / 2,
-            self.info_screen.current_h / 3,
-            self.info_screen.current_w / 8,
-            self.info_screen.current_h / 30
-        )
-
-        # Deux petites plateformes sur les côtés, tout en haut
-        top_left = Map(
-            self.window_game,
-            self.info_screen.current_w / 6,
-            self.info_screen.current_h / 4,
-            self.info_screen.current_w / 10,
-            self.info_screen.current_h / 30
-        )
-
-        top_right = Map(
-            self.window_game,
-            self.info_screen.current_w - (self.info_screen.current_w / 6),
-            self.info_screen.current_h / 4,
-            self.info_screen.current_w / 10,
-            self.info_screen.current_h / 30
-        )
-
-        # Une petite plateforme flottante au centre (plus haute)
-        bottom_center = Map(
-            self.window_game,
-            self.info_screen.current_w / 2,
-            self.info_screen.current_h / 2 + self.info_screen.current_h / 3,
-            self.info_screen.current_w / 8,
-            self.info_screen.current_h / 30
-        )
-
-        self.map5 = [floor, mid_left, mid_right, top_center, top_left, top_right, bottom_center]
-
-        floor = Map(self.window_game,
-                     self.info_screen.current_w / 2,
-                     self.info_screen.current_h - 100,
-                     self.info_screen.current_w - 200,
-                     self.info_screen.current_h / 5,
-                    'images/imgGames/imgFloors/ground1_dirt.png')
-
-        left_platform2 = Map(self.window_game,
-                             self.info_screen.current_w / 4,
-                             self.info_screen.current_h - self.info_screen.current_h / 2.5,
-                             self.info_screen.current_w / 4,
-                             self.info_screen.current_h / 20)
-
-        middle_platform2 = Map(self.window_game,
-                               self.info_screen.current_w / 2,
-                               self.info_screen.current_h - self.info_screen.current_h / 3,
-                               self.info_screen.current_w / 4,
-                               self.info_screen.current_h / 20)
-
-        right_platform2 = Map(self.window_game,
-                              self.info_screen.current_w - self.info_screen.current_w / 4,
-                              self.info_screen.current_h - self.info_screen.current_h / 2.5,
-                              self.info_screen.current_w / 4,
-                              self.info_screen.current_h / 20)
-
-        self.map2 = [floor, left_platform2, middle_platform2, right_platform2]
-
-        center_platform2 = Map(
-            self.window_game,
-            self.info_screen.current_w / 2,
-            self.info_screen.current_h / 2,
-            self.info_screen.current_w / 3,
-            self.info_screen.current_h / 20
-        )
-
-        side_left_platform2 = Map(
-            self.window_game,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 3,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 25
-        )
-
-        side_right_platform2 = Map(
-            self.window_game,
-            self.info_screen.current_w - self.info_screen.current_w / 5,
-            self.info_screen.current_h / 3,
-            self.info_screen.current_w / 5,
-            self.info_screen.current_h / 25
-        )
-
-        self.map3 = [center_platform2, side_left_platform2, side_right_platform2]
-
-        maps = [self.map1, self.map2, self.map3, self.map5 ]
-
-        self.floors = random.choice(maps)
+        self.createFloors()
 
         self.last_drop_weapon = time.time()
         self.weapon_gun = []
@@ -250,12 +116,20 @@ class Game:
         self.restart = False
 
     def launchGame(self):
+        """
+        Function to launch a game
+        :return: The launched game
+        """
         while self.running_game:
             self.playGame()
 
         pygame.mixer.Channel(0).stop()
 
     def changeImgPlayer(self):
+        """
+        Function for controlling the player image
+        :return: The player image
+        """
         if self.player1.weapon:
             if self.player1.direct_player == "Left":
                 if self.player1.weapon.id == 1:
@@ -283,7 +157,6 @@ class Game:
                 elif self.player1.weapon.id == 4:
                     self.player1.img = pygame.image.load(
                         self.image_player.get("player1_right_sniper")).convert_alpha()
-
 
         if self.player2.weapon:
             if self.player2.direct_player == "Left":
@@ -313,18 +186,21 @@ class Game:
                     self.player2.img = pygame.image.load(
                         self.image_player.get("player2_right_sniper")).convert_alpha()
 
+        self.playersDead()
+
+    def playersDead(self):
+        """
+        Function for controlling if a player is dead
+        :return: If a player is dead -> Victory screen
+        """
         if self.player1.playerIsDead():
             self.score_player2 += 1
-
-        elif self.player2.playerIsDead():
-            self.score_player1 += 1
-
-        if self.player1.playerIsDead():
             self.player1.img = pygame.image.load(
                 self.image_player.get("player1_dead")).convert_alpha()
             self.reloadPage()
             pygame.time.wait(2000)
         elif self.player2.playerIsDead():
+            self.score_player1 += 1
             self.player2.img = pygame.image.load(
                 self.image_player.get("player2_dead")).convert_alpha()
             self.reloadPage()
@@ -335,7 +211,10 @@ class Game:
             self.paused = False
 
     def createWeapons(self):
-
+        """
+        Function for creating a random weapon in the battlefield
+        :return: The weapon in the battlefield
+        """
         random_nb = random.randint(1, 100)
 
         if random_nb <= 13:
@@ -359,7 +238,10 @@ class Game:
             self.weapon_gun.append(new_weapon)
 
     def createPowers(self):
-
+        """
+        Function for creating a random power in the battlefield
+        :return: The power in the battlefield
+        """
         random_nb = random.randint(1, 100)
 
         if random_nb <= 50:
@@ -374,26 +256,49 @@ class Game:
 
             self.power_list.append(new_power)
 
+    def createFloors(self):
+        """
+        Function for creating a random battlefield
+        :return: The battlefield random
+        """
+        current_maps = []
+        for map in self.maps :
+            current_map = []
+
+            for floor in map:
+                print(floor)
+                current_floor = Map(self.window_game, floor)
+                current_map.append(current_floor)
+
+            current_maps.append(current_map)
+
+        self.floors = random.choice(current_maps)
+
     def playGame(self):
+        """
+        Function for controlling all the game event
+        :return: The gestion of the game
+        """
         self.changeImgPlayer()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.running_game = False
-
             if event.type != pygame.KEYDOWN:
                 self.player2.modifImage(self.image_player.get("player2_stand"))
                 self.player1.modifImage(self.image_player.get("player1_stand"))
             if event.type == pygame.MOUSEBUTTONDOWN:
+
+                # Gestion of the paused menu
                 if self.paused:
                     if self.window_game.button_rect_restart.collidepoint(event.pos):
                         self.restart = True
-
                     elif self.window_game.button_rect_quit.collidepoint(event.pos):
                         self.window_game.closeRoot()
                         self.running_game = False
                         return
 
+        # Gestion of the gameplay
         if not self.paused:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
@@ -469,6 +374,8 @@ class Game:
             self.collision()
 
         else :
+
+            # Gestion of the paused menu
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
@@ -479,6 +386,12 @@ class Game:
         self.clock.tick(200)
 
     def reloadPage(self):
+        """
+        Function for reloading the page
+        :return: The window and all the entities in the page
+        """
+
+        # Creating the window for the game
         if not self.paused:
             pygame.mouse.set_visible(False)
             self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
@@ -512,7 +425,6 @@ class Game:
                 if self.player2.y <= self.info_screen.current_h:
                     self.player2.y += 10
 
-
             self.player1.draw()
             self.player2.draw()
 
@@ -534,9 +446,6 @@ class Game:
                     self.bullets.append(bullet)
                     self.player2.attacking = False
 
-
-
-
             for bullet in self.bullets:
                 bullet.shot()
                 bullet.draw(self.window_game)
@@ -550,7 +459,6 @@ class Game:
                 self.window_game.win(self.player1)
 
         else:
-
             pygame.mouse.set_visible(True)
             self.window_game.stop()
 
@@ -558,6 +466,10 @@ class Game:
         pygame.display.flip()
 
     def collision(self):
+        """
+        Function for the gestion of collisions
+        :return: The collision management
+        """
         if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
             self.player2.x -= 5
             self.player1.x += 5
@@ -581,7 +493,6 @@ class Game:
             self.player2.hp = 0
 
         for floor in self.floors:
-
             if self.player1.rect.colliderect(floor.rect):
                 dx = min(self.player1.rect.right - floor.rect.left,
                          floor.rect.right - self.player1.rect.left)
@@ -589,13 +500,11 @@ class Game:
                          floor.rect.bottom - self.player1.rect.top)
 
                 if dx < dy:
-
                     if self.player1.rect.centerx < floor.rect.centerx:
                         self.player1.x -= dx
                     else:
                         self.player1.x += dx
                 else:
-
                     if self.player1.rect.centery < floor.rect.centery:
                         self.player1.y -= dy
                     else:
@@ -608,13 +517,11 @@ class Game:
                          floor.rect.bottom - self.player2.rect.top)
 
                 if dx < dy:
-
                     if self.player2.rect.centerx < floor.rect.centerx:
                         self.player2.x -= dx
                     else:
                         self.player2.x += dx
                 else:
-
                     if self.player2.rect.centery < floor.rect.centery:
                         self.player2.y -= dy
                     else:
