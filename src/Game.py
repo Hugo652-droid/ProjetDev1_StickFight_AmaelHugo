@@ -88,7 +88,7 @@ class Game:
             self.info_screen.current_h / 2,
             self.image_player.get("player1_left"),
             self.window_game.screen,
-            self.image_player.get("player1_stand"),
+            self.weapons[0],
             (252, 186, 3),
         )
 
@@ -99,7 +99,7 @@ class Game:
             self.info_screen.current_h / 2,
             "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png",
             self.window_game.screen,
-            "images/imgCharacters/imgPlayer2/stickman_stand_player2.png",
+            self.weapons[0],
             (160, 7, 237),
         )
 
@@ -339,22 +339,22 @@ class Game:
         random_nb = random.randint(1, 100)
 
         if random_nb <= 13:
-            weapon = self.weapons[3]
+            weapon = self.weapons[4]
             new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 36:
-            weapon = self.weapons[2]
+            weapon = self.weapons[3]
             new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 68:
-            weapon = self.weapons[1]
+            weapon = self.weapons[2]
             new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 100:
-            weapon = self.weapons[0]
+            weapon = self.weapons[1]
             new_weapon = Weapons(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 

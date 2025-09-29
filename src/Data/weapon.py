@@ -1,5 +1,15 @@
 weapons = [
             {
+                "id": 0,
+                "name": "hands",
+                "img": "images/imgCharacters/imgPlayer2/stickman_stand_player2.png",
+                "damage": 10,
+                "attackSpeed": 1,
+                "ammunition": 1000,
+                "width": 30,
+                "height": 5
+            },
+            {
                 "id": 1,
                 "name": "gun",
                 "img": 'images/imgGames/imgWeapons/gun.png',
