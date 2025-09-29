@@ -171,7 +171,6 @@ class Game:
             current_map = []
 
             for floor in map:
-                print(floor)
                 current_floor = Map(self.window_game, floor)
                 current_map.append(current_floor)
 

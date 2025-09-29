@@ -41,9 +41,9 @@ maps = [
             {
                 'name': 'floor',
                 'x': info_screen.current_w / 2,
-                'y': info_screen.current_h - 80,
-                'with': info_screen.current_w * 0.8,
-                'height': info_screen.current_h / 10,
+                'y': info_screen.current_h - 100,
+                'with': info_screen.current_w - 200,
+                'height': info_screen.current_h / 5,
                 'image': 'images/imgGames/imgFloors/ground1_dirt.png'
             },
             {
@@ -83,14 +83,6 @@ maps = [
                 'x': info_screen.current_w - info_screen.current_w / 6,
                 'y': info_screen.current_h / 4,
                 'with': info_screen.current_w / 10,
-                'height': info_screen.current_h / 30,
-                'image': ""
-            },
-            {
-                'name': 'platform_bottom_centre',
-                'x': info_screen.current_w / 2,
-                'y': info_screen.current_h / 2 + info_screen.current_h / 3,
-                'with': info_screen.current_w / 8,
                 'height': info_screen.current_h / 30,
                 'image': ""
             }
