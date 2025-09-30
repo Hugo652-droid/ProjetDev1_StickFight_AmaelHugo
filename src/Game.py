@@ -59,7 +59,7 @@ class Game:
 
         # Variable of cooldown for dropping items
         self.cooldown_drop_weapon = 5
-        self.cooldown_drop_power = 7
+        self.cooldown_drop_power = 15
 
         # Variable for the last drop of the item
         self.last_drop_weapon = time.time()
@@ -365,7 +365,7 @@ class Game:
 
     def powerDead(self):
         for power in self.powers_list:
-            if power.health <= 0:
+            if power.health <= 0 or power.rect_power.centery <= self.info_screen.current_h - self.info_screen.current_h:
                 self.powers_list.remove(power)
 
     def playersDead(self):
@@ -599,11 +599,20 @@ class Game:
         for power in self.powers_list:
             for power_col in self.powers_list:
                 if power.rect_power.colliderect(power_col.rect_power):
-                    if power_col.rect_power.centerx > power.rect_power.centerx:
-                        power.rect_power.centerx -= 10
 
-                    elif power_col.rect_power.centerx < power.rect_power.centerx:
-                        power.rect_power.centerx += 10
+                    if power_col.rect_power.centery > power.rect_power.centery:
+                        power.rect_power.centery -= 10
+
+                    elif power_col.rect_power.centery < power.rect_power.centery:
+                        power.rect_power.centery += 10
+
+                    else:
+
+                        if power_col.rect_power.centerx > power.rect_power.centerx:
+                            power.rect_power.centerx -= 10
+
+                        elif power_col.rect_power.centerx < power.rect_power.centerx:
+                            power.rect_power.centerx += 10
 
             for player in self.players:
                 if power.rect_power.colliderect(player.rect):
