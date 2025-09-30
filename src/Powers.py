@@ -20,6 +20,7 @@ class Powers():
         self.width = power["height"]
         self.height = power["width"]
         self.duration = power["duration"]
+        self.health = power["health"]
         self.img_power = pygame.image.load(power["img"])
         self.img_power = pygame.transform.scale(self.img_power, (50, 50))
         self.rect_power = self.img_power.get_rect()
@@ -41,6 +42,9 @@ class Powers():
 
         if self.placed:
             self.screen.blit(self.img_power, self.rect_power)
+
+    def takeDammage(self, damage):
+        self.health -= damage
 
 
 

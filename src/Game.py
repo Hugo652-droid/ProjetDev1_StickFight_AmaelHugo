@@ -361,6 +361,12 @@ class Game:
                         self.image_player.get("player2_right_sniper")).convert_alpha()
 
         self.playersDead()
+        self.powerDead()
+
+    def powerDead(self):
+        for power in self.powers_list:
+            if power.health <= 0:
+                self.powers_list.remove(power)
 
     def playersDead(self):
         """
@@ -527,6 +533,7 @@ class Game:
 
         # Gestion of the collision with the bullets and players
         for bullet in self.bullets:
+
             if bullet.rect.colliderect(self.player1.rect):
                 if bullet.player_attack_name == self.player1.name:
                     pass
@@ -545,6 +552,17 @@ class Game:
 
             if not bullet.rect.colliderect(self.window_game.rect):
                 self.bullets.remove(bullet)
+
+
+            for power in self.powers_list:
+
+                if power.rect_power.colliderect(bullet.rect):
+                    self.bullets.remove(bullet)
+                    if bullet.player_attack_name == "Player 1":
+                        power.takeDammage(self.player1.weapon.dammage)
+
+                    elif bullet.player_attack_name == "Player 2":
+                        power.takeDammage(self.player2.weapon.dammage)
 
         # Gestion of the collision with the weapons and players
         for weapon in self.weapon_gun:
