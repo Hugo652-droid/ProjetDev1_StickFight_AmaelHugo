@@ -1,9 +1,6 @@
 import pygame
 
-from src.assets.InputBox import InputBox
-from src.Root import Root, INFO
-
-
+INFO_SCREEN = pygame.display.Info()
 class Credits:
     def __init__(self, screen):
         self.font = pygame.font.SysFont('Arial', 20)
@@ -13,8 +10,8 @@ class Credits:
         self.bg = "images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png"
         self.font_title = pygame.font.Font('assets/Shooting Star.ttf', 150)
 
-        self.width_screen = INFO.current_w
-        self.height_screen = INFO.current_h
+        self.width_screen = INFO_SCREEN.current_w
+        self.height_screen = INFO_SCREEN.current_h
 
 
         self.running_credits = True
@@ -34,7 +31,7 @@ class Credits:
     def reload(self):
         self.screen.changeColor(self.color)
 
-        self.screen.changeBg(self.bg)
+        self.screen.changeBackground(self.bg)
 
         self.screen.titleCredits(self.font_title)
 

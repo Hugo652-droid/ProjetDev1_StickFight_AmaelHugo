@@ -31,11 +31,18 @@ class Weapons():
         self.placed = False
 
     def draw(self, floors, player1, player2):
+        """
+        Function for placing and drawing the weapons in the window
+        :param floors: All the floors in the game
+        :param player1: The player 1
+        :param player2: The player 2
+        :return: The weapon placed and drew in the window
+        """
         while not self.placed:
             self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
             self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
 
-            # vérifie si au moins une condition dans une liste est vraie
+            # check if the weapon appears in a floor
             collision = any(self.rect_weapon.colliderect(floor.rect) for floor in floors)
 
             if not collision and not self.rect_weapon.colliderect(player1.rect) and not self.rect_weapon.colliderect(player2.rect) :
@@ -46,9 +53,17 @@ class Weapons():
             self.screen.blit(self.img_weapom, self.rect_weapon)
 
     def useAmmunition(self):
+        """
+        Function that remove an ammunition in the weapon
+        :return: The total of ammunition - 1
+        """
         self.ammunition -= 1
 
     def noAmmunition(self):
+        """
+        Function that check if the weapon doesn't have an ammunition
+        :return:
+        """
         return self.ammunition <= 0
 
 

@@ -56,7 +56,7 @@ class Settings:
 
     def reload(self):
         self.height = pygame.display.Info().current_h // 6
-        self.screen.changeBg('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
+        self.screen.changeBackground('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
 
         self.soundBarMusic = self.screen.soundBar(self.volume_music, self.font, "Musique volume", self.height)
         self.height += 100

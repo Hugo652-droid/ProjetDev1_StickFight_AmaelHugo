@@ -17,35 +17,57 @@ from src.Bullet import Bullet
 from src.Weapons import Weapons
 from src.Data.powers import powers
 
+INFO_SCREEN = pygame.display.Info()
+
 class Player:
-    def __init__(self, name, hp, x, y, image, screen, hands, color):
+    def __init__(self, name, hp, x, y, image, screen, hand, color):
+        """
+        The playable charter
+        :param name: Name of the player
+        :param hp: Health points of the player
+        :param x: X position of the player
+        :param y: Y position of the player
+        :param image: Image of the player
+        :param screen: The game window
+        :param hand: Data of the weapon : hand
+        :param color: The color of the player
+        """
+        self.screen = screen
         self.name = name
         self.hp = hp
+        self.hp_before = 0
         self.x = x
         self.y = y
-        self.info_screen = pygame.display.Info()
+
+        # Creation of the image and rectangle
         self.img = pygame.image.load(image).convert_alpha()
         self.img = pygame.transform.scale(self.img, (200, 100))
         self.rect = self.img.get_rect()
+
+        # All time of usage of an attack or other
         self.last_time_used_vertical = 0
         self.last_time_used_attack = 0
         self.last_time_used_push = 0
+        self.last_time_used_power = time.time()
+
+        # All the cooldown for movement and attack
         self.cooldown_vertical = 1
         self.cooldown_attack = 1
         self.cooldown_push = 1
+        self.cooldown_power = 0
+
+        # State of the player
+        self.attacking = False
+        self.pushing = False
+
+        # The equipment of the player
+        self.hands =  Weapons(hand, screen)
+        self.weapon = self.hands
+        self.damage = self.weapon.dammage
+        self.power = None
         self.direct_player = "Left"
         self.jumping = 0
         self.color = color
-        self.attacking = False
-        self.pushing = False
-        self.hands =  Weapons(hands, screen)
-        self.weapon = self.hands
-        self.damage = 10
-        self.screen = screen
-        self.power = None
-        self.last_time_used_power = time.time()
-        self.cooldown_power = 0
-        self.hp_before = 0
 
     def draw(self):
         self.img = pygame.transform.scale(self.img, (150, 100))
@@ -60,7 +82,7 @@ class Player:
 
     def jump(self, current_time):
         if current_time - self.last_time_used_vertical > self.cooldown_vertical:
-            self.jumping = self.info_screen.current_h/4 + 100
+            self.jumping = INFO_SCREEN.current_h/4 + 100
             self.last_time_used_vertical = current_time
 
     def goLeft(self):

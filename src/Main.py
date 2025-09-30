@@ -12,7 +12,8 @@ Description fichier : Lancement de l'application
 
 import pygame
 from sys import exit
-from src.Home import Home
+from Home import Home
+from Root import Root
 
 class Main:
     def __init__(self):
@@ -21,7 +22,8 @@ class Main:
         pygame.display.init()
         pygame.mixer.Channel(0).set_volume(1.0)
         pygame.mixer.Channel(1).set_volume(1.0)
-        home = Home()
+        window = Root(pygame.font.Font("assets/Shooting Star.ttf", 100))
+        home = Home(window)
         home.launch()
         pygame.quit()
         exit()
