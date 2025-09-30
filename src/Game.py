@@ -571,6 +571,9 @@ class Game:
             if not bullet.rect.colliderect(self.window_game.rect):
                 self.bullets.remove(bullet)
 
+            for floor in self.floors:
+                if floor.rect.colliderect(bullet.rect):
+                    self.bullets.remove(bullet)
 
             for power in self.powers_list:
 
