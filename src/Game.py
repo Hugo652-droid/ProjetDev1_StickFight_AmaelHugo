@@ -72,7 +72,7 @@ class Game:
 
         # Variable of cooldown for dropping items
         self.cooldown_drop_weapon = 5
-        self.cooldown_drop_power = 7
+        self.cooldown_drop_power = 1
 
         # Variable for the last drop of the item
         self.last_drop_weapon = time.time()
@@ -390,6 +390,12 @@ class Game:
                         self.image_player.get("player2_right_sniper")).convert_alpha()
 
         self.playersDead()
+        self.powerDead()
+
+    def powerDead(self):
+        for power in self.powers_list:
+            if power.health <= 0 or power.rect_power.centery <= self.info_screen.current_h - self.info_screen.current_h:
+                self.powers_list.remove(power)
 
     def playersDead(self):
         """
@@ -582,6 +588,7 @@ class Game:
 
         # Gestion of the collision with the bullets and players
         for bullet in self.bullets:
+
             if bullet.rect.colliderect(self.player1.rect):
                 if bullet.player_attack_name == self.player1.name:
                     pass
@@ -601,6 +608,20 @@ class Game:
             if not bullet.rect.colliderect(self.window_game.rect):
                 self.bullets.remove(bullet)
 
+            for floor in self.floors:
+                if floor.rect.colliderect(bullet.rect):
+                    self.bullets.remove(bullet)
+
+            for power in self.powers_list:
+
+                if power.rect_power.colliderect(bullet.rect):
+                    self.bullets.remove(bullet)
+                    if bullet.player_attack_name == "Player 1":
+                        power.takeDammage(self.player1.weapon.dammage)
+
+                    elif bullet.player_attack_name == "Player 2":
+                        power.takeDammage(self.player2.weapon.dammage)
+
         # Gestion of the collision with the weapons and players
         for weapon in self.weapon_gun:
             if weapon.rect_weapon.colliderect(self.player1.rect):
@@ -615,23 +636,50 @@ class Game:
         for power in self.powers_list:
             for power_col in self.powers_list:
                 if power.rect_power.colliderect(power_col.rect_power):
-                    if power_col.rect_power.centerx > power.rect_power.centerx:
-                        power.rect_power.centerx -= 10
 
-                    elif power_col.rect_power.centerx < power.rect_power.centerx:
-                        power.rect_power.centerx += 10
+                    if power_col.rect_power.centery > power.rect_power.centery:
+                        power.rect_power.centery -= 10
+
+                    elif power_col.rect_power.centery < power.rect_power.centery:
+                        power.rect_power.centery += 10
+
+                    else:
+
+                        if power_col.rect_power.centerx > power.rect_power.centerx:
+                            power.rect_power.centerx -= 10
+
+                        elif power_col.rect_power.centerx < power.rect_power.centerx:
+                            power.rect_power.centerx += 10
 
             for player in self.players:
                 if power.rect_power.colliderect(player.rect):
-                    if not player.power:
+                    if player.power:  # si le joueur ne prend pas le pouvoir
+                        # On calcule les distances d'intersection
+                        dx = min(player.rect.right - power.rect_power.left,
+                                 power.rect_power.right - player.rect.left)
+                        dy = min(player.rect.bottom - power.rect_power.top,
+                                 power.rect_power.bottom - player.rect.top)
+
+                        # On décide si c’est une collision horizontale ou verticale
+                        if dx < dy:
+                            # → Collision horizontale : le joueur pousse le pouvoir
+                            if player.rect.centerx < power.rect_power.centerx:
+                                power.rect_power.x += dx  # pousse vers la droite
+                            else:
+                                power.rect_power.x -= dx  # pousse vers la gauche
+                        else:
+                            # → Collision verticale
+                            if player.rect.bottom <= power.rect_power.centery:
+                                # Joueur est au-dessus → il reste posé dessus
+                                player.y -= dy
+                            else:
+                                # Joueur vient du bas → on bloque en-dessous du pouvoir
+                                player.y += dy
+                    else:
+                        # Le joueur récupère normalement le pouvoir
                         player.power = power
                         self.powers_list.remove(power)
                         player.takePower()
-                    else:
-                        if player.rect.centerx > power.rect_power.centerx:
-                            power.rect_power.centerx -= 10
-                        elif player.rect.centerx  < power.rect_power.centerx:
-                            power.rect_power.centerx += 10
 
         if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
             self.player1.pushing = False

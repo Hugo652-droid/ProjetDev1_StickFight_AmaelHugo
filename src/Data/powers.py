@@ -5,7 +5,8 @@ powers = [
                 "img": './images/imgGames/imgPowers/img_box.png',
                 "duration": 10,
                 "width": 30,
-                "height": 30
+                "height": 30,
+                "health": 25
             },
             {
                 "id": 2,
@@ -13,7 +14,8 @@ powers = [
                 "img": './images/imgGames/imgPowers/img_box.png',
                 "duration": 5,
                 "width": 30,
-                "height": 30
+                "height": 30,
+                "health": 25
             },
             {
                 "id": 3,
@@ -21,6 +23,7 @@ powers = [
                 "img": './images/imgGames/imgPowers/img_box.png',
                 "duration": 6,
                 "width": 30,
-                "height": 30
+                "height": 30,
+                "health": 25
             }
 ]
