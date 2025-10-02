@@ -139,29 +139,6 @@ class Root:
 
         return volume_down, volume_up
 
-    def buttonSelected(self, font, id, height, mod_description):
-        text = font.render(f"{mod_description}",True, (255, 255, 255))
-        text_button = font.render(f"[*]", True, (0, 0, 0))
-
-        button = self.buttons(80, (id*50+height), 16, 40, color=(255,0,0), text=f"[*]", color_text=(255,255,255), font=font)
-        self.screen.blit(text, (100, button.centery - 13))
-        self.screen.blit(text_button, (button.x, button.centery - 13))
-
-        return button
-
-
-    def buttonNotSelected(self, font, id, height, mod_description):
-        text = font.render(f"{mod_description}", True, (255, 255, 255))
-
-        text_button = font.render(f"[ ]", True, (255, 255, 255))
-        not_selected = pygame.rect.Rect(80, (id*50+height), 16, 40)
-
-        button = pygame.draw.rect(self.screen, (0, 0, 0), not_selected)
-        self.screen.blit(text, (100, not_selected.centery - 13))
-        self.screen.blit(text_button, (not_selected.x, not_selected.centery - 13))
-
-        return button
-
 
     ################################################################################################ Credits
 

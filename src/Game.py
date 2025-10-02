@@ -614,8 +614,7 @@ class Game:
                     self.player2.tackDammage(self.player1.damage)
                     self.bullets.remove(bullet)
 
-
-            if not bullet.rect.colliderect(self.window_game.rect):
+            if bullet.rect.centerx < 0 or bullet.rect.centerx > INFO_SCREEN.current_w:
                 self.bullets.remove(bullet)
 
             for floor in self.floors:
@@ -667,6 +666,7 @@ class Game:
 
             for player in self.players:
                 if power.rect_power.colliderect(player.rect):
+
                     if player.power:  # si le joueur ne prend pas le pouvoir
                         # On calcule les distances d'intersection
                         dx = min(player.rect.right - power.rect_power.left,
@@ -688,12 +688,20 @@ class Game:
                                 player.y -= dy
                             else:
                                 # Joueur vient du bas → on bloque en-dessous du pouvoir
-                                player.y += dy
+                                player.y -= power.rect_power.width
+
                     else:
                         # Le joueur récupère normalement le pouvoir
                         player.power = power
                         self.powers_list.remove(power)
                         player.takePower()
+
+                    if player.pushing:
+                        player.pushing = False
+                        if player.direct_player == "Left":
+                            power.rect_power.x -= 150
+                        elif player.direct_player == "Right":
+                            power.rect_power.x += 150
 
         if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
             self.player1.pushing = False
@@ -708,3 +716,4 @@ class Game:
                 self.player1.dashLeft()
             elif self.player2.direct_player == "Right":
                 self.player1.dashRight()
+
