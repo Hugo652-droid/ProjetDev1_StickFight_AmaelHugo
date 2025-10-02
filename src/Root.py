@@ -13,39 +13,45 @@ Description fichier : Creation et gestion des fenêtres de l'application
 import pygame
 
 pygame.display.init()
-INFO = pygame.display.Info()
+INFO_SCREEN = pygame.display.Info()
 
 class Root:
-    def __init__(self, font, width_screen=INFO.current_w, height_screen=INFO.current_h):
+    def __init__(self, font, width_screen=INFO_SCREEN.current_w, height_screen=INFO_SCREEN.current_h):
+        """
+        The creation and gestion of the window and buttons
+        :param font: The font family of the window
+        :param width_screen: the width of the window
+        :param height_screen: the height of the window
+        """
         self.width_screen = width_screen
         self.height_screen = height_screen
-
         self.font = font
-        # Définir les dimensions de l'écran
-        self.placer_screen_button_width = (self.width_screen - 140) // 2
+
+        # Definition of the window size
         self.settings_screen = False
         self.credits_screen = False
-
         size_window = (self.width_screen, self.height_screen)
         self.screen = pygame.display.set_mode(size_window)
 
-        self.rect = self.screen.get_rect()
-
-
-        # Nom de la fenêtre
+        # Name of the window
         pygame.display.set_caption("SticK.Onion")
 
     def closeRoot(self):
+        """
+        Function for closing the window
+        :return: The window closed
+        """
         pygame.display.quit()
 
-    def changeBg(self, img_bg):
-        # Charge l'image depuis le fichier 'mon_image.png'
-        image_a_afficher = pygame.image.load(img_bg)
+    def changeBackground(self, img_bg):
+        """
+        Function for changing the background of the window
+        :param img_bg: The background image
+        :return: The changed background image
+        """
+        image = pygame.image.load(img_bg).convert()
 
-        # Convertit l'image dans un format optimal pour l'affichage
-        image_convertie = image_a_afficher.convert()
-
-        background = pygame.transform.scale(image_convertie, (self.width_screen, self.height_screen))
+        background = pygame.transform.scale(image, (self.width_screen, self.height_screen))
 
         self.screen.blit(background, (0,0))
 
@@ -54,61 +60,24 @@ class Root:
         pygame.display.set_icon(icon_image)
 
     def changeColor(self, color):
+        """
+        Function for changing the color of the window
+        :param color: The color of the window
+        :return: The colored window
+        """
         self.screen.fill(color)
 
 ################################################################################################ Accueil
 
-    def buttonPlay(self):
-        # Définir la position et la taille du bouton
-        self.button_rect_play = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 70, 140, 100)
-
-        # Ajouter du texte sur le bouton
-        img_text = pygame.image.load('images/imgButtons/mainBtns/mainBtns/play_text_btn.png')
-
-        img_text = pygame.transform.scale(img_text, (140, 100))
-
-        self.screen.blit(img_text, (self.button_rect_play.x, self.button_rect_play.y))
-
-    def buttonSetting(self):
-        # Définir la position et la taille du bouton
-        self.button_rect_setting = pygame.Rect((self.width_screen - 160) // 2, self.height_screen / 2 + 180, 400, 100)
-
-        # Ajouter du texte sur le bouton
-        img_text = pygame.image.load('images/imgButtons/mainBtns/mainBtns/settings_text_btn.png')
-
-        img_text = pygame.transform.scale(img_text, (160, 120))
-
-        self.screen.blit(img_text, (self.button_rect_setting.x, self.button_rect_setting.y))
-
-    def buttonQuit(self):
-        # Définir la position et la taille du bouton
-        self.button_rect_quit = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 300, 400, 100)
-
-        # Ajouter du texte sur le bouton
-        img_text = pygame.image.load('images/imgButtons/quit_text_btn.png')
-        img_text = pygame.transform.scale(img_text, (140, 80))
-        self.screen.blit(img_text, (self.button_rect_quit.x, self.button_rect_quit.y))
-
-    def buttonRestart(self):
-        # Définir la position et la taille du bouton
-        self.button_rect_restart = pygame.Rect(self.placer_screen_button_width, self.height_screen / 2 + 170, 400, 100)
-
-        # Ajouter du texte sur le bouton
-        img_text = pygame.image.load('images/imgButtons/gameBtns/pausedBtns/restart_text_btn.png')
-        img_text = pygame.transform.scale(img_text, (140, 100))
-        self.screen.blit(img_text, (self.button_rect_restart.x, self.button_rect_restart.y))
-
     def title(self,img):
-        self.button_rect_title = pygame.Rect(((self.width_screen - 900) / 2), 100, 1000, 1000)
+        button_rect_title = pygame.Rect(((self.width_screen - 900) / 2), 100, 1000, 1000)
 
         # Ajouter du texte sur le bouton
         img_text = pygame.image.load(img)
 
         img_text = pygame.transform.scale(img_text, (900, 375))
 
-        self.screen.blit(img_text, (self.button_rect_title.x, self.button_rect_title.y))
-
-        pygame.display.flip()
+        self.screen.blit(img_text, (button_rect_title.x, button_rect_title.y))
 
     def scores_player1(self, font, score, player1):
         score_text = font.render(f"{score}",True, player1.color)
@@ -134,18 +103,6 @@ class Root:
         text_rect = win_text.get_rect(center=(self.width_screen / 2, self.height_screen / 2))
 
         self.screen.blit(win_text, text_rect)
-
-    ################################################################################################ Game
-
-    def stop(self):
-        self.changeBg('images/imgBackgrounds/gamePageBgs/pausedBg/img_bg_game_paused.png')
-
-        self.buttonQuit()
-
-        self.buttonRestart()
-
-        self.title('images/imgTexts/textsGame/textsPaused/title_paused.png')
-
     ################################################################################################ Settings
 
     def soundBar(self, volume, font, title, height):
@@ -185,11 +142,10 @@ class Root:
     def buttonSelected(self, font, id, height, mod_description):
         text = font.render(f"{mod_description}",True, (255, 255, 255))
         text_button = font.render(f"[*]", True, (0, 0, 0))
-        selected = pygame.rect.Rect(80, (id*50+height), 16, 40)
 
-        button = pygame.draw.rect(self.screen, (255, 255, 255), selected)
-        self.screen.blit(text, (100, selected.centery - 13))
-        self.screen.blit(text_button, (selected.x, selected.centery - 13))
+        button = self.buttons(80, (id*50+height), 16, 40, color=(255,0,0), text=f"[*]", color_text=(255,255,255), font=font)
+        self.screen.blit(text, (100, button.centery - 13))
+        self.screen.blit(text_button, (button.x, button.centery - 13))
 
         return button
 

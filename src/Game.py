@@ -10,21 +10,30 @@ Description fichier : Creation et gestion des parties et du jeu
 --
 """
 
-from src.Player import Player
-from src.Powers import Powers
-from src.Root import Root
-from src.Map import Map
-from src.Weapons import Weapons
-from src.Data.weapon import weapons
-from src.Data.powers import powers
-from src.Data.imagesPlayer import imagesPlayer
-from src.Data.maps import maps
+from Player import Player
+from Powers import Powers
+from Root import Root
+from Map import Map
+from Weapons import Weapons
+from Data.weapon import weapons
+from Data.powers import powers
+from Data.imagesPlayer import imagesPlayer
+from Data.maps import maps
+from assets.Buttons import Buttons
+
 import time
 import pygame
 import random
 
+INFO_SCREEN = pygame.display.Info()
+CLOCK = pygame.time.Clock()
+
 class Game:
-    def __init__(self, game_mod):
+    def __init__(self, window, game_mod):
+        """
+        The gameplay
+        :param game_mod: The game mod
+        """
         # Variable for the window and the game
         self.game_mod = game_mod
         self.font = pygame.font.Font("assets/Shooting Star.ttf", 100)
@@ -39,6 +48,10 @@ class Game:
         self.power = powers
         self.weapons = weapons
         self.maps = maps
+
+        # definition of players
+        self.player1 = None
+        self.player2 = None
 
         # Variable for the status of the game
         self.running_game = True
@@ -74,6 +87,23 @@ class Game:
         # Player for the background sound
         pygame.mixer.Channel(0).play(self.sound_background, -1)
 
+        # Buttons for paused game
+        self.button_quit = Buttons(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                   INFO_SCREEN.current_h / 2 + 300,
+                                   140,
+                                   80,
+                                   image='images/imgButtons/quit_text_btn.png',
+                                   image_scale=(140, 80))
+        self.button_rect_quit = None
+
+        self.button_restart = Buttons(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                      INFO_SCREEN.current_h / 2 + 170,
+                                      140,
+                                      80,
+                                      image='images/imgButtons/gameBtns/pausedBtns/restart_text_btn.png',
+                                      image_scale=(140, 100))
+        self.button_rect_restart = None
+
         self.createInstanse()
 
     def createInstanse(self):
@@ -81,13 +111,13 @@ class Game:
         Create all entities for a game
         :return: All entities initiate
         """
-        margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
+        margin = INFO_SCREEN.current_w / 10  # 10% d’espace sur les côtés
 
         self.player1 = Player(
             "Player 1",
             self.heal_points_start,
             margin,  # distance depuis la gauche
-            self.info_screen.current_h / 2,
+            INFO_SCREEN.current_h / 2,
             self.image_player.get("player1_left"),
             self.window_game.screen,
             self.weapons[0],
@@ -97,8 +127,8 @@ class Game:
         self.player2 = Player(
             "Player 2",
             self.heal_points_start,
-            self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
-            self.info_screen.current_h / 2,
+            INFO_SCREEN.current_w - margin - self.player1.rect.width,  # distance depuis la droite
+            INFO_SCREEN.current_h / 2,
             "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png",
             self.window_game.screen,
             self.weapons[0],
@@ -207,10 +237,9 @@ class Game:
 
                 # Gestion of the paused menu
                 if self.paused:
-                    if self.window_game.button_rect_restart.collidepoint(event.pos):
+                    if self.button_rect_restart.collidepoint(event.pos):
                         self.restart = True
-                    elif self.window_game.button_rect_quit.collidepoint(event.pos):
-                        self.window_game.closeRoot()
+                    elif self.button_rect_quit.collidepoint(event.pos):
                         self.running_game = False
                         return
 
@@ -246,7 +275,7 @@ class Game:
                         self.player1.playerisstand = False
                         self.player1.goDown(time.time())
             else:
-                if self.player1.y != self.info_screen.current_h:
+                if self.player1.y != INFO_SCREEN.current_h:
                     self.player1.y += 10
 
             if not self.player2.playerIsDead():
@@ -276,7 +305,7 @@ class Game:
                 if keys[pygame.K_i]:
                     self.player2.jump(time.time())
             else:
-                if self.player2.y != self.info_screen.current_h:
+                if self.player2.y != INFO_SCREEN.current_h:
                     self.player2.y += 10
 
             if time.time() - self.last_drop_weapon > self.cooldown_drop_weapon and (self.game_mod == 1 or self.game_mod == 3):
@@ -288,11 +317,11 @@ class Game:
                 self.createPowers()
 
             for weapon in self.weapon_gun:
-                if weapon.rect_weapon.y != self.info_screen.current_h:
+                if weapon.rect_weapon.y != INFO_SCREEN.current_h:
                     weapon.rect_weapon.y += 10
 
             for power in self.powers_list:
-                if power.rect_power.y != self.info_screen.current_h:
+                if power.rect_power.y != INFO_SCREEN.current_h:
                     power.rect_power.y += 10
 
             self.collision()
@@ -307,7 +336,7 @@ class Game:
 
         self.reloadPage()
 
-        self.clock.tick(200)
+        CLOCK.tick(200)
 
     def changeImgPlayer(self):
         """
@@ -413,7 +442,7 @@ class Game:
                 else:
                     player.jumping -= 20
             elif player.jumping <= 0:
-                if player.y <= self.info_screen.current_h:
+                if player.y <= INFO_SCREEN.current_h:
                     player.y += 10
 
     def reloadPage(self):
@@ -424,7 +453,7 @@ class Game:
         # Creating the window for the game
         if not self.paused:
             pygame.mouse.set_visible(False)
-            self.window_game.changeBg('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
+            self.window_game.changeBackground('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
 
             # Load all floors
             for floor in self.floors:
@@ -480,9 +509,17 @@ class Game:
 
         else:
             pygame.mouse.set_visible(True)
-            self.window_game.stop()
+            self.stop()
 
         pygame.display.flip()
+
+    def stop(self):
+        self.window_game.changeBackground('images/imgBackgrounds/gamePageBgs/pausedBg/img_bg_game_paused.png')
+
+        self.button_rect_quit = self.button_quit.draw()
+        self.button_rect_restart = self.button_restart.draw()
+
+        self.window_game.title('images/imgTexts/textsGame/textsPaused/title_paused.png')
 
     def collision(self):
         """
@@ -507,10 +544,10 @@ class Game:
             self.player1.x += 5
 
         # Gestion of the collision with player and ground
-        if self.player1.y > self.info_screen.current_h:
+        if self.player1.y > INFO_SCREEN.current_h:
             self.player1.hp = 0
 
-        elif self.player2.y > self.info_screen.current_h:
+        elif self.player2.y > INFO_SCREEN.current_h:
             self.player2.hp = 0
 
         # Gestion of the collision with floors
