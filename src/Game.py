@@ -59,7 +59,7 @@ class Game:
 
         # Variable of cooldown for dropping items
         self.cooldown_drop_weapon = 5
-        self.cooldown_drop_power = 1
+        self.cooldown_drop_power = 7
 
         # Variable for the last drop of the item
         self.last_drop_weapon = time.time()
@@ -200,7 +200,9 @@ class Game:
                 self.running_game = False
             if event.type != pygame.KEYDOWN:
                 self.player2.modifImage(self.image_player.get("player2_stand"))
+                self.player2.playerisstand = True
                 self.player1.modifImage(self.image_player.get("player1_stand"))
+                self.player1.playerisstand = True
             if event.type == pygame.MOUSEBUTTONDOWN:
 
                 # Gestion of the paused menu
@@ -228,16 +230,20 @@ class Game:
                 if keys[pygame.K_a]:
                     self.player1.goLeft()
                     self.player1.modifImage(self.image_player.get("player1_left"))
+                    self.player1.playerisstand = False
                 if keys[pygame.K_d]:
                     self.player1.goRight()
                     self.player1.modifImage(self.image_player.get("player1_right"))
+                    self.player1.playerisstand = False
                 if keys[pygame.K_w]:
                     self.player1.jump(time.time())
                 if keys[pygame.K_s]:
                     if self.player1.rect.bottom > self.floors[0].rect.top:
                         self.player1.modifImage(self.image_player.get("player1_crouch"))
+                        self.player1.playerisstand = False
                     else:
                         self.player1.modifImage(self.image_player.get("player1_crouch"))
+                        self.player1.playerisstand = False
                         self.player1.goDown(time.time())
             else:
                 if self.player1.y != self.info_screen.current_h:
@@ -254,14 +260,18 @@ class Game:
                 if keys[pygame.K_j]:
                     self.player2.goLeft()
                     self.player2.modifImage(self.image_player.get("player2_left"))
+                    self.player2.playerisstand = False
                 if keys[pygame.K_l]:
                     self.player2.goRight()
                     self.player2.modifImage(self.image_player.get("player2_right"))
+                    self.player2.playerisstand = False
                 if keys[pygame.K_k]:
                     if self.player2.rect.bottom > self.floors[0].rect.top:
                         self.player2.modifImage(self.image_player.get("player2_crouch"))
+                        self.player2.playerisstand = False
                     else:
                         self.player2.modifImage(self.image_player.get("player2_crouch"))
+                        self.player2.playerisstand = False
                         self.player2.goDown(time.time())
                 if keys[pygame.K_i]:
                     self.player2.jump(time.time())
@@ -599,20 +609,24 @@ class Game:
         for power in self.powers_list:
             for power_col in self.powers_list:
                 if power.rect_power.colliderect(power_col.rect_power):
-
-                    if power_col.rect_power.centery > power.rect_power.centery:
-                        power.rect_power.centery -= 10
-
-                    elif power_col.rect_power.centery < power.rect_power.centery:
-                        power.rect_power.centery += 10
+                    if len(self.powers_list) >= 15:
+                        self.powers_list.remove(power)
 
                     else:
 
-                        if power_col.rect_power.centerx > power.rect_power.centerx:
-                            power.rect_power.centerx -= 10
+                        if power_col.rect_power.centery > power.rect_power.centery:
+                            power.rect_power.centery -= 10
 
-                        elif power_col.rect_power.centerx < power.rect_power.centerx:
-                            power.rect_power.centerx += 10
+                        elif power_col.rect_power.centery < power.rect_power.centery:
+                            power.rect_power.centery += 10
+
+                        else:
+
+                            if power_col.rect_power.centerx > power.rect_power.centerx:
+                                power.rect_power.centerx -= 10
+
+                            elif power_col.rect_power.centerx < power.rect_power.centerx:
+                                power.rect_power.centerx += 10
 
             for player in self.players:
                 if power.rect_power.colliderect(player.rect):

@@ -46,9 +46,15 @@ class Player:
         self.last_time_used_power = time.time()
         self.cooldown_power = 0
         self.hp_before = 0
+        self.playerisstand = True
 
     def draw(self):
-        self.img = pygame.transform.scale(self.img, (150, 100))
+        if self.playerisstand:
+            self.img = pygame.transform.scale(self.img, (80, 100))
+
+        else:
+            self.img = pygame.transform.scale(self.img, (150, 100))
+
         self.rect = self.img.get_rect()
         self.rect.center = (self.x, self.y)
         self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
