@@ -32,6 +32,7 @@ class Player:
         :param hand: Data of the weapon : hand
         :param color: The color of the player
         """
+        self.invincible = False
         self.screen = screen
         self.name = name
         self.hp = hp
@@ -156,7 +157,8 @@ class Player:
         :param damage: The damage to take
         :return: The hp reduce by the damage
         """
-        self.hp -= damage
+        if not self.invincible == True:
+            self.hp -= damage
 
     def playerIsDead(self):
         """
@@ -172,17 +174,14 @@ class Player:
         """
         random_nb = random.randint(1, 100)
 
-        if random_nb <= 33:
+        if random_nb <= 50:
             self.power = powers[0]
             self.cooldown_power = self.power['duration']
 
-        elif random_nb <= 66:
+        elif random_nb > 50:
             self.power = powers[1]
             self.cooldown_power = self.power['duration']
 
-        elif random_nb > 66:
-            self.power = powers[2]
-            self.cooldown_power = self.power['duration']
 
     def usePower(self):
         """
@@ -199,15 +198,12 @@ class Player:
                     self.cooldown_vertical = 1
 
             elif self.power.get("id") == 2:
-                if time.time() - self.last_time_used_power < self.cooldown_power:
-                    if self.hp <= 100:
-                        self.hp_before = self.hp
-                        print(self.hp_before)
-                    self.hp = 1000
+                if time.time() - self.last_time_used_power > self.cooldown_power:
+                    self.invincible = True
                     self.last_time_used_power = time.time()
 
                 if time.time() - self.last_time_used_power > self.cooldown_power:
-                    self.hp = self.hp_before
+                    self.invincible = False
 
             elif self.power.get("id") == 3:
                 if time.time() - self.last_time_used_power < self.cooldown_power:

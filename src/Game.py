@@ -453,7 +453,7 @@ class Game:
         # Creating the window for the game
         if not self.paused:
             pygame.mouse.set_visible(False)
-            self.window_game.changeBackground('images/imgBackgrounds/gamePageBgs/gameBgs/test_blue_bg.jpg')
+            self.window_game.changeBackground('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.jpg')
 
             # Load all floors
             for floor in self.floors:

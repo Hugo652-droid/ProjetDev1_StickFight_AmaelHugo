@@ -185,8 +185,8 @@ class Root:
         # Contain of the credit
         credits = [
             ("ART - Directeur artistique : Amael Rochat", section_font),
-            ("Amael Rochat - Textes boutons et titres", text_font),
-            ("Hugo Rod - Musique", text_font),
+            ("Amael Rochat - Textes boutons et titres, choix des polices, choix des images", text_font),
+            ("Hugo Rod - Choix des musique", text_font),
             ("", text_font),
             ("DEVELOPPEMENT - Directeur develeoppement : Hugo Rod", section_font),
             ("Amael - Developpement", text_font),
