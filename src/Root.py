@@ -15,6 +15,8 @@ import pygame
 pygame.display.init()
 INFO_SCREEN = pygame.display.Info()
 
+from assets.Buttons import Button
+
 class Root:
     def __init__(self, font, width_screen=INFO_SCREEN.current_w, height_screen=INFO_SCREEN.current_h):
         """
@@ -107,25 +109,17 @@ class Root:
 
     def soundBar(self, volume, font, title, height):
         i = 0
-
-
         text_title = font.render(title, True, (255, 255, 255))
         self.screen.blit(text_title, (80, (height - 50)))
 
-        text_down = font.render(f"<",True, (255,255,255))
-        volume_down = pygame.rect.Rect(80, height, 15, 40)
-        pygame.draw.rect(self.screen, (0,0,0), volume_down)
-        self.screen.blit(text_down, (volume_down.x, volume_down.centery - 13))
+        volume_down = Button(self.screen,80, height, 15, 40, font=font, text=f"<", color_text=(255,255,255), color=(0,0,0))
 
         self.soundBars = []
         while i <= 10:
             self.soundBars.append(pygame.rect.Rect((i*20+100), height, 15, 40))
             i += 1
 
-        text_up = font.render(f">", True, (255, 255, 255))
-        volume_up = pygame.rect.Rect((i*20+80), height, 15, 40)
-        pygame.draw.rect(self.screen, (0, 0, 0), volume_up)
-        self.screen.blit(text_up, (volume_up.x, volume_up.centery - 13))
+        volume_up = Button(self.screen,(i*20+80), height, 15, 40, font=font, text=f">", color_text=(255,255,255), color=(0,0,0))
 
         volume_index = 0
         for soundBar in self.soundBars:
@@ -137,7 +131,7 @@ class Root:
             if volume_index >= 100:
                 break
 
-        return volume_down, volume_up
+        return volume_down.draw(), volume_up.draw()
 
 
     ################################################################################################ Credits

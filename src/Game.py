@@ -19,7 +19,7 @@ from Data.weapon import weapons
 from Data.powers import powers
 from Data.imagesPlayer import imagesPlayer
 from Data.maps import maps
-from assets.Buttons import Buttons
+from assets.Buttons import Button
 
 import time
 import pygame
@@ -87,21 +87,21 @@ class Game:
         # Player for the background sound
         pygame.mixer.Channel(0).play(self.sound_background, -1)
 
-        # Buttons for paused game
-        self.button_quit = Buttons(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
-                                   INFO_SCREEN.current_h / 2 + 300,
-                                   140,
-                                   80,
-                                   image='images/imgButtons/quit_text_btn.png',
-                                   image_scale=(140, 80))
+        # Button for paused game
+        self.button_quit = Button(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                  INFO_SCREEN.current_h / 2 + 300,
+                                  140,
+                                  80,
+                                  image='images/imgButtons/quit_text_btn.png',
+                                  image_scale=(140, 80))
         self.button_rect_quit = None
 
-        self.button_restart = Buttons(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
-                                      INFO_SCREEN.current_h / 2 + 170,
-                                      140,
-                                      80,
-                                      image='images/imgButtons/gameBtns/pausedBtns/restart_text_btn.png',
-                                      image_scale=(140, 100))
+        self.button_restart = Button(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                     INFO_SCREEN.current_h / 2 + 170,
+                                     140,
+                                     80,
+                                     image='images/imgButtons/gameBtns/pausedBtns/restart_text_btn.png',
+                                     image_scale=(140, 100))
         self.button_rect_restart = None
 
         self.createInstanse()

@@ -1,6 +1,8 @@
+
+
 import pygame
 
-from src.assets.InputBox import InputBox
+from assets.Buttons import Button
 
 class Settings:
     def __init__(self, screen, selected_mod):
@@ -63,23 +65,17 @@ class Settings:
         self.soundBarEffect = self.screen.soundBar(self.volume_effect, self.font, "Effect volume", self.height)
         self.height += 50
 
-        for mod in self.games_mods:
-            self.height += mod * 10
-            if mod == self.selected_mod:
-                button_mod = self.screen.buttonSelected(self.font, mod, self.height, self.games_mods[mod])
-                self.mods_buttons.update({mod: button_mod})
-            else:
-                button_mod = self.screen.buttonNotSelected(self.font, mod, self.height, self.games_mods[mod])
-                self.mods_buttons.update({mod: button_mod})
-
+        self.creatModSelector()
 
         pygame.display.flip()
 
     def creatModSelector(self):
         for mod in self.games_mods:
             if mod == self.selected_mod:
-                button_mod = self.screen.buttonSelected(self.font, mod, self.height, self.games_mods[mod])
-                self.mods_buttons.update({mod: button_mod})
+                button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20, text="*", color_text=(0,0,0), color=(255,255,255))
+                self.mods_buttons.update({mod: button_mod.draw()})
             else :
-                button_mod = self.screen.buttonNotSelected(self.font, mod, self.height, self.games_mods[mod])
-                self.mods_buttons.update({mod: button_mod})
+                button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20, color=(0,0,0))
+                self.mods_buttons.update({mod: button_mod.draw()})
+            text_title = self.font.render(self.games_mods[mod], True, (255, 255, 255))
+            self.screen.screen.blit(text_title, (100, (self.height + mod * 40)))

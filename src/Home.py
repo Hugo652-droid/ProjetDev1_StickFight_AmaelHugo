@@ -15,7 +15,7 @@ from Root import Root, INFO_SCREEN
 from Game import Game
 from Settings import Settings
 from Credits import Credits
-from assets.Buttons import Buttons
+from assets.Buttons import Button
 
 
 class Home:
@@ -24,28 +24,28 @@ class Home:
         self.window = window
         self.game_mod = 1
 
-        self.button_play = Buttons(self.window.screen, (INFO_SCREEN.current_w - 160) // 2,
-                                   INFO_SCREEN.current_h / 2 + 70,
-                                   140,
-                                   100,
-                                   image='images/imgButtons/mainBtns/mainBtns/play_text_btn.png',
-                                   image_scale=(140, 100))
+        self.button_play = Button(self.window.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                  INFO_SCREEN.current_h / 2 + 70,
+                                  140,
+                                  100,
+                                  image='images/imgButtons/mainBtns/mainBtns/play_text_btn.png',
+                                  image_scale=(140, 100))
         self.button_rect_play = None
 
-        self.button_setting = Buttons(self.window.screen, (INFO_SCREEN.current_w - 160) // 2,
-                                   INFO_SCREEN.current_h / 2 + 180,
-                                   400,
-                                   100,
-                                   image='images/imgButtons/mainBtns/mainBtns/settings_text_btn.png',
-                                   image_scale=(160, 120))
+        self.button_setting = Button(self.window.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                     INFO_SCREEN.current_h / 2 + 180,
+                                     400,
+                                     100,
+                                     image='images/imgButtons/mainBtns/mainBtns/settings_text_btn.png',
+                                     image_scale=(160, 120))
         self.button_rect_setting = None
 
-        self.button_quit = Buttons(self.window.screen, (INFO_SCREEN.current_w - 160) // 2,
-                                   INFO_SCREEN.current_h / 2 + 300,
-                                   140,
-                                   80,
-                                   image='images/imgButtons/quit_text_btn.png',
-                                   image_scale=(140, 80))
+        self.button_quit = Button(self.window.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                  INFO_SCREEN.current_h / 2 + 300,
+                                  140,
+                                  80,
+                                  image='images/imgButtons/quit_text_btn.png',
+                                  image_scale=(140, 80))
         self.button_rect_quit = None
 
     def launch(self):

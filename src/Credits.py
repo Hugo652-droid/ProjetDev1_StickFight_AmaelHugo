@@ -1,6 +1,7 @@
 import pygame
 
 INFO_SCREEN = pygame.display.Info()
+
 class Credits:
     def __init__(self, screen):
         self.font = pygame.font.SysFont('Arial', 20)

@@ -2,7 +2,7 @@ import pygame
 
 INFO_SCREEN = pygame.display.Info()
 
-class Buttons:
+class Button:
     def __init__(self, screen, left_position, top_position, width, height, font=None, image=None, image_scale=None, text=None, color=None, color_text=None):
         self.width = width
         self.height = height
@@ -18,6 +18,10 @@ class Buttons:
         self.button = pygame.Rect(self.left_position, self.top_position, self.width, self.height)
 
     def draw(self):
+        # Adding the color
+        if self.color:
+            pygame.draw.rect(self.screen, self.color, self.button)
+
         # Adding the image
         if self.image:
             image = pygame.image.load(self.image).convert_alpha()
@@ -30,9 +34,5 @@ class Buttons:
             if self.font:
                 text = self.font.render(self.text, True, self.color_text)
                 self.screen.blit(text, (self.button.x, self.button.y))
-
-        # Adding the color
-        if self.color:
-            pygame.draw.rect(self.screen, self.color, self.button)
 
         return self.button
