@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : imagesPlayer.py
+Description fichier : Tous les images de Player
+--
+"""
+
 imagesPlayer = {
         'player1_left': 'images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_left_player1.png',
         'player1_right': 'images/imgCharacters/imgPlayer1/runPlayer1/stickman_go_right_player1.png',

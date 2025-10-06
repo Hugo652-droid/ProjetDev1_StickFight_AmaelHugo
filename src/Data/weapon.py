@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : imagesPlayer.py
+Description fichier : Datas pour les armes
+--
+"""
+
 weapons = [
             {
                 "id": 0,

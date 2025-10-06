@@ -1,3 +1,15 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : maps.py
+Description fichier : Gestion des maps et leurs platformes
+--
+"""
+
 import pygame
 
 info_screen = pygame.display.Info()
