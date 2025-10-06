@@ -69,7 +69,7 @@ class Player:
         self.last_time_used_power = time.time()
         self.cooldown_power = 0
         self.hp_before = 0
-        self.playerisstand = True
+        self.player_is_stand = True
         self.direct_player = "Left"
         self.jumping = 0
         self.color = color
@@ -79,7 +79,7 @@ class Player:
         Display the player in the window
         :return: The player displayed
         """
-        if self.playerisstand:
+        if self.player_is_stand:
             self.img = pygame.transform.scale(self.img, (80, 100))
 
         else:
