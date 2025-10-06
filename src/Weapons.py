@@ -13,20 +13,25 @@ Description fichier : Creation et gestion des armes
 import pygame
 import random
 
-class Weapons():
+class Weapon:
     def __init__(self, weaponData, screen):
+        """
+        The weapon of the game
+        :param weaponData: The data of weapon [id, attackSpeed, ammunition, width, height, img, damage]
+        :param screen: The window of the game
+        """
         self.id = weaponData["id"]
         self.attackSpeed = weaponData["attackSpeed"]
         self.ammunition = weaponData["ammunition"]
         self.width = weaponData["width"]
         self.height = weaponData["height"]
         self.cooldown = 1
-        self.img_weapom = pygame.image.load(weaponData["img"])
-        self.rect_weapon = self.img_weapom.get_rect()
-        self.img_weapom = pygame.transform.scale(self.img_weapom, (80, 30))
-        self.rect_weapon = self.img_weapom.get_rect()
+        self.img_weapon = pygame.image.load(weaponData["img"])
+        self.rect_weapon = self.img_weapon.get_rect()
+        self.img_weapon = pygame.transform.scale(self.img_weapon, (80, 30))
+        self.rect_weapon = self.img_weapon.get_rect()
         self.info = pygame.display.Info()
-        self.dammage = weaponData["damage"]
+        self.damage = weaponData["damage"]
         self.screen = screen
         self.placed = False
 
@@ -47,10 +52,10 @@ class Weapons():
 
             if not collision and not self.rect_weapon.colliderect(player1.rect) and not self.rect_weapon.colliderect(player2.rect) :
                 self.placed = True
-                self.screen.blit(self.img_weapom, self.rect_weapon)
+                self.screen.blit(self.img_weapon, self.rect_weapon)
 
         if self.placed:
-            self.screen.blit(self.img_weapom, self.rect_weapon)
+            self.screen.blit(self.img_weapon, self.rect_weapon)
 
     def useAmmunition(self):
         """

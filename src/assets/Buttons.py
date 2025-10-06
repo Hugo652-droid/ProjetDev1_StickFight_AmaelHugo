@@ -1,9 +1,35 @@
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Main.py
+Description fichier : Gestion des buttons
+--
+"""
+
 import pygame
 
 INFO_SCREEN = pygame.display.Info()
 
 class Button:
     def __init__(self, screen, left_position, top_position, width, height, font=None, image=None, image_scale=None, text=None, color=None, color_text=None):
+        """
+        Button of the game
+        :param screen: The window of the game
+        :param left_position: La position x
+        :param top_position: La position y
+        :param width: width of the button
+        :param height: height of the button
+        :param font: the font-family of the button (optional)
+        :param image: image of the button (optional)
+        :param image_scale: width and height of the image (width, height) (optional)
+        :param text: The text of the button (optional)
+        :param color: color of the button (r, g, b) (optional)
+        :param color_text: color of the button's text (r, g, b) (optional)
+        """
         self.width = width
         self.height = height
         self.screen = screen
@@ -18,6 +44,10 @@ class Button:
         self.button = pygame.Rect(self.left_position, self.top_position, self.width, self.height)
 
     def draw(self):
+        """
+        Display the button of the game
+        :return: The button displayed
+        """
         # Adding the color
         if self.color:
             pygame.draw.rect(self.screen, self.color, self.button)

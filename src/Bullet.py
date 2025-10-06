@@ -14,6 +14,14 @@ import pygame
 
 class Bullet:
     def __init__(self, position, direction, player_attack_name, width, height):
+        """
+        The bullet of the game
+        :param position: The position of the bullet
+        :param direction: The direction of the bullet
+        :param player_attack_name: The player who shoot the bullet
+        :param width: The width of the bullet
+        :param height: The height of the bullet
+        """
         self.x = position[0]
         self.y = position[1]
         self.player_attack_name = player_attack_name
@@ -29,10 +37,19 @@ class Bullet:
 
 
     def draw(self, screen):
+        """
+        Display the bullet on the screen
+        :param screen: The window of the game
+        :return: The bullet displayed
+        """
         self.rect.center = self.x, self.y
         screen.screen.blit(self.image, self.rect)
 
     def shot(self):
+        """
+        Function for manage the bullet moving
+        :return: The movement of the bullet
+        """
         if self.direction == 'Left':
             self.x -= 20
         elif self.direction == 'Right':

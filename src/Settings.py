@@ -1,11 +1,26 @@
-
+"""
+--
+Auteur : Amael Rochat et Hugo Rod
+Date de départ : 18.08.2025
+Date de fin : --.--.----
+Projet : Projet Dev 1 (sticKOnion)
+--
+Nom fichier : Settings.py
+Description fichier : Gestion des settings du jeu
+--
+"""
 
 import pygame
 
 from assets.Buttons import Button
 
-class Settings:
+class Setting:
     def __init__(self, screen, selected_mod):
+        """
+        The settings page
+        :param screen: The window of the game
+        :param selected_mod: The current game-mod
+        """
         self.font = pygame.font.SysFont('Arial', 20)
         self.screen = screen
         self.color = (255,0,0)
@@ -57,6 +72,10 @@ class Settings:
             self.reload()
 
     def reload(self):
+        """
+        Display the settings page
+        :return: The settings page displayed
+        """
         self.height = pygame.display.Info().current_h // 6
         self.screen.changeBackground('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
 
@@ -70,6 +89,10 @@ class Settings:
         pygame.display.flip()
 
     def creatModSelector(self):
+        """
+        Gestion de la selection de mods
+        :return: Affichage des boutons de mods
+        """
         for mod in self.games_mods:
             if mod == self.selected_mod:
                 button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20, text="*", color_text=(0,0,0), color=(255,255,255))

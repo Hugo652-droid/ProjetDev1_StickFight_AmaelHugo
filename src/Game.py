@@ -14,7 +14,7 @@ from Player import Player
 from Powers import Powers
 from Root import Root
 from Map import Map
-from Weapons import Weapons
+from Weapons import Weapon
 from Data.weapon import weapons
 from Data.powers import powers
 from Data.imagesPlayer import imagesPlayer
@@ -32,7 +32,7 @@ class Game:
     def __init__(self, window, game_mod):
         """
         The gameplay
-        :param game_mod: The game mod
+        :param game_mod: The current game-mod
         """
         # Variable for the window and the game
         self.game_mod = game_mod
@@ -154,22 +154,22 @@ class Game:
 
         if random_nb <= 13:
             weapon = self.weapons[4]
-            new_weapon = Weapons(weapon, self.window_game.screen)
+            new_weapon = Weapon(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 36:
             weapon = self.weapons[3]
-            new_weapon = Weapons(weapon, self.window_game.screen)
+            new_weapon = Weapon(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 68:
             weapon = self.weapons[2]
-            new_weapon = Weapons(weapon, self.window_game.screen)
+            new_weapon = Weapon(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
         elif random_nb <= 100:
             weapon = self.weapons[1]
-            new_weapon = Weapons(weapon, self.window_game.screen)
+            new_weapon = Weapon(weapon, self.window_game.screen)
             self.weapon_gun.append(new_weapon)
 
     def createPowers(self):
@@ -457,7 +457,7 @@ class Game:
 
             # Load all floors
             for floor in self.floors:
-                floor.draw(self.window_game.screen)
+                floor.draw()
 
             # Load all weapons
             for weapon in self.weapon_gun :
@@ -498,8 +498,8 @@ class Game:
                 bullet.draw(self.window_game)
 
             # Load all scores
-            self.window_game.scores_player1(self.font, self.score_player1, self.player1)
-            self.window_game.scores_player2(self.font, self.score_player2, self.player2)
+            self.window_game.scores_player1(self.font, self.score_player1, self.player1.color)
+            self.window_game.scores_player2(self.font, self.score_player2, self.player2.color)
 
             # Load the victory screen
             if self.player1.playerIsDead():

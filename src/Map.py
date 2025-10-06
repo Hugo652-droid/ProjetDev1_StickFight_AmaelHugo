@@ -14,7 +14,12 @@ import pygame
 
 class Map:
     def __init__(self, window, floor_data):
-        self.window = window
+        """
+        The platform of the game
+        :param window: The window of the game
+        :param floor_data: The data of platform [name, position x, position y, width, height, image (optional)]
+        """
+        self.screen = window.screen
         if floor_data['image'] != "":
             self.img_floor = pygame.image.load(floor_data['image'])
         else :
@@ -25,10 +30,14 @@ class Map:
         self.h = floor_data['height']
         self.rect = self.img_floor.get_rect()
 
-    def draw(self, screen):
+    def draw(self):
+        """
+        display the platform
+        :return: La platform displayed
+        """
         self.img_floor = pygame.transform.scale(self.img_floor, (self.w, self.h))
         self.rect = self.img_floor.get_rect()
         self.rect.center = (self.x, self.y)
-        screen.blit(self.img_floor, self.rect)
+        self.screen.blit(self.img_floor, self.rect)
 
 

@@ -15,10 +15,14 @@ import random
 
 class Powers():
     def __init__(self, power, screen):
+        """
+        The power-up of the game
+        :param power: The data of power [id, width, height, duration, health]
+        :param screen: The window of the game
+        """
         self.id = power["id"]
-        self.duration = power["id"]
-        self.width = power["height"]
-        self.height = power["width"]
+        self.width = power["width"]
+        self.height = power["height"]
         self.duration = power["duration"]
         self.health = power["health"]
         self.img_power = pygame.image.load(power["img"])
@@ -29,6 +33,13 @@ class Powers():
         self.placed = False
         
     def draw(self, floors, player1, player2):
+        """
+        Display the power
+        :param floors: The platform of the stage
+        :param player1: The player 1
+        :param player2: The player 2
+        :return: The power displayed
+        """
         while not self.placed:
             self.rect_power.centerx = random.randint(0, self.info.current_w - self.rect_power.width)
             self.rect_power.centery = random.randint(0, self.info.current_h - self.rect_power.height)
@@ -44,6 +55,11 @@ class Powers():
             self.screen.blit(self.img_power, self.rect_power)
 
     def takeDammage(self, damage):
+        """
+        Function for tacking damage
+        :param damage: The damage to take
+        :return: The health reduce by the damage
+        """
         self.health -= damage
 
 

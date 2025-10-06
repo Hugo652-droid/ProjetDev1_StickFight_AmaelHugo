@@ -13,9 +13,9 @@ import random
 import time
 
 import pygame
-from src.Bullet import Bullet
-from src.Weapons import Weapons
-from src.Data.powers import powers
+from Bullet import Bullet
+from Weapons import Weapon
+from Data.powers import powers
 
 INFO_SCREEN = pygame.display.Info()
 
@@ -61,9 +61,9 @@ class Player:
         self.pushing = False
 
         # The equipment of the player
-        self.hands =  Weapons(hand, screen)
+        self.hands =  Weapon(hand, screen)
         self.weapon = self.hands
-        self.damage = self.weapon.dammage
+        self.damage = self.weapon.damage
         self.power = None
         self.last_time_used_power = time.time()
         self.cooldown_power = 0
@@ -74,6 +74,10 @@ class Player:
         self.color = color
 
     def draw(self):
+        """
+        Display the player in the window
+        :return: The player displayed
+        """
         if self.playerisstand:
             self.img = pygame.transform.scale(self.img, (80, 100))
 
@@ -87,41 +91,85 @@ class Player:
         self.usePower()
 
     def modifImage(self, image):
+        """
+        Modify the image of the player
+        :param image: The new image
+        :return: The player with the modified image
+        """
         self.img = pygame.image.load(image).convert_alpha()
 
     def jump(self, current_time):
+        """
+        Function for manage the jump
+        :param current_time: The current time
+        :return: The player jumping
+        """
         if current_time - self.last_time_used_vertical > self.cooldown_vertical:
             self.jumping = INFO_SCREEN.current_h/4 + 100
             self.last_time_used_vertical = current_time
 
     def goLeft(self):
+        """
+        Function for go left of the player
+        :return: The player going left
+        """
         self.x -= 10
         self.direct_player = "Left"
 
     def goRight(self):
+        """
+        Function for go right of the player
+        :return: The player going right
+        """
         self.x += 10
         self.direct_player = "Right"
 
     def goDown(self, current_time):
+        """
+        Function for manage the falling of the player
+        :param current_time: The current time
+        :return: The player falling
+        """
         if current_time - self.last_time_used_vertical > self.cooldown_vertical:
             self.y += 150
             self.last_time_used_vertical = current_time
 
     def dashLeft(self):
+        """
+        Fuction for the player dashing to the left
+        :return: The player dashing to the left
+        """
         self.x -= 150
         self.direct_player = "Left"
 
     def dashRight(self):
+        """
+        Fuction for the player dashing to the right
+        :return: The player dashing to the right
+        """
         self.x += 150
         self.direct_player = "Right"
 
     def tackDammage(self, damage):
+        """
+        Fuction for manage the player tacking damage
+        :param damage: The damage to take
+        :return: The hp reduce by the damage
+        """
         self.hp -= damage
 
     def playerIsDead(self):
+        """
+        Check if the player is dead
+        :return: The player is dead
+        """
         return self.hp <= 0
 
     def takePower(self):
+        """
+        Function for manage the take of a power
+        :return: The player with a power
+        """
         random_nb = random.randint(1, 100)
 
         if random_nb <= 33:
@@ -137,6 +185,10 @@ class Player:
             self.cooldown_power = self.power['duration']
 
     def usePower(self):
+        """
+        Function for manage the use of a power
+        :return: The using power
+        """
         if self.power:
             if self.power.get("id") == 1:
                 if time.time() - self.last_time_used_power < self.cooldown_power:
@@ -162,6 +214,11 @@ class Player:
                     print(self.power.get("name"))
 
     def simpleAttack(self, player_damaged):
+        """
+        Function for manage the shoot of the player and the punch with is damaged
+        :param player_damaged: the player damaged
+        :return: The bullet but if it's not a gun : false
+        """
         if self.weapon.id == 0:
             self.cooldown_attack = 1
             if self.rect.colliderect(player_damaged.rect):
@@ -178,6 +235,11 @@ class Player:
             return False
 
     def checkAttack(self, sound_shot):
+        """
+        Function for manage the attack
+        :param sound_shot: The sound of the shoot
+        :return: The player attacking
+        """
         if time.time() - self.last_time_used_attack > self.cooldown_attack and self.weapon.id == 0:
             self.last_time_used_attack = time.time()
             if self.direct_player == "Left":
@@ -195,6 +257,10 @@ class Player:
             self.attacking = False
 
     def noAmmunitionInWeapon(self):
+        """
+        Function for manage the no more ammunition
+        :return: The player with is hands
+        """
         if self.weapon.noAmmunition():
             self.weapon = self.hands
             self.cooldown_attack = 1

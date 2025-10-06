@@ -13,13 +13,17 @@ Description fichier : Affichage de la page d'accueil
 import pygame
 from Root import Root, INFO_SCREEN
 from Game import Game
-from Settings import Settings
-from Credits import Credits
+from Settings import Setting
+from Credits import Credit
 from assets.Buttons import Button
 
 
 class Home:
     def __init__(self, window):
+        """
+        The home page
+        :param window: The window of the game
+        """
         self.font = pygame.font.Font("assets/Shooting Star.ttf", 20)
         self.window = window
         self.game_mod = 1
@@ -48,16 +52,22 @@ class Home:
                                   image_scale=(140, 80))
         self.button_rect_quit = None
 
+        self.title = self.window.title('images/imgTexts/textsMain/textsMain/text_title.png')
+
     def launch(self):
+        """
+        Launch of the home page
+        :return: The home page manage
+        """
         running_home = True
         while running_home:
             if self.window.settings_screen :
-                settings = Settings(self.window, self.game_mod)
+                settings = Setting(self.window, self.game_mod)
                 self.game_mod = settings.selected_mod
                 self.window.settings_screen = False
 
             if self.window.credits_screen :
-                Credits(self.window)
+                Credit(self.window)
                 self.window.credits_screen = False
             else :
                 for event in pygame.event.get():
@@ -83,17 +93,21 @@ class Home:
                         if self.button_rect_setting.collidepoint(event.pos):
                             self.window.settings_screen = True
 
-                        if self.window.text_rect.collidepoint(event.pos):
+                        if self.title.collidepoint(event.pos):
                             self.window.credits_screen = True
             self.reload()
 
     def reload(self):
+        """
+        Display the home page
+        :return: The home page displayed
+        """
         self.window.changeBackground('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
         self.window.version(self.font)
         self.button_rect_play = self.button_play.draw()
         self.button_rect_setting = self.button_setting.draw()
         self.button_rect_quit = self.button_quit.draw()
-        self.window.title('images/imgTexts/textsMain/textsMain/text_title.png')
+        self.title = self.window.title('images/imgTexts/textsMain/textsMain/text_title.png')
 
         pygame.display.flip()
 
