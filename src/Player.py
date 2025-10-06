@@ -223,7 +223,7 @@ class Player:
             return False
         else :
             if not self.weapon.noAmmunition():
-                self.damage = self.weapon.dammage
+                self.damage = self.weapon.damage
                 self.cooldown_attack = self.weapon.attackSpeed
                 self.weapon.useAmmunition()
                 bullet = Bullet(self.rect.center, self.direct_player, self.name, self.weapon.width, self.weapon.height)
