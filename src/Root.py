@@ -75,7 +75,7 @@ class Root:
         :param img: The image of the window
         :return: The rectangle of the title
         """
-        button_rect_title = pygame.Rect(((self.width_screen - 900) / 2), 100, 1000, 1000)
+        button_rect_title = pygame.Rect(((self.width_screen - 900) / 2), 100, 1000, 400)
         img_text = pygame.image.load(img)
         img_text = pygame.transform.scale(img_text, (900, 375))
         self.screen.blit(img_text, (button_rect_title.x, button_rect_title.y))
