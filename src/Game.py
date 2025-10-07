@@ -594,8 +594,6 @@ class Game:
                         else:
                             power.rect_power.y += different_y
 
-
-
         # Gestion of the collision with the bullets and players
         for bullet in self.bullets:
 
@@ -645,7 +643,7 @@ class Game:
         for power in self.powers_list:
             for power_col in self.powers_list:
                 if power.rect_power.colliderect(power_col.rect_power):
-                    if len(self.powers_list) >= 15:
+                    if len(self.powers_list) >= 10:
                         self.powers_list.remove(power)
 
                     else:
