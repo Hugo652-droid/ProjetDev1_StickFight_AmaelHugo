@@ -594,8 +594,6 @@ class Game:
                         else:
                             power.rect_power.y += different_y
 
-
-
         # Gestion of the collision with the bullets and players
         for bullet in self.bullets:
 
@@ -626,10 +624,10 @@ class Game:
                 if power.rect_power.colliderect(bullet.rect):
                     self.bullets.remove(bullet)
                     if bullet.player_attack_name == "Player 1":
-                        power.takeDammage(self.player1.weapon.dammage)
+                        power.takeDammage(self.player1.weapon.damage)
 
                     elif bullet.player_attack_name == "Player 2":
-                        power.takeDammage(self.player2.weapon.dammage)
+                        power.takeDammage(self.player2.weapon.damage)
 
         # Gestion of the collision with the weapons and players
         for weapon in self.weapon_gun:
@@ -645,7 +643,7 @@ class Game:
         for power in self.powers_list:
             for power_col in self.powers_list:
                 if power.rect_power.colliderect(power_col.rect_power):
-                    if len(self.powers_list) >= 15:
+                    if len(self.powers_list) >= 10:
                         self.powers_list.remove(power)
 
                     else:
