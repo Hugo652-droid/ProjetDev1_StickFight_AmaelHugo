@@ -24,7 +24,7 @@ class Credit:
         self.screen = screen
         self.color = (255,0,0)
         self.screen.changeColor(self.color)
-        self.bg = "images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png"
+        self.background = "images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png"
 
         self.width_screen = INFO_SCREEN.current_w
         self.height_screen = INFO_SCREEN.current_h
@@ -36,7 +36,7 @@ class Credit:
                 if event.type == pygame.QUIT:
                     self.running_game = False
                     return
-            
+
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         self.running_game = False
@@ -50,7 +50,7 @@ class Credit:
         :return: The credit page displayed
         """
         self.screen.changeColor(self.color)
-        self.screen.changeBackground(self.bg)
+        self.screen.changeBackground(self.background)
         self.screen.showCredits()
         pygame.display.flip()
 

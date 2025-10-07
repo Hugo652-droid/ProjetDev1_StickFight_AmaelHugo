@@ -498,8 +498,8 @@ class Game:
                 bullet.draw(self.window_game)
 
             # Load all scores
-            self.window_game.scores_player1(self.font, self.score_player1, self.player1.color)
-            self.window_game.scores_player2(self.font, self.score_player2, self.player2.color)
+            self.window_game.scores_player1(self.score_player1, self.player1.color)
+            self.window_game.scores_player2(self.score_player2, self.player2.color)
 
             # Load the victory screen
             if self.player1.playerIsDead():
