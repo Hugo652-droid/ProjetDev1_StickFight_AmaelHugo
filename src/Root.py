@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Root.py
@@ -10,12 +10,21 @@ Description fichier : Creation et gestion des fenêtres de l'application
 --
 """
 
+from assets.Buttons import Button
+
 import pygame
 
 pygame.display.init()
 INFO_SCREEN = pygame.display.Info()
 
-from assets.Buttons import Button
+
+def closeRoot():
+    """
+    Function for closing the window
+    :return: The window closed
+    """
+    pygame.display.quit()
+
 
 class Root:
     def __init__(self, font, width_screen=INFO_SCREEN.current_w, height_screen=INFO_SCREEN.current_h):
@@ -38,12 +47,7 @@ class Root:
         # Name of the window
         pygame.display.set_caption("SticK.Onion")
 
-    def closeRoot(self):
-        """
-        Function for closing the window
-        :return: The window closed
-        """
-        pygame.display.quit()
+        self.soundBars = []
 
     def changeBackground(self, img_bg):
         """
@@ -55,7 +59,7 @@ class Root:
 
         background = pygame.transform.scale(image, (self.width_screen, self.height_screen))
 
-        self.screen.blit(background, (0,0))
+        self.screen.blit(background, (0, 0))
 
         icon_image = pygame.image.load('images/imgCharacters/imgPlayer1/stickman_stand_player1.png')
 
@@ -69,7 +73,7 @@ class Root:
         """
         self.screen.fill(color)
 
-    def title(self,img):
+    def title(self, img):
         """
         Function for changing the title of the window
         :param img: The image of the window
@@ -89,7 +93,7 @@ class Root:
         :param color: The color of the player 1
         :return: The score of the player 1 displayed
         """
-        score_text = self.font.render(f"{score}",True, color)
+        score_text = self.font.render(f"{score}", True, color)
         self.screen.blit(score_text, (20, 30))
 
     def scores_player2(self, score, color):
@@ -99,7 +103,7 @@ class Root:
         :param color: The color of the player 2
         :return: The score of the player 2 displayed
         """
-        score_text = self.font.render(f"{score}",True, color)
+        score_text = self.font.render(f"{score}", True, color)
         text_width = score_text.get_width()
         self.screen.blit(score_text, (self.screen.get_width() - text_width - 20, 30))
 
@@ -112,7 +116,7 @@ class Root:
         version_text = font.render("V1.0 - Amael Rochat & Hugo Rod", True, (0, 0, 0))
         text_rect = version_text.get_rect()
 
-        text_rect.topleft = (20, self.screen.get_height() - text_rect.height - 20)
+        text_rect.top_left = (20, self.screen.get_height() - text_rect.height - 20)
 
         self.screen.blit(version_text, text_rect)
 
@@ -144,20 +148,21 @@ class Root:
         text_title = font.render(title, True, (255, 255, 255))
         self.screen.blit(text_title, (80, (height - 50)))
 
-        volume_down = Button(self.screen,80, height, 15, 40, font=font, text=f"<", color_text=(255,255,255), color=(0,0,0))
-        self.soundBars = []
+        volume_down = Button(self.screen, 80, height, 15, 40, font=font, text=f"<",
+                             color_text=(255, 255, 255), color=(0, 0, 0))
         while i <= 10:
             self.soundBars.append(pygame.rect.Rect((i*20+100), height, 15, 40))
             i += 1
-        volume_up = Button(self.screen,(i*20+80), height, 15, 40, font=font, text=f">", color_text=(255,255,255), color=(0,0,0))
+        volume_up = Button(self.screen, (i*20+80), height, 15, 40, font=font, text=f">",
+                           color_text=(255, 255, 255), color=(0, 0, 0))
 
         # Creation of the sound bar
         volume_index = 0
         for soundBar in self.soundBars:
             if volume > volume_index:
-                pygame.draw.rect(self.screen, (0,0,255), soundBar)
+                pygame.draw.rect(self.screen, (0, 0, 255), soundBar)
             elif volume <= volume_index:
-                pygame.draw.rect(self.screen, (0,0,0), soundBar)
+                pygame.draw.rect(self.screen, (0, 0, 0), soundBar)
             volume_index += 10
             if volume_index >= 100:
                 break
@@ -181,7 +186,7 @@ class Root:
         self.screen.blit(credits_text, text_rect)
 
         # Contain of the credit
-        credits = [
+        credits_text = [
             ("ART - Directeur artistique : Amael Rochat", section_font),
             ("Amael Rochat - Textes boutons et titres, choix des polices, choix des images", text_font),
             ("Hugo Rod - Choix des musique", text_font),
@@ -194,7 +199,7 @@ class Root:
         start_y = self.height_screen - (self.height_screen // 2)
 
         y = start_y
-        for text, font in credits:
+        for text, font in credits_text:
             rendered_text = font.render(text, True, white)
             text_rect = rendered_text.get_rect(center=(self.width_screen // 2, y))
             self.screen.blit(rendered_text, text_rect)

@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Weapons.py
@@ -13,25 +13,27 @@ Description fichier : Creation et gestion des armes
 import pygame
 import random
 
+INFO_SCREEN = pygame.display.Info()
+
+
 class Weapon:
-    def __init__(self, weaponData, screen):
+    def __init__(self, weapon_data, screen):
         """
         The weapon of the game
-        :param weaponData: The data of weapon [id, attackSpeed, ammunition, width, height, img, damage]
+        :param weapon_data: The data of weapon [id, attackSpeed, ammunition, width, height, img, damage]
         :param screen: The window of the game
         """
-        self.id = weaponData["id"]
-        self.attackSpeed = weaponData["attackSpeed"]
-        self.ammunition = weaponData["ammunition"]
-        self.width = weaponData["width"]
-        self.height = weaponData["height"]
+        self.id = weapon_data["id"]
+        self.attackSpeed = weapon_data["attackSpeed"]
+        self.ammunition = weapon_data["ammunition"]
+        self.width = weapon_data["width"]
+        self.height = weapon_data["height"]
         self.cooldown = 1
-        self.img_weapon = pygame.image.load(weaponData["img"])
+        self.img_weapon = pygame.image.load(weapon_data["img"])
         self.rect_weapon = self.img_weapon.get_rect()
         self.img_weapon = pygame.transform.scale(self.img_weapon, (80, 30))
         self.rect_weapon = self.img_weapon.get_rect()
-        self.info = pygame.display.Info()
-        self.damage = weaponData["damage"]
+        self.damage = weapon_data["damage"]
         self.screen = screen
         self.placed = False
 
@@ -44,13 +46,14 @@ class Weapon:
         :return: The weapon placed and drew in the window
         """
         while not self.placed:
-            self.rect_weapon.x = random.randint(0, self.info.current_w - self.rect_weapon.width)
-            self.rect_weapon.y = random.randint(0, self.info.current_h - self.rect_weapon.height)
+            self.rect_weapon.x = random.randint(0, INFO_SCREEN.current_w - self.rect_weapon.width)
+            self.rect_weapon.y = random.randint(0, INFO_SCREEN.current_h - self.rect_weapon.height)
 
             # check if the weapon appears in a floor
             collision = any(self.rect_weapon.colliderect(floor.rect) for floor in floors)
 
-            if not collision and not self.rect_weapon.colliderect(player1.rect) and not self.rect_weapon.colliderect(player2.rect) :
+            if not collision and not self.rect_weapon.colliderect(player1.rect) and not self.rect_weapon.colliderect(
+                    player2.rect):
                 self.placed = True
                 self.screen.blit(self.img_weapon, self.rect_weapon)
 
@@ -70,10 +73,3 @@ class Weapon:
         :return:
         """
         return self.ammunition <= 0
-
-
-
-
-
-
-

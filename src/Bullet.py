@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Bullet.py
@@ -11,6 +11,7 @@ Description fichier : Creation et gestion des balles
 """
 
 import pygame
+
 
 class Bullet:
     def __init__(self, position, direction, player_attack_name, width, height):
@@ -24,17 +25,28 @@ class Bullet:
         """
         self.x = position[0]
         self.y = position[1]
+        self.width = width
+        self.height = height
         self.player_attack_name = player_attack_name
         self.direction = direction
+        self.image = None
+        self.rect = None
+
+        self.changeImage()
+
+    def changeImage(self):
+        """
+        Function for changing the image of the bullet with the direction
+        :return: The bullet with the image in the direction
+        """
         if self.direction == 'Left':
             self.image = pygame.image.load('images/imgGames/imgBullets/img_bullets_left.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (width, height))
+            self.image = pygame.transform.scale(self.image, (self.width, self.height))
             self.rect = self.image.get_rect()
         elif self.direction == 'Right':
             self.image = pygame.image.load('images/imgGames/imgBullets/img_bullets_right.png').convert_alpha()
-            self.image = pygame.transform.scale(self.image, (width, height))
+            self.image = pygame.transform.scale(self.image, (self.width, self.height))
             self.rect = self.image.get_rect()
-
 
     def draw(self, screen):
         """

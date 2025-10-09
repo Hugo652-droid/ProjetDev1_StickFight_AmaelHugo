@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Main.py
@@ -14,8 +14,10 @@ import pygame
 
 INFO_SCREEN = pygame.display.Info()
 
+
 class Button:
-    def __init__(self, screen, left_position, top_position, width, height, font=None, image=None, image_scale=None, text=None, color=None, color_text=None):
+    def __init__(self, screen, left_position, top_position, width, height, font=None, image=None, image_scale=None,
+                 text=None, color=None, color_text=None):
         """
         Button of the game
         :param screen: The window of the game

@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Main.py
@@ -14,6 +14,7 @@ import pygame
 from sys import exit
 from Home import Home
 from Root import Root
+
 
 class Main:
     def __init__(self):
@@ -28,4 +29,6 @@ class Main:
         pygame.quit()
         exit()
 
-main = Main()
+
+if __name__ == "__main__":
+    main = Main()

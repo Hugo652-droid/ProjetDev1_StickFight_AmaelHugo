@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Player.py
@@ -19,6 +19,7 @@ from Data.powers import powers
 
 INFO_SCREEN = pygame.display.Info()
 
+
 class Player:
     def __init__(self, name, hp, x, y, image, screen, hand, color):
         """
@@ -32,13 +33,13 @@ class Player:
         :param hand: Data of the weapon : hand
         :param color: The color of the player
         """
-        self.invincible = False
         self.screen = screen
         self.name = name
         self.hp = hp
         self.hp_before = 0
         self.x = x
         self.y = y
+        self.color = color
 
         # Creation of the image and rectangle
         self.img = pygame.image.load(image).convert_alpha()
@@ -57,22 +58,19 @@ class Player:
         self.cooldown_push = 1
         self.cooldown_power = 0
 
-        # State of the player
+        # The player's state
         self.attacking = False
         self.pushing = False
+        self.invincible = False
+        self.player_is_stand = True
+        self.jumping = 0
+        self.direct_player = "Left"
 
         # The equipment of the player
-        self.hands =  Weapon(hand, screen)
+        self.hands = Weapon(hand, screen)
         self.weapon = self.hands
         self.damage = self.weapon.damage
         self.power = None
-        self.last_time_used_power = time.time()
-        self.cooldown_power = 0
-        self.hp_before = 0
-        self.player_is_stand = True
-        self.direct_player = "Left"
-        self.jumping = 0
-        self.color = color
 
     def draw(self):
         """
@@ -81,7 +79,6 @@ class Player:
         """
         if self.player_is_stand:
             self.img = pygame.transform.scale(self.img, (80, 100))
-
         else:
             self.img = pygame.transform.scale(self.img, (150, 100))
 
@@ -89,6 +86,7 @@ class Player:
         self.rect.center = (self.x, self.y)
         self.rect = pygame.Rect(self.x, self.y, self.rect.width, self.rect.height)
         self.screen.blit(self.img, self.rect)
+
         self.usePower()
 
     def modifImage(self, image):
@@ -137,7 +135,7 @@ class Player:
 
     def dashLeft(self):
         """
-        Fuction for the player dashing to the left
+        Function for the player dashing to the left
         :return: The player dashing to the left
         """
         self.x -= 150
@@ -145,19 +143,19 @@ class Player:
 
     def dashRight(self):
         """
-        Fuction for the player dashing to the right
+        Function for the player dashing to the right
         :return: The player dashing to the right
         """
         self.x += 150
         self.direct_player = "Right"
 
-    def tackDammage(self, damage):
+    def tackDamage(self, damage):
         """
-        Fuction for manage the player tacking damage
+        Function for manage the player tacking damage
         :param damage: The damage to take
         :return: The hp reduce by the damage
         """
-        if not self.invincible == True:
+        if not self.invincible:
             self.hp -= damage
 
     def playerIsDead(self):
@@ -177,11 +175,9 @@ class Player:
         if random_nb <= 50:
             self.power = powers[0]
             self.cooldown_power = self.power['duration']
-
         elif random_nb > 50:
             self.power = powers[1]
             self.cooldown_power = self.power['duration']
-
 
     def usePower(self):
         """
@@ -218,10 +214,10 @@ class Player:
         if self.weapon.id == 0:
             self.cooldown_attack = 1
             if self.rect.colliderect(player_damaged.rect):
-                player_damaged.tackDammage(self.damage)
+                player_damaged.tackDamage(self.damage)
                 return False
             return False
-        else :
+        else:
             if not self.weapon.noAmmunition():
                 self.damage = self.weapon.damage
                 self.cooldown_attack = self.weapon.attackSpeed
@@ -243,12 +239,14 @@ class Player:
             elif self.direct_player == "Right":
                 self.dashRight()
             self.attacking = True
+
         elif time.time() - self.last_time_used_attack > self.cooldown_attack:
             pygame.mixer.Channel(1).stop()
             pygame.mixer.Channel(1).play(sound_shot)
             self.noAmmunitionInWeapon()
             self.last_time_used_attack = time.time()
             self.attacking = True
+
         else:
             self.attacking = False
 
