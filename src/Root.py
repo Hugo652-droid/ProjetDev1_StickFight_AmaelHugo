@@ -122,7 +122,7 @@ class Root:
 
     def win(self, player_win):
         """
-        Display the win
+        Display the windddd
         :param player_win: The player who win
         :return: The win screen
         """
