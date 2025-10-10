@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Game.py
@@ -10,407 +10,537 @@ Description fichier : Creation et gestion des parties et du jeu
 --
 """
 
-from src.Player import Player
-from src.Root import Root
-from src.Map import Map
-from src.Weapons import Weapons
+from Player import Player
+from Power import Power
+from Map import Map
+from Weapons import Weapon
+from Data.weapon import weapons
+from Data.powers import powers
+from Data.imagesPlayer import imagesPlayer
+from Data.maps import maps
+from assets.Buttons import Button
+
 import time
 import pygame
 import random
 
-class Game:
-    def __init__(self):
-        pygame.init()
-        self.windowGame = Root(pygame)
-        self.info_screen = pygame.display.Info()
-        self.clock = pygame.time.Clock()
-        self.image_player_left = "images/test_stick - Copie.png"
-        self.image_player_right = "images/test_stick.png"
-        self.image_player_stand = "images/stickman_test.png"
-        self.image_player_crouch = "images/crouchnonarmé.png"
-        self.font = pygame.font.SysFont('Arial', 25)
-        self.runningGame = True
-        self.paused = False
-        self.cooldown_dropweapon = 5
-        self.hpStart = 100
-        self.dict_weapons = [
-            {
-                "id": 1,
-                "name": "gun",
-                "img": 'images/img_wapon.png',
-                "damage": 15,
-                "attackSpeed": 1,
-                "ammunition": 6,
-                "width": 30,
-                "height": 10
-            },
-            {
-                "id": 2,
-                "name": "fusil d'assaut",
-                "img": 'images/fusildassaut.png',
-                "damage": 3,
-                "attackSpeed": 0.1,
-                "ammunition": 30,
-                "width": 30,
-                "height": 10
-            },
-            {
-                "id": 3,
-                "name": "fusil a pome",
-                "img": 'images/pompe.png',
-                "damage": 25,
-                "attackSpeed": 3,
-                "ammunition": 10,
-                "width": 30,
-                "height": 70
-            },
-            {
-                "id": 4,
-                "name": "fusil sniper",
-                "img": 'images/fusilsniper.png',
-                "damage": 100,
-                "attackSpeed": 3,
-                "ammunition": 1,
-                "width": 30,
-                "height": 5
-            },
-        ]
+INFO_SCREEN = pygame.display.Info()
+CLOCK = pygame.time.Clock()
 
+
+class Game:
+    def __init__(self, window, game_mod):
+        """
+        The gameplay
+        :param game_mod: The current game-mod
+        """
+        # Variable for the window and the game
+        self.game_mod = game_mod
+        self.font = pygame.font.Font("assets/Shooting Star.ttf", 100)
+        self.window_game = window
+
+        # Variable for datas
+        self.image_player = imagesPlayer
+        self.powers = powers
+        self.weapons = weapons
+        self.maps = maps
+
+        # definition of players
+        self.player1 = None
+        self.player2 = None
+
+        # Variable for the status of the game
+        self.running_game = True
+        self.paused = False
+        self.restart = False
+
+        # Variable for the player
+        self.heal_points_start = 100
         self.score_player1 = 0
         self.score_player2 = 0
 
-        self.createInstanse()
-        self.launchGame()
+        # Variable for array of entities in the game
+        self.weapons_spawned = []
+        self.bullets = []
+        self.floors = []
+        self.players = []
+        self.powers_spawned = []
 
-    def createInstanse(self):
-        margin = self.info_screen.current_w / 10  # 10% d’espace sur les côtés
+        # Variable of cooldown for dropping items
+        self.cooldown_drop_weapon = 5
+        self.cooldown_drop_power = 7
+
+        # Variable for the last drop of the item
+        self.last_drop_weapon = time.time()
+        self.last_drop_power = time.time()
+
+        # Variable of sounds
+        self.sound_shot = pygame.mixer.Sound("./sounds/gun-shot.mp3")
+        self.sound_falling = pygame.mixer.Sound("./sounds/falling-character.mp3")
+        self.sound_background = pygame.mixer.Sound("./sounds/fighting-battle-warrior-drums.mp3")
+        self.sounds = [self.sound_shot, self.sound_falling, self.sound_background]
+
+        # Player for the background sound
+        pygame.mixer.Channel(0).play(self.sound_background, -1)
+
+        # Button for paused game
+        self.button_quit = Button(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                  INFO_SCREEN.current_h / 2 + 300,
+                                  140,
+                                  80,
+                                  image='images/imgButtons/quit_text_btn.png',
+                                  image_scale=(140, 80))
+        self.button_rect_quit = None
+
+        self.button_restart = Button(self.window_game.screen, (INFO_SCREEN.current_w - 160) // 2,
+                                     INFO_SCREEN.current_h / 2 + 170,
+                                     140,
+                                     80,
+                                     image='images/imgButtons/gameBtns/pausedBtns/restart_text_btn.png',
+                                     image_scale=(140, 100))
+        self.button_rect_restart = None
+
+        self.createInstance()
+
+    def createInstance(self):
+        """
+        Create all entities for a game
+        :return: All entities initiate
+        """
+        margin = INFO_SCREEN.current_w / 10  # 10% d’espace sur les côtés
 
         self.player1 = Player(
             "Player 1",
-            self.hpStart,
+            self.heal_points_start,
             margin,  # distance depuis la gauche
-            self.info_screen.current_h / 2,
-            "images/test_stick.png"
+            INFO_SCREEN.current_h / 3,
+            self.image_player.get("player1_left"),
+            self.window_game.screen,
+            self.weapons[0],
+            (252, 186, 3),
         )
 
         self.player2 = Player(
             "Player 2",
-            self.hpStart,
-            self.info_screen.current_w - margin - self.player1.rect.width,  # distance depuis la droite
-            self.info_screen.current_h / 2,
-            "images/test_stick - Copie.png"
+            self.heal_points_start,
+            INFO_SCREEN.current_w - margin - self.player1.rect.width,  # distance depuis la droite
+            INFO_SCREEN.current_h / 3,
+            "images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png",
+            self.window_game.screen,
+            self.weapons[0],
+            (160, 7, 237),
         )
 
-        self.floor = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - 100),
-                         (self.info_screen.current_w - 200), (self.info_screen.current_h / 5))
+        self.players = [self.player1, self.player2]
 
-        self.floor2 = Map(self.windowGame, (self.info_screen.current_w / 2), (self.info_screen.current_h - self.info_screen.current_h / 3),
-                          (self.info_screen.current_w - self.info_screen.current_w / 2), (self.info_screen.current_h / 20))
+        self.createFloors()
 
-        self.floor3 = Map(self.windowGame, (self.info_screen.current_w / 4), (self.info_screen.current_h  / 2.5),
-                          self.info_screen.current_w - self.info_screen.current_w/ 1.7 ,(self.info_screen.current_h / 20))
-
-        self.floor4 = Map(self.windowGame, (self.info_screen.current_w - self.info_screen.current_w / 4), (self.info_screen.current_h / 2.5),
-                          self.info_screen.current_w - self.info_screen.current_w / 1.7,
-                          (self.info_screen.current_h / 20))
-
-        self.floors = [self.floor, self.floor2, self.floor3, self.floor4]
-
-        self.weapon_gun = []
-        self.lastdrop = time.time()
+        self.last_drop_weapon = time.time()
+        self.weapons_spawned = []
+        self.powers_spawned = []
         self.bullets = []
         self.restart = False
 
+    def createWeapons(self):
+        """
+        Function for creating a random weapon in the battlefield
+        :return: The weapon in the battlefield
+        """
+        random_nb = random.randint(1, 100)
+        if random_nb <= 13:
+            weapon = self.weapons[4]
+            new_weapon = Weapon(weapon, self.window_game.screen)
+            self.weapons_spawned.append(new_weapon)
+
+        elif random_nb <= 36:
+            weapon = self.weapons[3]
+            new_weapon = Weapon(weapon, self.window_game.screen)
+            self.weapons_spawned.append(new_weapon)
+
+        elif random_nb <= 68:
+            weapon = self.weapons[2]
+            new_weapon = Weapon(weapon, self.window_game.screen)
+            self.weapons_spawned.append(new_weapon)
+
+        elif random_nb <= 100:
+            weapon = self.weapons[1]
+            new_weapon = Weapon(weapon, self.window_game.screen)
+            self.weapons_spawned.append(new_weapon)
+
+    def createPowers(self):
+        """
+        Function for creating a random power in the battlefield
+        :return: The power in the battlefield
+        """
+        random_nb = random.randint(1, 100)
+        if random_nb <= 50:
+            power = self.powers[0]
+            new_power = Power(power, self.window_game.screen)
+            self.powers_spawned.append(new_power)
+
+        elif random_nb > 50:
+            power = self.powers[1]
+            new_power = Power(power, self.window_game.screen)
+            self.powers_spawned.append(new_power)
+
+    def createFloors(self):
+        """
+        Function for creating a random battlefield
+        :return: The battlefield random
+        """
+        current_maps = []
+        for map_loaded in self.maps:
+            current_map = []
+            for floor in map_loaded:
+                current_floor = Map(self.window_game, floor)
+                current_map.append(current_floor)
+            current_maps.append(current_map)
+
+        self.floors = random.choice(current_maps)
+
     def launchGame(self):
-        while self.runningGame:
+        """
+        Function to launch a game
+        :return: The launched game
+        """
+        while self.running_game:
             self.playGame()
 
-        pygame.quit()
-
-    def changePlayer(self):
-        if self.player1.weapon:
-            if self.player1.direct_player == "Left":
-                if self.player1.weapon.id == 1:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
-                elif self.player1.weapon.id == 2:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
-                elif self.player1.weapon.id == 3:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
-                elif self.player1.weapon.id == 4:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_left_sniper.png').convert_alpha()
-
-        if self.player2.weapon:
-            if self.player2.direct_player == "Left":
-                if self.player2.weapon.id == 1:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_left.png').convert_alpha()
-                elif self.player2.weapon.id == 2:
-                    self.player2.img = pygame.image.load(
-                        'images/stickman_test_armé_left_fusildassaut.png').convert_alpha()
-                elif self.player2.weapon.id == 3:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_left.png').convert_alpha()
-                elif self.player2.weapon.id == 4:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_left_sniper.png').convert_alpha()
-
-        if self.player1.weapon:
-            if self.player1.direct_player == "Right":
-                if self.player1.weapon.id == 1:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
-                elif self.player1.weapon.id == 2:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
-                elif self.player1.weapon.id == 3:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
-                elif self.player1.weapon.id == 4:
-                    self.player1.img = pygame.image.load('images/stickman_test_armé_right_sniper.png').convert_alpha()
-
-        if self.player2.weapon:
-            if self.player2.direct_player == "Right":
-                if self.player2.weapon.id == 1:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right.png').convert_alpha()
-                elif self.player2.weapon.id == 2:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right_fusildassaut.png').convert_alpha()
-                elif self.player2.weapon.id == 3:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_pompe_right.png').convert_alpha()
-                elif self.player2.weapon.id == 4:
-                    self.player2.img = pygame.image.load('images/stickman_test_armé_right_sniper.png').convert_alpha()
-
-        if self.player1.playerIsDead():
-            self.score_player2 += 1
-
-        elif self.player2.playerIsDead():
-            self.score_player1 += 1
-
-        if self.player1.playerIsDead():
-            self.player1.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-            self.reloadPage()
-            pygame.time.wait(2000)
-        elif self.player2.playerIsDead():
-            self.player2.img = pygame.image.load('images/stickman_dead.png').convert_alpha()
-            self.reloadPage()
-            pygame.time.wait(2000)
-
-        if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
-            self.createInstanse()
-            self.paused = False
-
-    def createWeapons(self):
-
-        randomNb = random.randint(1, 100)
-
-        if randomNb <= 13:
-            weapon = self.dict_weapons[3]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
-
-        elif randomNb <= 36:
-            weapon = self.dict_weapons[2]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
-
-        elif randomNb <= 68:
-            weapon = self.dict_weapons[1]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
-
-        elif randomNb <= 100:
-            weapon = self.dict_weapons[0]
-            newWeapon = Weapons(weapon["id"], weapon["img"], weapon["damage"],
-                                weapon["attackSpeed"], weapon["ammunition"], weapon["width"],
-                                weapon["height"], self.floors, self.windowGame.screen)
-            self.weapon_gun.append(newWeapon)
+        pygame.mixer.Channel(0).stop()
 
     def playGame(self):
-        self.changePlayer()
+        """
+        Function for controlling all the game event
+        :return: The gestion of the game
+        """
+        self.changeImgPlayer()
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                self.runningGame = False
-
+                self.running_game = False
             if event.type != pygame.KEYDOWN:
-                self.player2.modifImage(self.image_player_stand)
-                self.player1.modifImage(self.image_player_stand)
+                self.player2.modifImage(self.image_player.get("player2_stand"))
+                self.player2.player_is_stand = True
+                self.player1.modifImage(self.image_player.get("player1_stand"))
+                self.player1.player_is_stand = True
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if self.windowGame.button_rect_stop.collidepoint(event.pos):
-                    self.paused = not self.paused
-                if self.paused:
-                    if self.windowGame.button_rect_restart.collidepoint(event.pos):
-                        self.restart = True
 
-                    elif self.windowGame.button_rect_quit.collidepoint(event.pos):
-                        self.windowGame.closeRoot(pygame)
-                        self.runningGame = False
+                # Gestion of the paused menu
+                if self.paused:
+                    if self.button_rect_restart.collidepoint(event.pos):
+                        self.restart = True
+                    elif self.button_rect_quit.collidepoint(event.pos):
+                        self.running_game = False
                         return
 
+        # Gestion of the gameplay
         if not self.paused:
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
                 pygame.time.wait(175)
+
             if not self.player1.playerIsDead():
                 if keys[pygame.K_e]:
-                    if time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack and self.player1.weapon == 0:
-                        self.player1.last_time_used_attack = time.time()
-                        if self.player1.direct_player == "Left":
-                            self.player1.dashLeft()
-                        elif self.player1.direct_player == "Right":
-                            self.player1.dashRight()
-                        self.player1.attacking = True
-                    elif time.time() - self.player1.last_time_used_attack > self.player1.cooldown_attack :
-                        self.player1.noAmmunitionInWeapon()
-                        self.player1.last_time_used_attack = time.time()
-                        self.player1.attacking = True
-                    else :
-                        self.player1.attacking = False
+                    self.player1.checkAttack(self.sound_shot)
+
                 if keys[pygame.K_q]:
                     if time.time() - self.player1.last_time_used_push > self.player1.cooldown_push:
                         self.player1.last_time_used_push = time.time()
                         self.player1.pushing = True
+
                 if keys[pygame.K_a]:
                     self.player1.goLeft()
-                    self.player1.modifImage(self.image_player_left)
+                    self.player1.modifImage(self.image_player.get("player1_left"))
+                    self.player1.player_is_stand = False
+
                 if keys[pygame.K_d]:
                     self.player1.goRight()
-                    self.player1.modifImage(self.image_player_right)
+                    self.player1.modifImage(self.image_player.get("player1_right"))
+                    self.player1.player_is_stand = False
+
                 if keys[pygame.K_w]:
-                    self.player1.goUp(time.time())
-                    self.player1.y += 10
-                else:
-                    if self.player1.y != self.info_screen.current_h:
-                        self.player1.y += 10
+                    self.player1.jump(time.time())
+
                 if keys[pygame.K_s]:
                     if self.player1.rect.bottom > self.floors[0].rect.top:
-                        self.player1.modifImage(self.image_player_crouch)
+                        self.player1.modifImage(self.image_player.get("player1_crouch"))
+                        self.player1.player_is_stand = False
                     else:
-                        self.player1.modifImage(self.image_player_crouch)
+                        self.player1.modifImage(self.image_player.get("player1_crouch"))
+                        self.player1.player_is_stand = False
                         self.player1.goDown(time.time())
+
             else:
-                if self.player1.y != self.info_screen.current_h:
+                if self.player1.y != INFO_SCREEN.current_h:
                     self.player1.y += 10
 
             if not self.player2.playerIsDead():
-
                 if keys[pygame.K_o]:
-                    if time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack and self.player2.weapon == 0:
-                        self.player2.last_time_used_attack = time.time()
-                        if self.player2.direct_player == "Left":
-                            self.player2.dashLeft()
-                        elif self.player2.direct_player == "Right":
-                            self.player2.dashRight()
-                        self.player2.attacking = True
-                    elif time.time() - self.player2.last_time_used_attack > self.player2.cooldown_attack :
-                        self.player2.noAmmunitionInWeapon()
-                        self.player2.last_time_used_attack = time.time()
-                        self.player2.attacking = True
-                    else:
-                        self.player2.attacking = False
+                    self.player2.checkAttack(self.sound_shot)
+
                 if keys[pygame.K_u]:
                     if time.time() - self.player2.last_time_used_push > self.player2.cooldown_push:
                         self.player2.last_time_used_push = time.time()
                         self.player2.pushing = True
+
                 if keys[pygame.K_j]:
                     self.player2.goLeft()
-                    self.player2.modifImage(self.image_player_left)
+                    self.player2.modifImage(self.image_player.get("player2_left"))
+                    self.player2.player_is_stand = False
+
                 if keys[pygame.K_l]:
                     self.player2.goRight()
-                    self.player2.modifImage(self.image_player_right)
+                    self.player2.modifImage(self.image_player.get("player2_right"))
+                    self.player2.player_is_stand = False
+
                 if keys[pygame.K_k]:
                     if self.player2.rect.bottom > self.floors[0].rect.top:
-                        self.player2.modifImage(self.image_player_crouch)
+                        self.player2.modifImage(self.image_player.get("player2_crouch"))
+                        self.player2.player_is_stand = False
                     else:
-                        self.player2.modifImage(self.image_player_crouch)
+                        self.player2.modifImage(self.image_player.get("player2_crouch"))
+                        self.player2.player_is_stand = False
                         self.player2.goDown(time.time())
 
                 if keys[pygame.K_i]:
-                    self.player2.goUp(time.time())
-                    self.player2.y += 10
-                else :
-                    if self.player2.y != self.info_screen.current_h:
-                        self.player2.y += 10
+                    self.player2.jump(time.time())
+
             else:
-                if self.player2.y != self.info_screen.current_h:
+                if self.player2.y != INFO_SCREEN.current_h:
                     self.player2.y += 10
 
-            if time.time() - self.lastdrop > self.cooldown_dropweapon:
-                self.lastdrop = time.time()
+            if time.time() - self.last_drop_weapon > self.cooldown_drop_weapon and (self.game_mod == 1 or
+                                                                                    self.game_mod == 3):
+                self.last_drop_weapon = time.time()
                 self.createWeapons()
 
-            for weapon in self.weapon_gun:
-                if weapon.rect_weapon.y != self.info_screen.current_h:
+            if time.time() - self.last_drop_power > self.cooldown_drop_power and self.game_mod == 1:
+                self.last_drop_power = time.time()
+                self.createPowers()
+
+            for weapon in self.weapons_spawned:
+                if weapon.rect_weapon.y != INFO_SCREEN.current_h:
                     weapon.rect_weapon.y += 10
+
+            for power in self.powers_spawned:
+                if power.rect_power.y != INFO_SCREEN.current_h:
+                    power.rect_power.y += 10
 
             self.collision()
 
-        else :
+        else:
+            # Gestion of the paused menu
             keys = pygame.key.get_pressed()
             if keys[pygame.K_ESCAPE]:
                 self.paused = not self.paused
                 pygame.time.wait(175)
 
-
         self.reloadPage()
+        CLOCK.tick(200)
 
-        self.clock.tick(200)
+    def changeImgPlayer(self):
+        """
+        Function for controlling the player image
+        :return: The player image
+        """
+        if self.player1.weapon:
+            if self.player1.direct_player == "Left":
+                if self.player1.weapon.id == 1:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_left_gun")).convert_alpha()
+
+                elif self.player1.weapon.id == 2:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_left_rifle")).convert_alpha()
+
+                elif self.player1.weapon.id == 3:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_left_shotgun")).convert_alpha()
+
+                elif self.player1.weapon.id == 4:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_left_sniper")).convert_alpha()
+
+            elif self.player1.direct_player == "Right":
+                if self.player1.weapon.id == 1:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_gun")).convert_alpha()
+
+                elif self.player1.weapon.id == 2:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_rifle")).convert_alpha()
+
+                elif self.player1.weapon.id == 3:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_shotgun")).convert_alpha()
+
+                elif self.player1.weapon.id == 4:
+                    self.player1.img = pygame.image.load(
+                        self.image_player.get("player1_right_sniper")).convert_alpha()
+
+        if self.player2.weapon:
+            if self.player2.direct_player == "Left":
+                if self.player2.weapon.id == 1:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_left_gun")).convert_alpha()
+
+                elif self.player2.weapon.id == 2:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_left_rifle")).convert_alpha()
+
+                elif self.player2.weapon.id == 3:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_left_shotgun")).convert_alpha()
+
+                elif self.player2.weapon.id == 4:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_left_sniper")).convert_alpha()
+
+            elif self.player2.direct_player == "Right":
+                if self.player2.weapon.id == 1:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_right_gun")).convert_alpha()
+
+                elif self.player2.weapon.id == 2:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_right_rifle")).convert_alpha()
+
+                elif self.player2.weapon.id == 3:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_right_shotgun")).convert_alpha()
+
+                elif self.player2.weapon.id == 4:
+                    self.player2.img = pygame.image.load(
+                        self.image_player.get("player2_right_sniper")).convert_alpha()
+
+        self.playersDead()
+
+    def playersDead(self):
+        """
+        Function for controlling if a player is dead
+        :return: If a player is dead -> Victory screen
+        """
+        if self.player1.playerIsDead():
+            self.score_player2 += 1
+            self.player1.img = pygame.image.load(
+                self.image_player.get("player1_dead")).convert_alpha()
+            self.reloadPage()
+            pygame.time.wait(2000)
+
+        elif self.player2.playerIsDead():
+            self.score_player1 += 1
+            self.player2.img = pygame.image.load(
+                self.image_player.get("player2_dead")).convert_alpha()
+            self.reloadPage()
+            pygame.time.wait(2000)
+
+        if self.player1.playerIsDead() or self.player2.playerIsDead() or self.restart:
+            self.createInstance()
+            self.paused = False
+
+    def gestionPlayerJumping(self):
+        """
+        Function for controlling the jump of a player
+        :return: The player jump
+        """
+        for player in self.players:
+            if player.jumping > 0:
+                player.y -= 20
+                if player.jumping <= 0:
+                    player.jumping = 0
+                else:
+                    player.jumping -= 20
+
+            elif player.jumping <= 0:
+                if player.y <= INFO_SCREEN.current_h:
+                    player.y += 10
 
     def reloadPage(self):
+        """
+        Function for reloading the page
+        :return: The window and all the entities in the page
+        """
+        # Creating the window for the game
         if not self.paused:
             pygame.mouse.set_visible(False)
-            self.windowGame.changeBg('images/img_bg_game.png')
-            for weapon in self.weapon_gun :
-                weapon.draw()
-            self.player1.draw(self.windowGame.screen, self.font)
-            self.player2.draw(self.windowGame.screen, self.font)
+            self.window_game.changeBackground('images/imgBackgrounds/gamePageBgs/gameBgs/img_bg_game.jpg')
 
+            # Load all floors
             for floor in self.floors:
+                floor.draw()
 
-                floor.draw(self.windowGame.screen)
+            # Load all weapons
+            for weapon in self.weapons_spawned:
+                weapon.draw(self.floors, self.player1, self.player2)
 
-            if self.player1.attacking :
+            # Load all powers
+            for power in self.powers_spawned:
+                power.draw(self.floors, self.player1, self.player2)
+
+            self.gestionPlayerJumping()
+
+            # Load all players
+            for player in self.players:
+                player.draw()
+
+            # Gestion of the player attacking
+            if self.player1.attacking:
                 bullet = self.player1.simpleAttack(self.player2)
                 if not bullet:
                     self.player1.attacking = False
+
                 else:
                     self.bullets.append(bullet)
                     self.player1.attacking = False
-            if self.player2.attacking :
+
+            if self.player2.attacking:
                 bullet = self.player2.simpleAttack(self.player1)
                 if not bullet:
                     self.player2.attacking = False
-                else :
+
+                else:
                     self.bullets.append(bullet)
                     self.player2.attacking = False
 
+            # Load all bullets
             for bullet in self.bullets:
                 bullet.shot()
-                bullet.draw(self.windowGame)
+                bullet.draw(self.window_game)
 
-            self.windowGame.scores(self.font, self.score_player1, self.score_player2)
+            # Load all scores
+            self.window_game.scores_player1(self.score_player1, self.player1.color)
+            self.window_game.scores_player2(self.score_player2, self.player2.color)
 
+            # Load the victory screen
             if self.player1.playerIsDead():
-                self.windowGame.win(self.player2)
+                self.window_game.win(self.player2)
             elif self.player2.playerIsDead():
-                self.windowGame.win(self.player1)
+                self.window_game.win(self.player1)
 
         else:
-
             pygame.mouse.set_visible(True)
-            self.windowGame.stop()
-
-            self.windowGame.scores(self.font, self.score_player1, self.score_player2)
-
-        self.windowGame.stopButton(self.paused)
+            self.stop()
 
         pygame.display.flip()
 
+    def stop(self):
+        self.window_game.changeBackground('images/imgBackgrounds/gamePageBgs/pausedBg/img_bg_game_paused.png')
+
+        self.button_rect_quit = self.button_quit.draw()
+        self.button_rect_restart = self.button_restart.draw()
+
+        self.window_game.title('images/imgTexts/textsGame/textsPaused/title_paused.png')
+
     def collision(self):
+        """
+        Function for the gestion of collisions
+        :return: The collision management
+        """
+        # Gestion of the collision with different player
         if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x > self.player2.x:
             self.player2.x -= 5
             self.player1.x += 5
-
         elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x > self.player1.x:
             self.player2.x += 5
             self.player1.x -= 5
@@ -418,91 +548,152 @@ class Game:
         if self.player1.rect.colliderect(self.player2.rect) and self.player1.rect.x < self.player2.x:
             self.player2.x += 5
             self.player1.x -= 5
-
         elif self.player2.rect.colliderect(self.player1.rect) and self.player2.rect.x < self.player1.x:
             self.player2.x -= 5
             self.player1.x += 5
 
-        if self.player1.y > self.info_screen.current_h:
+        # Gestion of the collision with player and ground
+        if self.player1.y > INFO_SCREEN.current_h:
             self.player1.hp = 0
-
-        elif self.player2.y > self.info_screen.current_h:
+        elif self.player2.y > INFO_SCREEN.current_h:
             self.player2.hp = 0
 
+        # Gestion of the collision with floors
         for floor in self.floors:
-
-            if self.player1.rect.colliderect(floor.rect):
-                dx = min(self.player1.rect.right - floor.rect.left,
-                         floor.rect.right - self.player1.rect.left)
-                dy = min(self.player1.rect.bottom - floor.rect.top,
-                         floor.rect.bottom - self.player1.rect.top)
-
-                if dx < dy:
-
-                    if self.player1.rect.centerx < floor.rect.centerx:
-                        self.player1.x -= dx
+            for player in self.players:
+                if player.rect.colliderect(floor.rect):
+                    different_x = min(player.rect.right - floor.rect.left, floor.rect.right - player.rect.left)
+                    different_y = min(player.rect.bottom - floor.rect.top, floor.rect.bottom - player.rect.top)
+                    if different_x < different_y:
+                        if player.rect.centerx < floor.rect.centerx:
+                            player.x -= different_x
+                        else:
+                            player.x += different_x
                     else:
-                        self.player1.x += dx
-                else:
+                        if player.rect.centery < floor.rect.centery:
+                            player.y -= different_y
+                        else:
+                            player.y += different_y
 
-                    if self.player1.rect.centery < floor.rect.centery:
-                        self.player1.y -= dy
-                    else:
-                        self.player1.y += dy
-
-            if self.player2.rect.colliderect(floor.rect):
-                dx = min(self.player2.rect.right - floor.rect.left,
-                         floor.rect.right - self.player2.rect.left)
-                dy = min(self.player2.rect.bottom - floor.rect.top,
-                         floor.rect.bottom - self.player2.rect.top)
-
-                if dx < dy:
-
-                    if self.player2.rect.centerx < floor.rect.centerx:
-                        self.player2.x -= dx
-                    else:
-                        self.player2.x += dx
-                else:
-
-                    if self.player2.rect.centery < floor.rect.centery:
-                        self.player2.y -= dy
-                    else:
-                        self.player2.y += dy
-
-
-            for weapon in self.weapon_gun:
+            for weapon in self.weapons_spawned:
                 if weapon.rect_weapon.colliderect(floor.rect):
                     weapon.rect_weapon.y -= 10
 
+            for power in self.powers_spawned:
+                if power.rect_power.colliderect(floor.rect):
+                    different_x = min(power.rect_power.right - floor.rect.left,
+                                      floor.rect.right - power.rect_power.left)
+                    different_y = min(power.rect_power.bottom - floor.rect.top,
+                                      floor.rect.bottom - power.rect_power.top)
+                    if different_x < different_y:
+                        if power.rect_power.centerx < floor.rect.centerx:
+                            power.rect_power.x -= different_x
+                        else:
+                            power.rect_power.x += different_x
+                    else:
+                        if power.rect_power.centery < floor.rect.centery:
+                            power.rect_power.y -= different_y
+                        else:
+                            power.rect_power.y += different_y
+
+        # Gestion of the collision with the bullets and players
         for bullet in self.bullets:
+
             if bullet.rect.colliderect(self.player1.rect):
-                if bullet.playerAttackName == self.player1.name:
+                if bullet.player_attack_name == self.player1.name:
                     pass
                 else:
-                    self.player1.tackDammage(self.player2.damage)
+                    self.player1.tackDamage(self.player2.damage)
                     self.bullets.remove(bullet)
-
 
             if bullet.rect.colliderect(self.player2.rect):
-                if bullet.playerAttackName == self.player2.name:
+                if bullet.player_attack_name == self.player2.name:
                     pass
                 else:
-                    self.player2.tackDammage(self.player1.damage)
+                    self.player2.tackDamage(self.player1.damage)
                     self.bullets.remove(bullet)
 
-
-            if not bullet.rect.colliderect(self.windowGame.rect):
+            if bullet.rect.centerx < 0 or bullet.rect.centerx > INFO_SCREEN.current_w:
                 self.bullets.remove(bullet)
 
+            for floor in self.floors:
+                if floor.rect.colliderect(bullet.rect):
+                    self.bullets.remove(bullet)
 
-        for weapon in self.weapon_gun:
+            for power in self.powers_spawned:
+
+                if power.rect_power.colliderect(bullet.rect):
+                    self.bullets.remove(bullet)
+                    if bullet.player_attack_name == "Player 1":
+                        power.takeDamage(self.player1.weapon.damage)
+
+                    elif bullet.player_attack_name == "Player 2":
+                        power.takeDamage(self.player2.weapon.damage)
+
+        # Gestion of the collision with the weapons and players
+        for weapon in self.weapons_spawned:
             if weapon.rect_weapon.colliderect(self.player1.rect):
                 self.player1.weapon = weapon
-                self.weapon_gun.remove(weapon)
+                self.weapons_spawned.remove(weapon)
 
             elif weapon.rect_weapon.colliderect(self.player2.rect):
                 self.player2.weapon = weapon
-                self.weapon_gun.remove(weapon)
+                self.weapons_spawned.remove(weapon)
+
+        for power in self.powers_spawned:
+            if power.health <= 0 or power.rect_power.centery <= INFO_SCREEN.current_h - INFO_SCREEN.current_h:
+                self.powers_spawned.remove(power)
+
+        # Gestion of the collision with the powers and players
+        for power in self.powers_spawned:
+            for power_col in self.powers_spawned:
+                if power.rect_power.colliderect(power_col.rect_power):
+                    if len(self.powers_spawned) >= 10:
+                        self.powers_spawned.remove(power)
+
+                    else:
+                        if power_col.rect_power.centery > power.rect_power.centery:
+                            power.rect_power.centery -= 10
+                        elif power_col.rect_power.centery < power.rect_power.centery:
+                            power.rect_power.centery += 10
+
+                        else:
+                            if power_col.rect_power.centerx > power.rect_power.centerx:
+                                power.rect_power.centerx -= 10
+                            elif power_col.rect_power.centerx < power.rect_power.centerx:
+                                power.rect_power.centerx += 10
+
+            for player in self.players:
+                if power.rect_power.colliderect(player.rect):
+                    if player.power:
+                        difference_x = min(player.rect.right - power.rect_power.left, power.rect_power.right -
+                                           player.rect.left)
+                        difference_y = min(player.rect.bottom - power.rect_power.top, power.rect_power.bottom -
+                                           player.rect.top)
+
+                        if difference_x < difference_y:
+                            if player.rect.centerx < power.rect_power.centerx:
+                                power.rect_power.x += difference_x
+                            else:
+                                power.rect_power.x -= difference_x
+
+                        else:
+                            if player.rect.bottom <= power.rect_power.centery:
+                                player.y -= difference_y
+                            else:
+                                player.y -= power.rect_power.width
+
+                    else:
+                        player.powers = power
+                        self.powers_spawned.remove(power)
+                        player.takePower()
+
+                    if player.pushing:
+                        player.pushing = False
+                        if player.direct_player == "Left":
+                            power.rect_power.x -= 150
+                        elif player.direct_player == "Right":
+                            power.rect_power.x += 150
 
         if self.player1.pushing and self.player1.rect.colliderect(self.player2.rect):
             self.player1.pushing = False
@@ -510,13 +701,10 @@ class Game:
                 self.player2.dashLeft()
             elif self.player1.direct_player == "Right":
                 self.player2.dashRight()
-        else:
-            self.player1.pushing = False
+
         if self.player2.pushing and self.player2.rect.colliderect(self.player1.rect):
             self.player2.pushing = False
             if self.player2.direct_player == "Left":
                 self.player1.dashLeft()
             elif self.player2.direct_player == "Right":
                 self.player1.dashRight()
-        else:
-            self.player2.pushing = False

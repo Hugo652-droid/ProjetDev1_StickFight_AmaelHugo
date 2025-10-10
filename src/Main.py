@@ -2,49 +2,33 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Main.py
-Description fichier : Lancement de l'application et affichage de la page d'accueil
+Description fichier : Lancement de l'application
 --
 """
 
 import pygame
 from sys import exit
-from src.Root import Root
-from src.Game import Game
+from Home import Home
+from Root import Root
 
-class Main():
+
+class Main:
     def __init__(self):
         pygame.init()
-        windowHome = Root(pygame)
-        windowHome.changeBg('images/img_bg_main.png')
-        windowHome.buttonPlay()
-        windowHome.buttonQuit()
-        windowHome.title('images/Image titre.png')
-        self.font = pygame.font.SysFont('Arial', 25)
-        windowHome.version(self.font)
-        pygame.display.flip()
-        runningHome = True
-        while runningHome:
-            for event in pygame.event.get():
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
-
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
-
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if windowHome.button_rect.collidepoint(event.pos):
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
-                        game = Game()
-
-                    if windowHome.button_rect_quit.collidepoint(event.pos):
-                        windowHome.closeRoot(pygame)
-                        runningHome = False
+        pygame.mixer.init()
+        pygame.display.init()
+        pygame.mixer.Channel(0).set_volume(1.0)
+        pygame.mixer.Channel(1).set_volume(1.0)
+        window = Root(pygame.font.Font("assets/Shooting Star.ttf", 100))
+        home = Home(window)
+        home.launch()
         pygame.quit()
         exit()
 
-main = Main()
+
+if __name__ == "__main__":
+    main = Main()
