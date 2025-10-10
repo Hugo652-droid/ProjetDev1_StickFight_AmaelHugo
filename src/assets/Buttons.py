@@ -12,6 +12,7 @@ Description fichier : Gestion des buttons
 
 import pygame
 
+pygame.display.init()
 INFO_SCREEN = pygame.display.Info()
 
 

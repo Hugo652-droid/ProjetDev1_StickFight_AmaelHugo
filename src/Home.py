@@ -9,6 +9,7 @@ Nom fichier : Main.py
 Description fichier : Affichage de la page d'accueil
 --
 """
+from encodings.punycode import selective_find
 
 import pygame
 from Root import Root, INFO_SCREEN
@@ -53,6 +54,9 @@ class Home:
         self.button_rect_quit = None
 
         self.title = self.window.title('images/imgTexts/textsMain/textsMain/text_title.png')
+        self.button_credit = self.window.version(self.font)
+
+        self.button_rect_credit = None
 
     def launch(self):
         """
@@ -86,14 +90,11 @@ class Home:
                             game.launchGame()
                             self.window = Root(self.font)
                             self.reload()
-
                         elif self.button_rect_quit.collidepoint(event.pos):
                             return
-
-                        if self.button_rect_setting.collidepoint(event.pos):
+                        elif self.button_rect_setting.collidepoint(event.pos):
                             self.window.settings_screen = True
-
-                        if self.title.collidepoint(event.pos):
+                        elif self.title.collidepoint(event.pos) or self.button_rect_credit.collidepoint(event.pos):
                             self.window.credits_screen = True
             self.reload()
 
@@ -103,7 +104,7 @@ class Home:
         :return: The home page displayed
         """
         self.window.changeBackground('images/imgBackgrounds/mainPageBg/mainBg/img_bg_main.png')
-        self.window.version(self.font)
+        self.button_rect_credit = self.button_credit.draw()
         self.button_rect_play = self.button_play.draw()
         self.button_rect_setting = self.button_setting.draw()
         self.button_rect_quit = self.button_quit.draw()

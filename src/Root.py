@@ -116,9 +116,7 @@ class Root:
         version_text = font.render("V1.0 - Amael Rochat & Hugo Rod", True, (0, 0, 0))
         text_rect = version_text.get_rect()
 
-        text_rect.top_left = (20, self.screen.get_height() - text_rect.height - 20)
-
-        self.screen.blit(version_text, text_rect)
+        text_rect = Button(self.screen, 20, self.screen.get_height() - text_rect.height - 20, 325, 40, text="V1.0 - Amael Rochat & Hugo Rod", font=pygame.font.Font("assets/Shooting Star.ttf", 20), color_text=(0, 0, 0))
 
         return text_rect
 
