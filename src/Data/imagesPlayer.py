@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : imagesPlayer.py
@@ -16,25 +16,41 @@ imagesPlayer = {
         'player1_stand': 'images/imgCharacters/imgPlayer1/stickman_stand_player1.png',
         'player1_crouch': 'images/imgCharacters/imgPlayer1/crouchPlayer1/Player1_crouch.png',
         'player1_dead': 'images/imgCharacters/imgPlayer1/deadPlayer1/stickman_dead_player1.png',
-        'player1_left_gun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedGunPlayer1/stickman_armed_left_gun_player1.png',
-        'player1_left_rifle': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedRiflePlayer1/stickman_armed_left_rifle_player1.png',
-        'player1_left_shotgun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedShotgunPlayer1/stickman_armed_shotgun_left_player1.png',
-        'player1_left_sniper': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedSniperPlayer1/stickman_armed_left_sniper_player1.png',
-        'player1_right_gun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedGunPlayer1/stickman_armed_right_gun_player1.png',
-        'player1_right_rifle': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedRiflePlayer1/stickman_armed_right_rifle_player1.png',
-        'player1_right_shotgun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedShotgunPlayer1/stickman_armed_shotgun_right_player1.png',
-        'player1_right_sniper': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedSniperPlayer1/stickman_armed_right_sniper_player1.png',
+        'player1_left_gun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedGunPlayer1/'
+                            'stickman_armed_left_gun_player1.png',
+        'player1_left_rifle': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedRiflePlayer1/'
+                              'stickman_armed_left_rifle_player1.png',
+        'player1_left_shotgun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedShotgunPlayer1/'
+                                'stickman_armed_shotgun_left_player1.png',
+        'player1_left_sniper': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedSniperPlayer1/'
+                               'stickman_armed_left_sniper_player1.png',
+        'player1_right_gun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedGunPlayer1/'
+                             'stickman_armed_right_gun_player1.png',
+        'player1_right_rifle': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedRiflePlayer1/'
+                               'stickman_armed_right_rifle_player1.png',
+        'player1_right_shotgun': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedShotgunPlayer1/'
+                                 'stickman_armed_shotgun_right_player1.png',
+        'player1_right_sniper': 'images/imgCharacters/imgPlayer1/armedPlayer1/armedSniperPlayer1/'
+                                'stickman_armed_right_sniper_player1.png',
         'player2_left': 'images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_left_player2.png',
         'player2_right': 'images/imgCharacters/imgPlayer2/runPlayer2/stickman_go_right_player2.png',
         'player2_stand': 'images/imgCharacters/imgPlayer2/stickman_stand_player2.png',
         'player2_crouch': 'images/imgCharacters/imgPlayer2/crouchPlayer2/Player2_crouch.png',
         'player2_dead': 'images/imgCharacters/imgPlayer2/deadPlayer2/stickman_dead_player2.png',
-        'player2_left_gun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/stickman_armed_left_gun_player2.png',
-        'player2_left_rifle': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/stickman_armed_left_rifle_player2.png',
-        'player2_left_shotgun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/stickman_armed_shotgun_left_player2.png',
-        'player2_left_sniper': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/stickman_armed_left_sniper_player2.png',
-        'player2_right_gun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/stickman_armed_right_gun_player2.png',
-        'player2_right_rifle': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/stickman_armed_right_rifle_player2.png',
-        'player2_right_shotgun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/stickman_armed_shotgun_right_player2.png',
-        'player2_right_sniper': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/stickman_armed_right_sniper_player2.png',
+        'player2_left_gun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/'
+                            'stickman_armed_left_gun_player2.png',
+        'player2_left_rifle': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/'
+                              'stickman_armed_left_rifle_player2.png',
+        'player2_left_shotgun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/'
+                                'stickman_armed_shotgun_left_player2.png',
+        'player2_left_sniper': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/'
+                               'stickman_armed_left_sniper_player2.png',
+        'player2_right_gun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedGunPlayer2/'
+                             'stickman_armed_right_gun_player2.png',
+        'player2_right_rifle': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedRiflePlayer2/'
+                               'stickman_armed_right_rifle_player2.png',
+        'player2_right_shotgun': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedShotgunPlayer2/'
+                                 'stickman_armed_shotgun_right_player2.png',
+        'player2_right_sniper': 'images/imgCharacters/imgPlayer2/armedPlayer2/armedSniperPlayer2/'
+                                'stickman_armed_right_sniper_player2.png',
     }

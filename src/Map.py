@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Player.py
@@ -11,6 +11,7 @@ Description fichier : Creation et gestion des platforms physique
 """
 
 import pygame
+
 
 class Map:
     def __init__(self, window, floor_data):
@@ -22,7 +23,7 @@ class Map:
         self.screen = window.screen
         if floor_data['image'] != "":
             self.img_floor = pygame.image.load(floor_data['image'])
-        else :
+        else:
             self.img_floor = pygame.image.load('images/imgGames/imgFloors/floor1_dirt.png')
         self.x = floor_data['x']
         self.y = floor_data['y']
@@ -39,5 +40,3 @@ class Map:
         self.rect = self.img_floor.get_rect()
         self.rect.center = (self.x, self.y)
         self.screen.blit(self.img_floor, self.rect)
-
-

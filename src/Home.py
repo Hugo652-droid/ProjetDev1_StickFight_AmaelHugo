@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Main.py
@@ -61,20 +61,20 @@ class Home:
         """
         running_home = True
         while running_home:
-            if self.window.settings_screen :
+            if self.window.settings_screen:
                 settings = Setting(self.window, self.game_mod)
                 self.game_mod = settings.selected_mod
                 self.window.settings_screen = False
 
-            if self.window.credits_screen :
+            if self.window.credits_screen:
                 Credit(self.window)
                 self.window.credits_screen = False
-            else :
+            else:
                 for event in pygame.event.get():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             return
-                        elif event.key != pygame.K_ESCAPE :
+                        elif event.key != pygame.K_ESCAPE:
                             running_home = False
                             game = Game(self.window, self.game_mod)
                             game.launchGame()
@@ -110,4 +110,3 @@ class Home:
         self.title = self.window.title('images/imgTexts/textsMain/textsMain/text_title.png')
 
         pygame.display.flip()
-

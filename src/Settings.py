@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : Settings.py
@@ -14,6 +14,7 @@ import pygame
 
 from assets.Buttons import Button
 
+
 class Setting:
     def __init__(self, screen, selected_mod):
         """
@@ -23,7 +24,7 @@ class Setting:
         """
         self.font = pygame.font.SysFont('Arial', 20)
         self.screen = screen
-        self.color = (255,0,0)
+        self.color = (255, 0, 0)
         self.games_mods = {
             1: "Mode classique avec armes et pouvoirs",
             2: "Mode à main nue sans armes et sans pouvoirs",
@@ -31,16 +32,21 @@ class Setting:
         }
         self.mods_buttons = {}
         self.selected_mod = selected_mod
+        self.soundBarMusic = None
+        self.soundBarEffect = None
         self.volume_music = pygame.mixer.Channel(0).get_volume() * 100
         self.volume_effect = pygame.mixer.Channel(1).get_volume() * 100
         self.height = pygame.display.Info().current_h // 6
         self.creatModSelector()
 
         self.running_settings = True
+        self.launch()
+
+    def launch(self):
         while self.running_settings:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    self.running_game = False
+                    self.running_settings = False
                     return
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if self.soundBarEffect[0].collidepoint(event.pos):
@@ -59,14 +65,14 @@ class Setting:
                         if self.volume_music < 100:
                             self.volume_music += 10
                             pygame.mixer.Channel(0).set_volume(self.volume_music / 100)
-                    else :
+                    else:
                         for mod in self.mods_buttons:
                             if self.mods_buttons[mod].collidepoint(event.pos):
                                 self.selected_mod = mod
 
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        self.running_game = False
+                        self.running_settings = False
                         return
 
             self.reload()
@@ -95,10 +101,12 @@ class Setting:
         """
         for mod in self.games_mods:
             if mod == self.selected_mod:
-                button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20, text="*", color_text=(0,0,0), color=(255,255,255))
+                button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20, text="*",
+                                    color_text=(0, 0, 0), color=(255, 255, 255))
                 self.mods_buttons.update({mod: button_mod.draw()})
-            else :
-                button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20, color=(0,0,0))
+            else:
+                button_mod = Button(self.screen.screen, 80, self.height+mod*40, 15, 20,
+                                    color=(0, 0, 0))
                 self.mods_buttons.update({mod: button_mod.draw()})
             text_title = self.font.render(self.games_mods[mod], True, (255, 255, 255))
             self.screen.screen.blit(text_title, (100, (self.height + mod * 40)))

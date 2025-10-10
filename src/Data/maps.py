@@ -2,7 +2,7 @@
 --
 Auteur : Amael Rochat et Hugo Rod
 Date de départ : 18.08.2025
-Date de fin : --.--.----
+Date de fin : 10.10.2025
 Projet : Projet Dev 1 (sticKOnion)
 --
 Nom fichier : maps.py
@@ -35,8 +35,8 @@ maps = [
             {
                 'name': 'platform_top_left',
                 'x': info_screen.current_w / 4,
-                'y': info_screen.current_h  / 2.5,
-                'with': info_screen.current_w - info_screen.current_w/ 1.7,
+                'y': info_screen.current_h / 2.5,
+                'with': info_screen.current_w - info_screen.current_w / 1.7,
                 'height': info_screen.current_h / 20,
                 'image': ""
             },
@@ -127,7 +127,7 @@ maps = [
             {
                 'name': 'platform_top_right',
                 'x': info_screen.current_w - info_screen.current_w / 4,
-                'y': info_screen.current_h - info_screen.current_h/ 2.5,
+                'y': info_screen.current_h - info_screen.current_h / 2.5,
                 'with': info_screen.current_w / 4,
                 'height': info_screen.current_h / 20,
                 'image': ""

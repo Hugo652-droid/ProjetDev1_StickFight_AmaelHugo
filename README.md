@@ -34,8 +34,7 @@ ProjetDev1_StickFight_AmaelHugo
 │       
 └───────images
          # Toutes les images utiliser dans le projet 
-```                
-## Source
+```
 
 ### Son
 https://pixabay.com/sound-effects
