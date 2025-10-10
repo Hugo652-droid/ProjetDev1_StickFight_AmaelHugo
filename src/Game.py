@@ -665,7 +665,7 @@ class Game:
 
             for player in self.players:
                 if power.rect_power.colliderect(player.rect):
-                    if player.powers:
+                    if player.power:
                         difference_x = min(player.rect.right - power.rect_power.left, power.rect_power.right -
                                            player.rect.left)
                         difference_y = min(player.rect.bottom - power.rect_power.top, power.rect_power.bottom -
