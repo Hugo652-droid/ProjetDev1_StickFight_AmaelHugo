@@ -34,6 +34,8 @@ class Credit:
 
         self.running_credits = True
 
+        self.launch()
+
     def launch(self):
         while self.running_credits:
             for event in pygame.event.get():
