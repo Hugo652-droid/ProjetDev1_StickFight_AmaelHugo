@@ -198,7 +198,7 @@ class Player:
                     self.cooldown_vertical = 1
 
             elif self.power.get("id") == 2:
-                if time.time() - self.last_time_used_power > self.cooldown_power:
+                if time.time() - self.last_time_used_power < self.cooldown_power:
                     self.invincible = True
                     self.last_time_used_power = time.time()
 

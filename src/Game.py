@@ -53,6 +53,9 @@ class Game:
         self.player1 = None
         self.player2 = None
 
+        self.player2_out_screen = False
+        self.player1_out_screen = False
+
         # Variable for the status of the game
         self.running_game = True
         self.paused = False
@@ -402,6 +405,7 @@ class Game:
         self.playersDead()
         self.powerDead()
 
+
     def powerDead(self):
         for power in self.powers_list:
             if power.health <= 0 or power.rect_power.centery <= self.info_screen.current_h - self.info_screen.current_h:
@@ -549,6 +553,12 @@ class Game:
 
         elif self.player2.y > INFO_SCREEN.current_h:
             self.player2.hp = 0
+
+        if self.player1.x > INFO_SCREEN.current_w or self.player1.x < INFO_SCREEN.current_w:
+            self.player1_out_screen = True
+
+        if self.player2.x > INFO_SCREEN.current_w or self.player2.x < INFO_SCREEN.current_w:
+            self.player2_out_screen = True
 
         # Gestion of the collision with floors
         for floor in self.floors:
