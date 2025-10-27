@@ -122,7 +122,7 @@ class Root:
 
     def win(self, player_win):
         """
-        Display the windddd
+        Display the window
         :param player_win: The player who win
         :return: The win screen
         """
@@ -142,6 +142,7 @@ class Root:
         :param height: The height of the sound bar
         :return: Buttons of the sound bar
         """
+        self.soundBars = []
         i = 0
         text_title = font.render(title, True, (255, 255, 255))
         self.screen.blit(text_title, (80, (height - 50)))
