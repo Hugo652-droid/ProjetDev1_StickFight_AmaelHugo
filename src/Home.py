@@ -9,7 +9,6 @@ Nom fichier : Main.py
 Description fichier : Affichage de la page d'accueil
 --
 """
-from encodings.punycode import selective_find
 
 import pygame
 from Root import Root, INFO_SCREEN

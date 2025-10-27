@@ -93,7 +93,8 @@ class Root:
         :param color: The color of the player 1
         :return: The score of the player 1 displayed
         """
-        score_text = self.font.render(f"{score}", True, color)
+        font = pygame.font.Font("assets/Shooting Star.ttf", 75)
+        score_text = font.render(f"{score}", True, color)
         self.screen.blit(score_text, (20, 30))
 
     def scores_player2(self, score, color):
@@ -103,7 +104,8 @@ class Root:
         :param color: The color of the player 2
         :return: The score of the player 2 displayed
         """
-        score_text = self.font.render(f"{score}", True, color)
+        font = pygame.font.Font("assets/Shooting Star.ttf", 75)
+        score_text = font.render(f"{score}", True, color)
         text_width = score_text.get_width()
         self.screen.blit(score_text, (self.screen.get_width() - text_width - 20, 30))
 
